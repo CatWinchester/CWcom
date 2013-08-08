@@ -12,22 +12,47 @@ header {
     width:1000px;
 	margin:0 auto;
 }
+
 #menu-nav{
 	list-style:none;
 	padding:0;
 }
+
 #menu-nav  li{
 	display:inline-block;
 	border:1px solid #000;
 }
+
 #menu-nav a{
 	display:inline-block;
 	padding:10px;
 }
+
 #content{
 	width:1000px;
 	margin:0 auto;
 }
+
 #skills{
 	border: 1px solid #1a1a1a;
+}
+
+#images {
+    display:block;
+}
+
+figure {
+    display:inline-block;
+    float:left;
+    background-color:rgba(255, 164, 0, 0.35);
+    border:1px solid #4800ff;
+    padding:10px;
+}
+
+figcaption {
+    text-align:center;
+}
+
+img {
+    width:200px;
 }
