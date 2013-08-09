@@ -3,7 +3,11 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="style.css" />    
+    <link rel="stylesheet" type="text/css" href="css/lightbox.css" />
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>    
+    <script src="js/lightbox-2.6.min.js"></script>
     <title>MySite</title>
 </head>
 <body>
@@ -19,44 +23,33 @@
     </header>
     <div id="content">
         <div id="images">
-            <figure>
-                <p><img src="content/images/1.jpg" /></p>
-                <figcaption>Image 1</figcaption>
-            </figure>
-            <figure>
-                <p><img src="content/images/2.jpg" /></p>
-                <figcaption>Image 2</figcaption>
-            </figure>
-            <figure>
-                <p><img src="content/images/3.jpg" /></p>
-                <figcaption>Image 3</figcaption>
-            </figure>
-            <br />
-            <br />
-            <figure>
-                <p><img src="content/images/4.jpg" /></p>
-                <figcaption>Image 4</figcaption>
-            </figure>
-            <figure>
-                <p><img src="content/images/5.jpg" /></p>
-                <figcaption>Image 5</figcaption>
-            </figure>
-            <figure>
-                <p><img src="content/images/6.jpg" /></p>
-                <figcaption>Image 6</figcaption>
-            </figure>
-            <figure>
-                <p><img src="content/images/7.jpg" /></p>
-                <figcaption>Image 7</figcaption>
-            </figure>
-            <figure>
-                <p><img src="content/images/8.jpg" /></p>
-                <figcaption>Image 8</figcaption>
-            </figure>
-            <figure>
-                <p><img src="content/images/9.jpg" /></p>
-                <figcaption>Image 9</figcaption>
-            </figure>
+            <a href="content/images/1.jpg" data-lightbox="images" title="Rapunsel">
+                <img src="content/images/1.jpg" />
+            </a>
+            <a href="content/images/2.jpg" data-lightbox="images">                
+                <img src="content/images/2.jpg" />
+            </a>
+            <a href="content/images/3.jpg" data-lightbox="images">
+                <img src="content/images/3.jpg"/>
+            </a>
+            <a href="content/images/4.jpg" data-lightbox="images">
+                <img src="content/images/4.jpg" />
+            </a>  
+            <a href="content/images/5.jpg" data-lightbox="images">
+                <img src="content/images/5.jpg" "/>
+            </a>  
+            <a href="content/images/6.jpg" data-lightbox="images">
+                <img src="content/images/6.jpg" />
+            </a>  
+            <a href="content/images/7.jpg" data-lightbox="images">
+                <img src="content/images/7.jpg" />
+            </a>  
+            <a href="content/images/8.jpg" data-lightbox="images">
+                <img src="content/images/8.jpg" />
+            </a>  
+            <a href="content/images/9.jpg" data-lightbox="images">
+                <img src="content/images/9.jpg" />
+            </a>                
 		</div>
    </div>
 </body>

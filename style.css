@@ -39,20 +39,18 @@ header {
 
 #images {
     display:block;
-}
-
-figure {
-    display:inline-block;
-    float:left;
-    background-color:rgba(255, 164, 0, 0.35);
-    border:1px solid #4800ff;
-    padding:10px;
-}
-
-figcaption {
+    margin:0 auto;
     text-align:center;
 }
 
-img {
-    width:200px;
-}
+    #images img {
+        width:200px;
+        height:200px;
+    }
+    
+    #images a {
+        border: 10px solid rgba(157, 128, 255, 0.70);
+        border-radius:5px;
+        display:inline-block;
+        margin:5px 10px 5px 0;
+    }
