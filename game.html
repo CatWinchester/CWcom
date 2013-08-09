@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <title>Simple Game</title>
+    <style>
+        body {
+            margin:0;
+            padding:0;
+            text-align:center;
+        }
+        canvas {
+            outline:0;
+            border:1px solid #000;
+            margin-left:auto;
+            margin-right:auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas" width="500" height="500"></canvas>
+    
+    <script>
+        var context;
+        var x = 400;
+        var y = 100;
+        var dx = 5;
+        var dy = 5;
+        var numberofCircles = 100;
+
+        $(document).ready(function () {
+            context = myCanvas.getContext('2d');
+            setInterval(draw, 10);
+        });
+
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF'.split('');
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.round(Math.random() * 15)];
+            }
+            return color;
+        }
+
+        function draw() {
+            for (var i = 0; i == numberofCircles; i++) {
+                context.clearRect(0, 0, 500, 500);
+                context.beginPath();
+                context.fillStyle = getRandomColor();
+                context.arc(x, y, 20, 0, Math.PI * 2, true);
+                context.closePath;
+                context.fill();
+                if (x < 0 || x > 500) dx = -dx;
+                if (y < 0 || y > 499) dy = -dy;
+                x += dx;
+                y += dy;
+            }            
+        }
+    </script>
+</body>
+</html>
