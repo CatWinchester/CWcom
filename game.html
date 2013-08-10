@@ -25,23 +25,43 @@
     
     <script>
         var context;
-        var numberofCircles = 1;
-        var circles = [];
         var sizeX = 500;
         var sizeY = 500;
+        
+        var game = new Game(sizeX, sizeY);
 
         $(document).ready(function () {
-            for (var i = 0; i < numberofCircles; i++) {
-                circles.push(new Circle(Math.random() * sizeX,
-                                        Math.random() * sizeY,
-                                        getRandomColor(),
-                                        0,
-                                        0,
-                                        (Math.random() + 0.5) * 30));
-            }
+
+           
+            document.body.onkeydown = function (evt) {
+                evt = evt ?
+                      evt :
+                      window.event;
+
+                if (evt.keyCode == 40) game.downKeyPressed = true;
+
+                console.log(game.downKeyPressed);
+            };
+
+            document.body.onkeyup = function (evt) {
+                evt = evt ?
+                      evt :
+                      window.event;
+
+                if (evt.keyCode == 40) game.downKeyPressed = false;
+
+                console.log(game.downKeyPressed);
+            };
+
             context = myCanvas.getContext('2d');
-            setInterval(draw, 33);
+            setInterval(renderGame, 33);
+
         });
+
+        function renderGame() {
+            game.update();
+            game.draw(context);           
+        }
 
         function getRandomColor() {
             var letters = '0123456789ABCDEF'.split('');
@@ -49,23 +69,11 @@
             for (var i = 0; i < 6; i++) {
                 color += letters[Math.round(Math.random() * 15)];
             }
+
             return color;
         }
 
-        function draw() {
-            context.clearRect(0, 0, 500, 500);
-            for (var i = 0; i < numberofCircles; i++) {
-                context.beginPath();
-                context.fillStyle = circles[i].color;
-                context.arc(circles[i].x, circles[i].y, circles[i].radius , 0, Math.PI * 2, true);
-                context.closePath();
-                context.fill();
-                if (circles[i].x < 0 || circles[i].x > 500) circles[i].dx = -circles[i].dx;
-                if (circles[i].y < 0 || circles[i].y > 499) circles[i].dy = -circles[i].dy;
-                circles[i].x += circles[i].dx;
-                circles[i].y += circles[i].dy;
-            }            
-        }
+        
 
         function Circle(x, y, color, dx, dy, radius) {
             this.x = x;
@@ -74,6 +82,46 @@
             this.dx = dx;
             this.dy = dy;
             this.radius = radius;
+        }
+
+        function Game(width, height) {
+            this.numberofCircles = 1;
+            this.circles = [];
+            this.width = width;
+            this.height = height;
+
+            this.downKeyPressed = false;
+
+            for (var i = 0; i < this.numberofCircles; i++) {
+                this.circles.push(new Circle(Math.random() * sizeX,
+                                             Math.random() * sizeY,
+                                             getRandomColor(),
+                                             0,
+                                             0,
+                                             (Math.random() + 0.5) * 30));
+            }
+
+            this.draw = function (context) {
+                context.clearRect(0, 0, this.width, this.height);
+                for (var i = 0; i < this.numberofCircles; i++) {
+                    context.beginPath();
+                    context.fillStyle = this.circles[i].color;
+                    context.arc(this.circles[i].x, this.circles[i].y, this.circles[i].radius, 0, Math.PI * 2, true);
+                    context.closePath();
+                    context.fill();                    
+                }
+            }
+
+            this.update = function () {
+                for (var i = 0; i < this.numberofCircles; i++){
+                    if (this.circles[i].x < 0 || this.circles[i].x > 500) this.circles[i].dx = -this.circles[i].dx;
+                    if (this.circles[i].y < 0 || this.circles[i].y > 499) this.circles[i].dy = -this.circles[i].dy;
+                    this.circles[i].x += this.circles[i].dx;
+                    this.circles[i].y += this.circles[i].dy;
+                    
+                    if (this.downKeyPressed) this.circles[i].y += 5;
+               };
+            }
         }
     </script>
 </body>
