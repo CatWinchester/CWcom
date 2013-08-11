@@ -39,8 +39,11 @@
                       window.event;
 
                 if (evt.keyCode == 40) game.downKeyPressed = true;
+                if (evt.keyCode == 38) game.upKeyPressed = true;
+                if (evt.keyCode == 37) game.leftKeyPressed = true;
+                if (evt.keyCode == 39) game.rightKeyPressed = true;
 
-                console.log(game.downKeyPressed);
+                console.log(evt);
             };
 
             document.body.onkeyup = function (evt) {
@@ -49,6 +52,9 @@
                       window.event;
 
                 if (evt.keyCode == 40) game.downKeyPressed = false;
+                if (evt.keyCode == 38) game.upKeyPressed = false;
+                if (evt.keyCode == 37) game.leftKeyPressed = false;
+                if (evt.keyCode == 39) game.rightKeyPressed = false;
 
                 console.log(game.downKeyPressed);
             };
@@ -91,6 +97,9 @@
             this.height = height;
 
             this.downKeyPressed = false;
+            this.upKeyPressed = false;
+            this.leftKeyPressed = false;
+            this.rightKeyPressed = false;
 
             for (var i = 0; i < this.numberofCircles; i++) {
                 this.circles.push(new Circle(Math.random() * sizeX,
@@ -120,6 +129,9 @@
                     this.circles[i].y += this.circles[i].dy;
                     
                     if (this.downKeyPressed) this.circles[i].y += 5;
+                    if (this.upKeyPressed) this.circles[i].y -= 5;
+                    if (this.leftKeyPressed) this.circles[i].x -= 5;
+                    if (this.rightKeyPressed) this.circles[i].x += 5;
                };
             }
         }
