@@ -84,7 +84,7 @@
             this.dx = dx;
             this.dy = dy;
             this.radius = radius;
-            
+
             this.draw = function (context) {
                 context.beginPath();
                 context.fillStyle = this.color;
@@ -99,9 +99,33 @@
             }
         }
 
+        function Rectangle(x, y, color, dx, dy, height, width) {
+            this.x = x;
+            this.y = y;
+            this.color = color;
+            this.dx = dx;
+            this.dy = dy;
+            this.height = height;
+            this.width = width;
+
+            this.draw = function (context) {
+                context.beginPath();
+                context.fillStyle = this.color;
+                context.rect(this.x, this.y, this.width, this.height);
+                context.closePath();
+                context.fill();
+            }
+
+            this.update = function () {
+                this.x += this.dx;
+                this.y += this.dy;
+            }
+        }
+
         function Game(width, height) {
             this.numberofCircles = 1;
             this.circles = [];
+            this.rectangles = [];
             this.width = width;
             this.height = height;
 
@@ -119,17 +143,23 @@
                                              (Math.random() + 0.5) * 30));
             }
 
+            this.rectangles.push(new Rectangle(100, 200, getRandomColor(), 5, 5, 50, 20));
+
             this.draw = function (context) {
                 context.clearRect(0, 0, this.width, this.height);
-                for (var i = 0; i < this.numberofCircles; i++) {
+                for (var i = 0; i < this.circles.length; i++) {
                     this.circles[i].draw(context);
+                }
+                
+                for (var i = 0; i < this.rectangles.length; i++) {
+                    this.rectangles[i].draw(context);
                 }
             }
 
             this.update = function () {
-                for (var i = 0; i < this.numberofCircles; i++){
-                    if (this.circles[i].x < 0 || this.circles[i].x > 500) this.circles[i].dx = -this.circles[i].dx;
-                    if (this.circles[i].y < 0 || this.circles[i].y > 499) this.circles[i].dy = -this.circles[i].dy;
+                for (var i = 0; i < this.circles.length; i++) {
+                    if (this.circles[i].x < 0 || this.circles[i].x > this.width) this.circles[i].dx = -this.circles[i].dx;
+                    if (this.circles[i].y < 0 || this.circles[i].y > this.height) this.circles[i].dy = -this.circles[i].dy;
 
                     if (this.downKeyPressed) this.circles[i].dy += 0.5;
                     if (this.upKeyPressed) this.circles[i].dy -= 0.5;
@@ -137,7 +167,11 @@
                     if (this.rightKeyPressed) this.circles[i].dx += 0.5;
 
                     this.circles[i].update();
-               };
+                }
+
+                for (var i = 0; i < this.rectangles.length; i++) {
+                    this.rectangles[i].update();
+                }
             }
         }
     </script>
