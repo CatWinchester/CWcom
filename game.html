@@ -30,9 +30,7 @@
         
         var game = new Game(sizeX, sizeY);
 
-        $(document).ready(function () {
-
-           
+        $(document).ready(function () {           
             document.body.onkeydown = function (evt) {
                 evt = evt ?
                       evt :
@@ -77,9 +75,7 @@
             }
 
             return color;
-        }
-
-        
+        }        
 
         function Circle(x, y, color, dx, dy, radius) {
             this.x = x;
@@ -88,6 +84,19 @@
             this.dx = dx;
             this.dy = dy;
             this.radius = radius;
+            
+            this.draw = function (context) {
+                context.beginPath();
+                context.fillStyle = this.color;
+                context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
+                context.closePath();
+                context.fill();
+            }
+
+            this.update = function () {
+                this.x += this.dx;
+                this.y += this.dy;
+            }
         }
 
         function Game(width, height) {
@@ -105,19 +114,15 @@
                 this.circles.push(new Circle(Math.random() * sizeX,
                                              Math.random() * sizeY,
                                              getRandomColor(),
-                                             0,
-                                             0,
+                                             1,
+                                             1,
                                              (Math.random() + 0.5) * 30));
             }
 
             this.draw = function (context) {
                 context.clearRect(0, 0, this.width, this.height);
                 for (var i = 0; i < this.numberofCircles; i++) {
-                    context.beginPath();
-                    context.fillStyle = this.circles[i].color;
-                    context.arc(this.circles[i].x, this.circles[i].y, this.circles[i].radius, 0, Math.PI * 2, true);
-                    context.closePath();
-                    context.fill();                    
+                    this.circles[i].draw(context);
                 }
             }
 
@@ -125,13 +130,13 @@
                 for (var i = 0; i < this.numberofCircles; i++){
                     if (this.circles[i].x < 0 || this.circles[i].x > 500) this.circles[i].dx = -this.circles[i].dx;
                     if (this.circles[i].y < 0 || this.circles[i].y > 499) this.circles[i].dy = -this.circles[i].dy;
-                    this.circles[i].x += this.circles[i].dx;
-                    this.circles[i].y += this.circles[i].dy;
-                    
-                    if (this.downKeyPressed) this.circles[i].y += 5;
-                    if (this.upKeyPressed) this.circles[i].y -= 5;
-                    if (this.leftKeyPressed) this.circles[i].x -= 5;
-                    if (this.rightKeyPressed) this.circles[i].x += 5;
+
+                    if (this.downKeyPressed) this.circles[i].dy += 0.5;
+                    if (this.upKeyPressed) this.circles[i].dy -= 0.5;
+                    if (this.leftKeyPressed) this.circles[i].dx -= 0.5;
+                    if (this.rightKeyPressed) this.circles[i].dx += 0.5;
+
+                    this.circles[i].update();
                };
             }
         }
