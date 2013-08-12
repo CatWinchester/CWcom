@@ -25,8 +25,8 @@
     
     <script>
         var context;
-        var sizeX = 500;
-        var sizeY = 500;
+        var sizeX = 499;
+        var sizeY = 499;
         
         var game = new Game(sizeX, sizeY);
 
@@ -40,21 +40,21 @@
                 if (evt.keyCode == 38) game.upKeyPressed = true;
                 if (evt.keyCode == 37) game.leftKeyPressed = true;
                 if (evt.keyCode == 39) game.rightKeyPressed = true;
+                if (evt.keyCode == 32) game.spaceKeyPressed = true;
 
                 console.log(evt);
             };
 
             document.body.onkeyup = function (evt) {
                 evt = evt ?
-                      evt :
+                    evt :
                       window.event;
 
                 if (evt.keyCode == 40) game.downKeyPressed = false;
                 if (evt.keyCode == 38) game.upKeyPressed = false;
                 if (evt.keyCode == 37) game.leftKeyPressed = false;
                 if (evt.keyCode == 39) game.rightKeyPressed = false;
-
-                console.log(game.downKeyPressed);
+                if (evt.keyCode == 32) game.spaceKeyPressed = false;
             };
 
             context = myCanvas.getContext('2d');
@@ -99,7 +99,7 @@
             }
         }
 
-        function Rectangle(x, y, color, dx, dy, height, width) {
+        function Rectangle(x, y, color, dx, dy, width, height) {
             this.x = x;
             this.y = y;
             this.color = color;
@@ -123,8 +123,6 @@
         }
 
         function Game(width, height) {
-            this.numberofCircles = 1;
-            this.circles = [];
             this.rectangles = [];
             this.width = width;
             this.height = height;
@@ -133,42 +131,46 @@
             this.upKeyPressed = false;
             this.leftKeyPressed = false;
             this.rightKeyPressed = false;
+            this.spaceKeyPressed = false;
 
-            for (var i = 0; i < this.numberofCircles; i++) {
-                this.circles.push(new Circle(Math.random() * sizeX,
-                                             Math.random() * sizeY,
-                                             getRandomColor(),
-                                             1,
-                                             1,
-                                             (Math.random() + 0.5) * 30));
-            }
-
-            this.rectangles.push(new Rectangle(100, 200, getRandomColor(), 5, 5, 50, 20));
+            this.circle = new Circle(Math.random() * sizeX,
+                                    Math.random() * sizeY,
+                                    getRandomColor(),
+                                    0,
+                                    0,
+                                    (Math.random() + 0.5) * 30);
 
             this.draw = function (context) {
-                context.clearRect(0, 0, this.width, this.height);
-                for (var i = 0; i < this.circles.length; i++) {
-                    this.circles[i].draw(context);
-                }
-                
+                context.clearRect(0, 0, this.width, this.height); 
+
+                this.circle.draw(context);
+
                 for (var i = 0; i < this.rectangles.length; i++) {
                     this.rectangles[i].draw(context);
-                }
+                }                
             }
 
             this.update = function () {
-                for (var i = 0; i < this.circles.length; i++) {
-                    if (this.circles[i].x < 0 || this.circles[i].x > this.width) this.circles[i].dx = -this.circles[i].dx;
-                    if (this.circles[i].y < 0 || this.circles[i].y > this.height) this.circles[i].dy = -this.circles[i].dy;
 
-                    if (this.downKeyPressed) this.circles[i].dy += 0.5;
-                    if (this.upKeyPressed) this.circles[i].dy -= 0.5;
-                    if (this.leftKeyPressed) this.circles[i].dx -= 0.5;
-                    if (this.rightKeyPressed) this.circles[i].dx += 0.5;
+                if (this.circle.x < 0 || this.circle.x > this.width) this.circle.dx = -this.circle.dx;
+                if (this.circle.y < 0 || this.circle.y > this.height) this.circle.dy = -this.circle.dy;
 
-                    this.circles[i].update();
+                if (this.downKeyPressed) this.circle.dy += 0.5;
+                if (this.upKeyPressed) this.circle.dy -= 0.5;
+                if (this.leftKeyPressed) this.circle.dx -= 0.5;
+                if (this.rightKeyPressed) this.circle.dx += 0.5;
+
+                this.circle.update();
+
+                if (this.spaceKeyPressed) {
+                    this.rectangles.push(new Rectangle(this.circle.x,
+                                                       this.circle.y,
+                                                       getRandomColor(),
+                                                       0,
+                                                       -2,
+                                                       20,
+                                                       40));
                 }
-
                 for (var i = 0; i < this.rectangles.length; i++) {
                     this.rectangles[i].update();
                 }
