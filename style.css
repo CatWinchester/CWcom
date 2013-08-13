@@ -54,3 +54,33 @@ header {
         display:inline-block;
         margin:5px 10px 5px 0;
     }
+
+/*--------------------
+---------BLOG---------
+----------------------*/
+
+.post {
+    display:block;
+    margin-bottom:10px;
+	border: 1px solid #1a1a1a;
+    clear:both;
+}
+
+    .post img {
+        margin:0 200px 10px;
+    }
+
+.read_more_link {
+
+}
+    .post a {
+        float:right;
+        clear:both;
+        display:block;
+    }
+.cleaner {
+    clear: both;
+    width: 100%;
+    height: 1px;
+    font-size: 1px;
+}
