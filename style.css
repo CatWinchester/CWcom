@@ -1,10 +1,11 @@
 ﻿body
 {
-      
+    background-image:url("content/images/sb3.png");
+    
 }
 h1{
 	text-align:center;
-	border:1px solid #1a1a1a
+	border:1px solid #fff;
 }
 
 header {
@@ -60,10 +61,18 @@ header {
 ----------------------*/
 
 .post {
+    -webkit-border-radius: 999px;
+    -moz-border-radius: 999px;
+    border-radius: 999px;
+    behavior: url(PIE.htc);
     display:block;
     margin-bottom:10px;
 	border: 1px solid #1a1a1a;
     clear:both;
+    width:500px;
+    height:500px;
+    text-align:center;
+    background-color:#ff6a00;
 }
 
     .post img {
