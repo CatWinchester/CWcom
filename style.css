@@ -1,6 +1,6 @@
 ﻿body
 {
-    background-image:url("content/images/sb3.png");
+    /*background-image:url("content/images/sb3.png");*/
     
 }
 h1{
@@ -8,7 +8,12 @@ h1{
 	border:1px solid #fff;
 }
 
-header {
+h2 {
+    margin-top:0;
+    margin-bottom:30px;
+}
+
+/*header {
 	display:block;
     width:1000px;
 	margin:0 auto;
@@ -27,11 +32,11 @@ header {
 #menu-nav a{
 	display:inline-block;
 	padding:10px;
-}
+}*/
 
 #content{
-	width:1000px;
-	margin:0 auto;
+	width:90%;
+    float:right;
 }
 
 #skills{
@@ -75,15 +80,23 @@ header {
     background-color:#ff6a00;
 }
 
+.post_content {
+    margin:50px 0;
+}
+
+.post p {
+    width:300px;
+    margin-left:auto;
+    margin-right:auto;
+}
     .post img {
-        margin:0 200px 10px;
+        width:400px;
     }
 
 .read_more_link {
 
 }
     .post a {
-        float:right;
         clear:both;
         display:block;
     }
