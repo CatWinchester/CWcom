@@ -21,12 +21,12 @@
     </style>
 </head>
 <body>
-    <canvas id="myCanvas" width="1000" height="600"></canvas>
+    <canvas id="myCanvas" width="1200" height="800"></canvas>
     
     <script>
         var context;
-        var sizeX = 1000;
-        var sizeY = 600;
+        var sizeX = 1200;
+        var sizeY = 800;
         
         var game = new Game(sizeX, sizeY);
                 
@@ -41,8 +41,6 @@
                 if (evt.keyCode == 37) game.leftKeyPressed = true;
                 if (evt.keyCode == 39) game.rightKeyPressed = true;
                 if (evt.keyCode == 32) game.spaceKeyPressed = true;
-
-                console.log(evt);
             };
 
             document.body.onkeyup = function (evt) {
@@ -77,23 +75,20 @@
             return color;
         }        
 
-        function Hero(x, y, color, dx, dy, radius, width, height) {
+        function Hero(x, y, dx, dy, width, height) {
             this.x = x;
             this.y = y;
-            this.color = color;
             this.dx = dx;
             this.dy = dy;
-            this.radius = radius;
             this.width = width;
             this.height = height;
+            this.texture = new Image();
             this.weapon = new Weapon(width, height);
 
+            this.texture.src="content/images/wildBoar.png";
+
             this.draw = function (context) {
-                context.beginPath();
-                context.fillStyle = this.color;
-                context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
-                context.closePath();
-                context.fill();
+                context.drawImage(this.texture, this.x, this.y);
 
                 this.weapon.draw(context);
             }
@@ -180,6 +175,7 @@
             this.width = width;
             this.height = height;
 
+
             this.downKeyPressed = false;
             this.upKeyPressed = false;
             this.leftKeyPressed = false;
@@ -202,11 +198,11 @@
                                         50));
 
             this.hero = new Hero(sizeX / 2,
-                                     sizeY / 2 + 200,
-                                     getRandomColor(),
-                                     0,
-                                     0,
-                                     (Math.random() + 0.5) * 30);
+                                 sizeY / 2 + 200,
+                                 0,
+                                 0,
+                                 this.width,
+                                 this.height);
 
             this.draw = function (context) {
                 context.clearRect(0, 0, this.width, this.height); 
