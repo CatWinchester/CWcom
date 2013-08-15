@@ -101,21 +101,17 @@
             }
         }
 
-        function Bullet(x, y, color, dx, dy, width, height) {
+        function Bullet(x, y, dx, dy) {
             this.x = x;
             this.y = y;
-            this.color = color;
             this.dx = dx;
             this.dy = dy;
-            this.height = height;
-            this.width = width;
+
+            this.texture = new Image();
+            this.texture.src = "content/images/bullet.png";
 
             this.draw = function (context) {
-                context.beginPath();
-                context.fillStyle = this.color;
-                context.rect(this.x, this.y, this.width, this.height);
-                context.closePath();
-                context.fill();
+                context.drawImage(this.texture, this.x, this.y);
             }
 
             this.update = function () {
@@ -216,8 +212,8 @@
 
             this.update = function () {
 
-                if (this.hero.x < 0 || this.hero.x > this.width) this.hero.dx = -this.hero.dx;
-                if (this.hero.y < 0 || this.hero.y > this.height) this.hero.dy = -this.hero.dy;
+                if (this.hero.x < 0 || this.hero.x + this.hero.texture.width > this.width) this.hero.dx = -this.hero.dx;
+                if (this.hero.y < 0 || this.hero.y + this.hero.texture.height > this.height) this.hero.dy = -this.hero.dy;
 
                 if (this.downKeyPressed) this.hero.dy += 0.5;
                 if (this.upKeyPressed) this.hero.dy -= 0.5;
@@ -227,20 +223,17 @@
                 this.hero.update();
 
                 if (this.spaceKeyPressed) {
-                    this.hero.weapon.bullets.push(new Bullet(this.hero.x,
-                                                       this.hero.y,
-                                                       getRandomColor(),
-                                                       0,
-                                                       -2,
-                                                       20,
-                                                       40));
+                    this.hero.weapon.bullets.push(new Bullet(this.hero.x + this.hero.texture.width / 2,
+                                                             this.hero.y,
+                                                             0,
+                                                             -2));
                 }
 
                 for (var i = this.hero.weapon.bullets.length - 1; i >= 0; i--) {
                     for (var j = this.enemies.length - 1; j >= 0; j--) {
                         if (this.enemies[j].y + this.enemies[j].height >= this.hero.weapon.bullets[i].y
-                            && this.hero.weapon.bullets[i].y + this.hero.weapon.bullets[i].height >= this.enemies[j].y
-                            && this.enemies[j].x <= this.hero.weapon.bullets[i].x + this.hero.weapon.bullets[i].width
+                            && this.hero.weapon.bullets[i].y + this.hero.weapon.bullets[i].texture.height >= this.enemies[j].y
+                            && this.enemies[j].x <= this.hero.weapon.bullets[i].x + this.hero.weapon.bullets[i].texture.width
                             && this.hero.weapon.bullets[i].x <= this.enemies[j].x + this.enemies[j].width) {
                             this.enemies.splice(j, 1);
                             this.hero.weapon.bullets.splice(i, 1);
