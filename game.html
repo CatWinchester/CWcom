@@ -77,13 +77,16 @@
             return color;
         }        
 
-        function Circle(x, y, color, dx, dy, radius) {
+        function Hero(x, y, color, dx, dy, radius, width, height) {
             this.x = x;
             this.y = y;
             this.color = color;
             this.dx = dx;
             this.dy = dy;
             this.radius = radius;
+            this.width = width;
+            this.height = height;
+            this.weapon = new Weapon(width, height);
 
             this.draw = function (context) {
                 context.beginPath();
@@ -91,15 +94,19 @@
                 context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
                 context.closePath();
                 context.fill();
+
+                this.weapon.draw(context);
             }
 
             this.update = function () {
                 this.x += this.dx;
                 this.y += this.dy;
+
+                this.weapon.update();
             }
         }
 
-        function Rectangle(x, y, color, dx, dy, width, height) {
+        function Bullet(x, y, color, dx, dy, width, height) {
             this.x = x;
             this.y = y;
             this.color = color;
@@ -145,8 +152,30 @@
             }
         }
 
+        function Weapon(width,height) {
+            this.bullets = [];
+            this.width = width;
+            this.height = height;
+
+            this.draw = function (context) {
+                for (var index in this.bullets) {
+                    this.bullets[index].draw(context);
+                }
+            }
+
+            this.update = function () {
+                for (var i = this.bullets.length - 1; i >= 0; i--) {
+                    if (this.bullets[i].y + 30 < 0 || this.bullets[i].y - 30 > this.height)
+                        this.bullets.splice(i, 1);
+                }
+
+                for (var index in this.bullets) {
+                    this.bullets[index].update();
+                }
+            }
+        }
+
         function Game(width, height) {
-            this.rectangles = [];
             this.enemies = [];
             this.width = width;
             this.height = height;
@@ -172,7 +201,7 @@
                                         100,
                                         50));
 
-            this.circle = new Circle(sizeX / 2,
+            this.hero = new Hero(sizeX / 2,
                                      sizeY / 2 + 200,
                                      getRandomColor(),
                                      0,
@@ -182,11 +211,7 @@
             this.draw = function (context) {
                 context.clearRect(0, 0, this.width, this.height); 
 
-                this.circle.draw(context);             
-
-                for (var i = 0; i < this.rectangles.length; i++) {
-                    this.rectangles[i].draw(context);
-                }
+                this.hero.draw(context);
 
                 for (var i = 0; i < this.enemies.length; i++) {
                     this.enemies[i].draw(context);
@@ -195,19 +220,19 @@
 
             this.update = function () {
 
-                if (this.circle.x < 0 || this.circle.x > this.width) this.circle.dx = -this.circle.dx;
-                if (this.circle.y < 0 || this.circle.y > this.height) this.circle.dy = -this.circle.dy;
+                if (this.hero.x < 0 || this.hero.x > this.width) this.hero.dx = -this.hero.dx;
+                if (this.hero.y < 0 || this.hero.y > this.height) this.hero.dy = -this.hero.dy;
 
-                if (this.downKeyPressed) this.circle.dy += 0.5;
-                if (this.upKeyPressed) this.circle.dy -= 0.5;
-                if (this.leftKeyPressed) this.circle.dx -= 0.5;
-                if (this.rightKeyPressed) this.circle.dx += 0.5;
+                if (this.downKeyPressed) this.hero.dy += 0.5;
+                if (this.upKeyPressed) this.hero.dy -= 0.5;
+                if (this.leftKeyPressed) this.hero.dx -= 0.5;
+                if (this.rightKeyPressed) this.hero.dx += 0.5;
 
-                this.circle.update();
+                this.hero.update();
 
                 if (this.spaceKeyPressed) {
-                    this.rectangles.push(new Rectangle(this.circle.x,
-                                                       this.circle.y,
+                    this.hero.weapon.bullets.push(new Bullet(this.hero.x,
+                                                       this.hero.y,
                                                        getRandomColor(),
                                                        0,
                                                        -2,
@@ -215,25 +240,16 @@
                                                        40));
                 }
 
-                for (var i = this.rectangles.length - 1; i >= 0; i--) {
+                for (var i = this.hero.weapon.bullets.length - 1; i >= 0; i--) {
                     for (var j = this.enemies.length - 1; j >= 0; j--) {
-                        if (this.enemies[j].y + this.enemies[j].height >= this.rectangles[i].y
-                            && this.rectangles[i].y  + this.rectangles[i].height >= this.enemies[j].y
-                            && this.enemies[j].x <= this.rectangles[i].x + this.rectangles[i].width
-                            && this.rectangles[i].x <= this.enemies[j].x + this.enemies[j].width) {
+                        if (this.enemies[j].y + this.enemies[j].height >= this.hero.weapon.bullets[i].y
+                            && this.hero.weapon.bullets[i].y + this.hero.weapon.bullets[i].height >= this.enemies[j].y
+                            && this.enemies[j].x <= this.hero.weapon.bullets[i].x + this.hero.weapon.bullets[i].width
+                            && this.hero.weapon.bullets[i].x <= this.enemies[j].x + this.enemies[j].width) {
                             this.enemies.splice(j, 1);
-                            this.rectangles.splice(i, 1);
+                            this.hero.weapon.bullets.splice(i, 1);
                         }
                     }
-                }
-
-                for (var i = this.rectangles.length - 1; i >= 0; i--) {
-                    if (this.rectangles[i].y + 30 < 0 || this.rectangles[i].y - 30 > this.height)
-                        this.rectangles.splice(i, 1);
-                }
-                
-                for (var i = 0; i < this.rectangles.length; i++) {
-                    this.rectangles[i].update();
                 }
 
                 for (var i = 0; i < this.enemies.length; i++) {
