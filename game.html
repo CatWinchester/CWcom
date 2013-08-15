@@ -27,6 +27,7 @@
         var context;
         var sizeX = 1200;
         var sizeY = 800;
+        var FPS = 60;
         
         var game = new Game(sizeX, sizeY);
                 
@@ -56,12 +57,12 @@
             };
 
             context = myCanvas.getContext('2d');
-            setInterval(renderGame, 33);
+            setInterval(renderGame, 1 / FPS);
 
         });
 
         function renderGame() {
-            game.update();
+            game.update(1 / FPS);
             game.draw(context);           
         }
 
@@ -93,11 +94,11 @@
                 this.weapon.draw(context);
             }
 
-            this.update = function () {
-                this.x += this.dx;
-                this.y += this.dy;
+            this.update = function (timeElapsed) {
+                this.x += this.dx * timeElapsed;
+                this.y += this.dy * timeElapsed;
 
-                this.weapon.update();
+                this.weapon.update(timeElapsed);
             }
         }
 
@@ -114,32 +115,28 @@
                 context.drawImage(this.texture, this.x, this.y);
             }
 
-            this.update = function () {
-                this.x += this.dx;
-                this.y += this.dy;
+            this.update = function (timeElapsed) {
+                this.x += this.dx * timeElapsed;
+                this.y += this.dy * timeElapsed;
             }
         }
 
-        function Enemy(x, y, color, dx, dy, width, height) {
+        function Enemy(x, y, dx, dy) {
             this.x = x;
             this.y = y;
-            this.color = color;
             this.dx = dx;
             this.dy = dy;
-            this.height = height;
-            this.width = width;
+
+            this.texture = new Image();
+            this.texture.src = "content/images/monster.png";
 
             this.draw = function (context) {
-                context.beginPath();
-                context.fillStyle = this.color;
-                context.rect(this.x, this.y, this.width, this.height);
-                context.closePath();
-                context.fill();
+                context.drawImage(this.texture, this.x, this.y);
             }
 
-            this.update = function () {
-                this.x += this.dx;
-                this.y += this.dy;
+            this.update = function (timeElapsed) {
+                this.x += this.dx * timeElapsed;
+                this.y += this.dy * timeElapsed;
             }
         }
 
@@ -154,14 +151,14 @@
                 }
             }
 
-            this.update = function () {
+            this.update = function (timeElapsed) {
                 for (var i = this.bullets.length - 1; i >= 0; i--) {
                     if (this.bullets[i].y + 30 < 0 || this.bullets[i].y - 30 > this.height)
                         this.bullets.splice(i, 1);
                 }
 
                 for (var index in this.bullets) {
-                    this.bullets[index].update();
+                    this.bullets[index].update(timeElapsed);
                 }
             }
         }
@@ -178,20 +175,7 @@
             this.rightKeyPressed = false;
             this.spaceKeyPressed = false;
 
-            this.enemies.push(new Enemy(Math.random() * sizeX,
-                                        Math.random() * sizeY / 2,
-                                        getRandomColor(),
-                                        3,
-                                        0,
-                                        200,
-                                        100),
-                              new Enemy(Math.random() * sizeX,
-                                        Math.random() * sizeY / 2,
-                                        getRandomColor(),
-                                        3,
-                                        0,
-                                        100,
-                                        50));
+            this.LastEnemyCreatedElapsed = 0;
 
             this.hero = new Hero(sizeX / 2,
                                  sizeY / 2 + 200,
@@ -210,7 +194,7 @@
                 }
             }
 
-            this.update = function () {
+            this.update = function (timeElapsed) {
 
                 if (this.hero.x < 0 || this.hero.x + this.hero.texture.width > this.width) this.hero.dx = -this.hero.dx;
                 if (this.hero.y < 0 || this.hero.y + this.hero.texture.height > this.height) this.hero.dy = -this.hero.dy;
@@ -220,21 +204,21 @@
                 if (this.leftKeyPressed) this.hero.dx -= 0.5;
                 if (this.rightKeyPressed) this.hero.dx += 0.5;
 
-                this.hero.update();
+                this.hero.update(timeElapsed);
 
                 if (this.spaceKeyPressed) {
                     this.hero.weapon.bullets.push(new Bullet(this.hero.x + this.hero.texture.width / 2,
                                                              this.hero.y,
                                                              0,
-                                                             -2));
+                                                             -100));
                 }
 
                 for (var i = this.hero.weapon.bullets.length - 1; i >= 0; i--) {
                     for (var j = this.enemies.length - 1; j >= 0; j--) {
-                        if (this.enemies[j].y + this.enemies[j].height >= this.hero.weapon.bullets[i].y
+                        if (this.enemies[j].y + this.enemies[j].texture.height >= this.hero.weapon.bullets[i].y
                             && this.hero.weapon.bullets[i].y + this.hero.weapon.bullets[i].texture.height >= this.enemies[j].y
                             && this.enemies[j].x <= this.hero.weapon.bullets[i].x + this.hero.weapon.bullets[i].texture.width
-                            && this.hero.weapon.bullets[i].x <= this.enemies[j].x + this.enemies[j].width) {
+                            && this.hero.weapon.bullets[i].x <= this.enemies[j].x + this.enemies[j].texture.width) {
                             this.enemies.splice(j, 1);
                             this.hero.weapon.bullets.splice(i, 1);
                         }
@@ -242,11 +226,25 @@
                 }
 
                 for (var i = 0; i < this.enemies.length; i++) {
-                    if (this.enemies[i].x < 0 || this.enemies[i].x > this.width) this.enemies[i].dx = -this.enemies[i].dx;
-                    if (this.enemies[i].y < this.width / 2 || this.enemies[i].y > this.height) this.enemies[i].dy = -this.enemies[i].dy;
+                    if (this.enemies[i].x < 0 || this.enemies[i].x + this.enemies[i].texture.width > this.width) this.enemies[i].dx = -this.enemies[i].dx;
+                    if (this.enemies[i].y < this.width / 2 || this.enemies[i].y + this.enemies[i].texture.height > this.height) this.enemies[i].dy = -this.enemies[i].dy;
 
-                    this.enemies[i].update();
+                    this.enemies[i].update(timeElapsed);
                 }
+
+                this.LastEnemyCreatedElapsed += timeElapsed;
+
+                if (this.LastEnemyCreatedElapsed > 1) {
+                    this.LastEnemyCreatedElapsed = 0;
+                    this.enemies.push(new Enemy(Math.random() * sizeX,
+                                                Math.random() * sizeY / 2,
+                                                Math.random() * 30,
+                                                Math.random() * 30),
+                                      new Enemy(Math.random() * sizeX,
+                                                Math.random() * sizeY / 2,
+                                                Math.random() * 30,
+                                                Math.random() * 30));
+                }                
             }
         }
     </script>
