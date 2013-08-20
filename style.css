@@ -1,8 +1,42 @@
 ﻿body
 {
+    margin:0;
+    padding:0;
+    border:0;
+    font-family:'Segoe UI';
+    color:#fff;
     /*background-image:url("content/images/sb3.png");*/
     
 }
+
+/*--------------------
+-------BACKGROUND-----
+----------------------*/
+#background {
+	background: url(content/images/background.png) repeat 5% 5%;
+	position: absolute;
+	top: 0; left: 0; right: 0; bottom: 0;
+    z-index: -200;
+}
+
+#midground {
+	background: url(content/images/midground.png) repeat 20% 20%;
+	position: absolute;
+	top: 0; left: 0; right: 0; bottom: 0;
+	z-index: -100;
+}
+
+#foreground {
+	background: url(content/images/foreground.png) repeat 90% 110%;
+	position: absolute;
+	top: 0; left: 0; right: 0; bottom: 0;
+	z-index: -100;
+}
+
+/*--------------------
+-------CONTENT--------
+----------------------*/
+
 h1{
 	text-align:center;
 	border:1px solid #fff;
@@ -11,6 +45,11 @@ h1{
 h2 {
     margin-top:0;
     margin-bottom:30px;
+    
+    text-shadow: 0 -1px #00468C,
+                1px 0 #00468C,
+                0 1px #00468C,
+                -1px 0 #00468C;
 }
 
 /*header {
@@ -55,7 +94,7 @@ h2 {
     }
     
     #images a {
-        border: 10px solid rgba(157, 128, 255, 0.70);
+        border: 2px solid rgba(157, 128, 255, 0.70);
         border-radius:5px;
         display:inline-block;
         margin:5px 10px 5px 0;
@@ -72,16 +111,17 @@ h2 {
     behavior: url(PIE.htc);
     display:block;
     margin-bottom:10px;
-	border: 1px solid #1a1a1a;
-    clear:both;
-    width:500px;
-    height:500px;
+    margin-right:10px;
+	border: 2px solid #ff6a00;
+    width:400px;
+    height:400px;
     text-align:center;
-    background-color:#ff6a00;
+    background-color:rgba(255, 106, 0, 0.60);
+    float:left;
 }
 
 .post_content {
-    margin:50px 0;
+    margin:20px 0;
 }
 
 .post p {
@@ -90,8 +130,22 @@ h2 {
     margin-right:auto;
 }
     .post img {
-        width:400px;
+        -moz-box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Для Firefox */
+        -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Для Safari и Chrome */
+        box-shadow: 0 0 10px rgba(0,0,0,0.5); 
+        width:200px;
     }
+
+.post a {
+    text-decoration:none;
+    padding:2px 5px;
+    border:1px dashed #1a1a1a;
+    background-color:rgba(255, 255, 255, 0.50);
+    width:100px;
+    display:inline-block;
+    margin:0 auto;
+    color:#1a1a1a;
+}
 
 .read_more_link {
 
@@ -106,3 +160,4 @@ h2 {
     height: 1px;
     font-size: 1px;
 }
+
