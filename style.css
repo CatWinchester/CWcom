@@ -42,7 +42,7 @@ h1{
 	border:1px solid #fff;
 }
 
-h2 {
+h2, h3, h4 {
     margin-top:0;
     margin-bottom:30px;
     
@@ -52,30 +52,17 @@ h2 {
                 -1px 0 #00468C;
 }
 
-/*header {
-	display:block;
-    width:1000px;
-	margin:0 auto;
+h3 {
+    margin-bottom:10px;
 }
-
-#menu-nav{
-	list-style:none;
-	padding:0;
+h4 {    
+    margin-bottom:14px;
 }
-
-#menu-nav  li{
-	display:inline-block;
-	border:1px solid #000;
-}
-
-#menu-nav a{
-	display:inline-block;
-	padding:10px;
-}*/
 
 #content{
 	width:90%;
     float:right;
+    display:block;
 }
 
 #skills{
@@ -103,6 +90,26 @@ h2 {
 /*--------------------
 ---------BLOG---------
 ----------------------*/
+
+.row {
+    position:relative;
+    top:200px;
+    display:inline-block;
+}
+
+#bottom_row {
+    width:900px;
+    margin:0 auto;
+}
+
+    #bottom_row .post {
+        width:200px;
+        height:200px;
+    }
+
+        #bottom_row .post img {
+            width:100px;
+        }
 
 .post {
     -webkit-border-radius: 999px;
@@ -147,6 +154,10 @@ h2 {
     color:#1a1a1a;
 }
 
+#bottom_row .post:hover {
+
+}
+
 .read_more_link {
 
 }
@@ -161,3 +172,20 @@ h2 {
     font-size: 1px;
 }
 
+/*----------------------
+------LessCss-----------
+------------------------*/
+
+@lightRed:#fdd;
+@lightGreen:#dfd;
+@lightBlue:#ddf;
+
+@defaultThemeColor:@lightGreen;
+
+.shape {
+    display:inline-block;
+    width:200px;
+    height:200px;
+    background:@defaultThemeColor;
+    margin:20px;
+}
