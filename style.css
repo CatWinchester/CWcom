@@ -158,7 +158,7 @@ div#bottom_roq .post + .post {
     margin-left:auto;
     margin-right:auto;
 }
-    .post img {
+    .post img  {
         -moz-box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Для Firefox */
         -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Для Safari и Chrome */
         box-shadow: 0 0 10px rgba(0,0,0,0.5); 
@@ -207,3 +207,94 @@ div#bottom_roq .post + .post {
     background:@defaultThemeColor;
     margin:20px;
 }
+
+/*----------------------
+----Big Post Content----
+------------------------*/
+
+#sidebar {
+  padding: 0;
+  margin: 20px 10px 0 10px;
+  border: 0; 
+  float:left;
+  position:relative;
+  top:50px;
+  width:10%;
+}
+
+#big_post p {
+    width:700px;
+    position:relative;
+    display:block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.side_post, #big_post {
+    position:relative;        
+    -webkit-border-radius: 999px;
+    -moz-border-radius: 999px;
+    border-radius: 999px;
+    behavior: url(PIE.htc);
+    display:block;
+    margin-bottom:10px;
+    margin-right:10px;
+    text-align:center;
+    float:left;
+}
+
+#one_post {
+    background-color:rgba(255, 106, 0, 0.60);
+	border: 2px solid #ff6a00;    
+    width:100px;
+    height:100px;
+}
+
+#two_post {
+    background-color:rgba(0, 255, 154, 0.60);
+    border: 2px solid rgba(0, 255, 154, 0.60);    
+    width:150px;
+    height:150px;
+}
+
+#three_post {
+    background-color:rgba(255, 0, 195, 0.60);
+    border: 2px solid rgba(255, 0, 195, 0.60);
+    width:200px;
+    height:200px;
+}
+
+#four_post {
+    background-color:rgba(0, 52, 255, 0.60);
+    border: 2px solid rgba(0, 52, 255, 0.60);
+    width:150px;
+    height:150px;
+}
+
+#five_post {    
+    background-color:rgba(178, 0, 255, 0.60);
+    border: 2px solid rgba(178, 0, 255, 0.60);
+    width:100px;
+    height:100px;
+}
+
+#sidebar img {
+    width:100px;
+}
+
+#main {
+    width:80%;
+    float:right;
+    display:block;
+}
+
+#big_post {    
+    background-color:rgba(255, 0, 195, 0.60);
+    border: 2px solid rgba(255, 0, 195, 0.60);
+    width:850px;
+    height:850px;
+    top:50px;
+}
+    #big_post img {
+        width:400px;
+    }
