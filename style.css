@@ -97,6 +97,10 @@ h4 {
     display:inline-block;
 }
 
+#top_row .post {
+
+}
+
 #bottom_row {
     width:1000px;
     margin-top:50px;
@@ -104,7 +108,7 @@ h4 {
 
 }
 
-    #bottom_row .post {
+    #bottom_row .post, #top_row .post {
         background-color:rgba(178, 0, 255, 0.30);
         border: 2px solid rgba(178, 0, 255, 0.60);
         width:200px;
@@ -129,7 +133,7 @@ div#bottom_roq .post + .post {
     border: 2px solid rgba(18, 255, 0, 0.60);
 }
 
-        #bottom_row .post img {
+        #bottom_row .post img, #top_row .post img {
             width:100px;
         }
 
