@@ -71,9 +71,8 @@
 		</div>
     </div>
 
-    <div class="section group" id="main_row">
-
-        <div class="col span_1_of_4" data-bind="foreach: mainRowPosts">
+    <div class="section group" id="main_row" data-bind="foreach: mainRowPosts">
+        <div class="col span_1_of_4" >
 	        <div class="post">
                 <div class="post_content" >
 		            <h2 data-bind="text: day"></h2>
@@ -154,7 +153,7 @@
 
             var numberOfItemsInRow = 4;
 
-            self.selectedRow = ko.observable(0);
+            self.selectedRow = ko.observable();
 
             self.posts = ko.observableArray();
 
@@ -162,7 +161,7 @@
                 var foundPosts = [];
 
                 for (var i = numberOfItemsInRow * self.selectedRow() ;
-                         i < numberOfItemsInRow * self.selectedRow() + numberOfItemsInRow;
+                         i < numberOfItemsInRow * self.selectedRow() + numberOfItemsInRow && i < self.posts().length;
                          i++) {
                     foundPosts.push(self.posts()[i]);
                 }
@@ -179,6 +178,8 @@
                                      "Architecture is the art and science of designing buildings and structures. The word architecture comes from the Greek arkhitekton, \"master builder, director of works\"",
                                      "content/images/5.jpg"));
         }
+		
+		vm.selectedRow(0);
 
         ko.applyBindings(vm);        
     </script>
