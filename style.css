@@ -98,39 +98,9 @@ h4 {
 }
 
 #top_row .post {
-    transform: matrix(1.22, 0.01,
-                         0, 0.9,
-                         20, 15);
-
-    -webkit-transform: matrix(1.22, 0.01,
-                                0, 0.9,
-                                20, 15);
-
-    -moz-transform: matrix(1.22, 0.01,
-                          0, 0.9,
-                          20px, 15px);
-
-    -o-transform: matrix(1.22, 0.01,
-                            0, 0.9,
-                            20, 15); 
 }
 
 #bottom_row .post {
-    transform: matrix(1.22, 0.01,
-                         0, 0.9,
-                         20, 15);
-    
-    -webkit-transform: matrix(1.22, 0.01,
-                                0, 0.9,
-                                20, 15);
-    
-    -moz-transform: matrix(1.22, 0.01,
-                          0, 0.9,
-                          20px, 15px);
-    
-    -o-transform: matrix(1.22, 0.01,
-                            0, 0.9,
-                            20, 15);
 }
 
 #bottom_row .post, #top_row .post {
@@ -145,15 +115,15 @@ h4 {
             background-color:rgba(178, 0, 255, 0.60);
         }
 
-div#bottom_roq .post + .post {
+div#bottom_row .post + .post {
     background-color:rgba(255, 0, 0, 0.30);
     border: 2px solid rgba(255, 0, 0, 0.60);
 }
-#bottom_roq .post:nth-child(3) {
+#bottom_row .post:nth-child(3) {
     background-color:rgba(255, 242, 0, 0.30);
     border: 2px solid rgba(255, 242, 0, 0.60);
 }
-#bottom_roq .post:nth-child(4) {
+#bottom_row .post:nth-child(4) {
     background-color:rgba(18, 255, 0, 0.30);
     border: 2px solid rgba(18, 255, 0, 0.60);
 }
@@ -211,12 +181,6 @@ div#bottom_roq .post + .post {
         clear:both;
         display:block;
     }
-.cleaner {
-    clear: both;
-    width: 100%;
-    height: 1px;
-    font-size: 1px;
-}
 
 /*----------------------
 ------LessCss-----------

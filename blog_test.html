@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="style.css" />
     <link rel="stylesheet" type="text/css" href="mainMenu.css" />
     <link rel="stylesheet" type="text/css" href="css/grid.css" />
+    <script src="js/knockout-2.3.0.js" ></script>
     <title>Blog Test</title>
 </head>
 <body>
@@ -72,10 +73,10 @@
 
     <div class="section group" id="main_row">
 
-        <div class="col span_1_of_4">
+        <div class="col span_1_of_4" data-bind="foreach: mainRowPosts">
 	        <div class="post">
                 <div class="post_content" >
-		            <h2>Day 1</h2>
+		            <h2 data-bind="text: day"></h2>
                     <img src="content/images/1.jpg" />
 
                     <p>Drawing is a means of making an image, using any of a wide variety 
@@ -85,61 +86,6 @@
 
                     <div class="read_more_link">
                         <a href="#">Read more </a>
-                    </div>
-                </div>
-	        </div>
-        </div>
-        
-        <div class="col span_1_of_4">
-	        <div class="post" style="background-color:rgba(0, 255, 154, 0.60);
-                                 border: 2px solid rgba(0, 255, 154, 0.60);">
-                <div class="post_content">
-		            <h2>Day 2</h2>
-                    <img src="content/images/2.jpg" />
-
-                    <p>Architecture is the art and science of designing buildings and structures.
-                       The word architecture comes from the Greek arkhitekton, "master builder, 
-                       director of works," from αρχι- (arkhi) "chief" + τεκτων (tekton) "builder, 
-                       carpenter"</p>
-
-                    <div class="read_more_link">
-                        <a href="#" >Read more </a>
-                    </div>
-                </div>
-	        </div>
-        </div>
-        
-        <div class="col span_1_of_4">
-	        <div class="post" style="background-color:rgba(255, 0, 195, 0.60);
-                                     border: 2px solid rgba(255, 0, 195, 0.60);">
-                <div class="post_content">
-		            <h2>Day 3</h2>
-                    <img src="content/images/3.jpg" />
-
-                    <p>Architecture is the art and science of designing buildings and structures.
-                       The word architecture comes from the Greek arkhitekton, "master builder, 
-                       director of works"</p>
-
-                    <div class="read_more_link">
-                        <a href="#" >Read more </a>
-                    </div>
-                </div>
-	        </div>
-        </div>
-
-        <div class="col span_1_of_4">
-	        <div class="post" style="background-color:rgba(0, 52, 255, 0.60);
-                                     border: 2px solid rgba(0, 52, 255, 0.60);">
-                <div class="post_content">
-		            <h2>Day 4</h2>
-                    <img src="content/images/4.jpg" />
-
-                    <p>Probably the most obvious characteristic of a witch was the ability to cast a spell,
-                       "spell" being the word used to signify the means employed to carry out a magical action. 
-                       </p>
-
-                    <div class="read_more_link">
-                        <a href="#" >Read more </a>
                     </div>
                 </div>
 	        </div>
@@ -190,8 +136,51 @@
     </div>   
     
     </div>
+
     <div id="background"></div>
     <div id="midground"></div>
     <div id="foreground"></div>
+
+    <script>
+        function Post(day, header, description, image) {
+            this.day = day;
+            this.header = header;
+            this.description = description;
+            this.image = image;
+        }
+
+        function BlogViewModel() {
+            var self = this;
+
+            var numberOfItemsInRow = 4;
+
+            self.selectedRow = ko.observable(0);
+
+            self.posts = ko.observableArray();
+
+            self.mainRowPosts = ko.computed(function () {
+                var foundPosts = [];
+
+                for (var i = numberOfItemsInRow * self.selectedRow() ;
+                         i < numberOfItemsInRow * self.selectedRow() + numberOfItemsInRow;
+                         i++) {
+                    foundPosts.push(self.posts()[i]);
+                }
+
+                return foundPosts;
+            });
+        }
+
+        var vm = new BlogViewModel();
+
+        for (var i = 1; i <= 100; i++) {
+            vm.posts().push(new Post(i,
+                                     "Node.js or something new..",
+                                     "Architecture is the art and science of designing buildings and structures. The word architecture comes from the Greek arkhitekton, \"master builder, director of works\"",
+                                     "content/images/5.jpg"));
+        }
+
+        ko.applyBindings(vm);        
+    </script>
 </body>
 </html>
