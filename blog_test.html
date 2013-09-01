@@ -91,47 +91,16 @@
         </div>
     </div> 
         
-    <div class="section group" id="bottom_row">
-
+    <div class="section group" id="bottom_row" data-bind="foreach: bottomRowPosts">
         <div class="col span_1_of_4">
 	        <div class="post">
                 <div class="post_content">
-		            <h3>Day 5</h3>
+		            <h3 data-bind="text: day"></h3>
                     <h4>Node.js or something new...</h4>
                     <img src="content/images/5.jpg" />                    
                 </div>
             </div>
-	    </div>
-        
-        <div class="col span_1_of_4">
-	        <div class="post">
-                <div class="post_content">
-		            <h3>Day 6</h3>
-                    <h4>Javascript development</h4>
-                    <img src="content/images/4.jpg" />
-                </div>
-            </div>
 	    </div> 
-
-	    <div class="col span_1_of_4">
-            <div class="post">
-                <div class="post_content">
-		            <h3>Day 7</h3>
-                    <h4>Сonversations with reflection</h4>
-                    <img src="content/images/2.jpg" />
-                </div>
-            </div>
-	    </div> 
-
-	    <div class="col span_1_of_4">
-            <div class="post">
-                <div class="post_content">
-		            <h3>Day 8</h3>
-                    <h4>Simple tree in programming</h4>
-                    <img src="content/images/1.jpg" />
-                </div>
-	        </div> 
-        </div>
     </div>   
     
     </div>
@@ -154,6 +123,7 @@
             var numberOfItemsInRow = 4;
 
             self.selectedRow = ko.observable();
+            self.bottomRow = ko.observable();
 
             self.posts = ko.observableArray();
 
@@ -168,6 +138,18 @@
 
                 return foundPosts;
             });
+
+            self.bottomRowPosts = ko.computed(function () {
+                var bottomPosts = [];
+
+                for (var i = numberOfItemsInRow * self.bottomRow();
+                         i < numberOfItemsInRow * self.bottomRow() + numberOfItemsInRow && i < self.posts().length;
+                         i++) {
+                    bottomPosts.push(self.posts()[i]);
+                }
+
+                return bottomPosts;
+            });
         }
 
         var vm = new BlogViewModel();
@@ -179,7 +161,8 @@
                                      "content/images/5.jpg"));
         }
 		
-		vm.selectedRow(0);
+        vm.selectedRow(0);
+        vm.bottomRow(1);
 
         ko.applyBindings(vm);        
     </script>
