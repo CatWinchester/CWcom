@@ -85,9 +85,7 @@
             this.header = header;
             this.description = description;
             this.image = image;
-        }
-
-        
+        }        
 
         function BlogViewModel() {
             var self = this;
@@ -97,6 +95,14 @@
             self.selectedRow = ko.observable();
 
             self.posts = ko.observableArray();
+
+            self.getNumberOfRows = function () {
+                var mod = self.posts().length % numberOfItemsInRow;
+
+                if (mod != 0)
+                    return (self.posts().length - mod) / numberOfItemsInRow + 1;
+                else return self.posts().length / numberOfItemsInRow;
+            };
 
             self.getRowPosts = function (rowIndex) {
                 var foundPosts = [];
@@ -117,11 +123,13 @@
             });
 
             self.topRowPosts = ko.computed(function () {
-                return self.getRowPosts(self.selectedRow() - 1);
+                return self.getRowPosts(self.selectedRow() == 0 ? self.getNumberOfRows() - 1
+                                                                : self.selectedRow() - 1);
             });
 
             self.bottomRowPosts = ko.computed(function () {
-                return self.getRowPosts(self.selectedRow() + 1);
+                return self.getRowPosts(self.selectedRow() == self.getNumberOfRows() - 1 ? 0
+                                                                                         : self.selectedRow() + 1);
             });
 
             self.moveUp = function () {
@@ -139,14 +147,6 @@
 
                 $("#top_row").switchClass("#top_row", "#main_row", 1000);
                 $("#main_row").switchClass("#main_row", "#bottom_row", 1000);
-            };
-
-            self.getNumberOfRows = function () {
-                var mod = self.posts().length % numberOfItemsInRow;
-
-                if (mod != 0)
-                    return (self.posts().length - mod) / numberOfItemsInRow + 1;
-                else return self.posts().length / numberOfItemsInRow;
             };
 
             $('#content').bind('mousewheel',
@@ -169,7 +169,7 @@
                                      "content/images/1.jpg"));
         }
 		
-        vm.selectedRow(1);
+        vm.selectedRow(0);
 
         ko.applyBindings(vm);        
     </script>
