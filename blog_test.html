@@ -162,7 +162,12 @@
 
         var vm = new BlogViewModel();
 
-        for (var i = 1; i <= 100; i++) {
+        vm.posts().push(new Post(1,
+                                 "First version",
+                                 "This is the first version of my site. Each day I will create a new version.",
+                                 "content/images/2.jpg"));
+
+        for (var i = 2; i <= 100; i++) {
             vm.posts().push(new Post(i,
                                      "Node.js or something new..",
                                      "Architecture is the art and science of designing buildings and structures. The word architecture comes from the Greek arkhitekton, \"master builder, director of works\"",
