@@ -12,11 +12,28 @@
 /*--------------------
 -------BACKGROUND-----
 ----------------------*/
+
+@keyframes background
+{
+    from {left: 0; top: 0;}
+    to {left: -10000px; top: -2000px;}
+}
+
+@-webkit-keyframes background /* Safari and Chrome */
+{
+    from {left: 0; top: 0;}
+    to {left: -10000px; top: -2000px;}
+}
+
 #background {
 	background: url(content/images/background.png) repeat 5% 5%;
 	position: absolute;
 	top: 0; left: 0; right: 0; bottom: 0;
     z-index: -200;
+    animation: background 240s;
+    -webkit-animation: background 240s; /* Safari and Chrome */
+    animation-iteration-count: infinite;
+    -webkit-animation-iteration-count: infinite; /* Safari and Chrome */
 }
 
 #midground {
@@ -24,6 +41,10 @@
 	position: absolute;
 	top: 0; left: 0; right: 0; bottom: 0;
 	z-index: -100;
+    animation: background 120s;
+    -webkit-animation: background 120s; /* Safari and Chrome */
+    animation-iteration-count: infinite;
+    -webkit-animation-iteration-count: infinite; /* Safari and Chrome */
 }
 
 #foreground {
@@ -31,7 +52,13 @@
 	position: absolute;
 	top: 0; left: 0; right: 0; bottom: 0;
 	z-index: -100;
+    animation: background 60s;
+    -webkit-animation: background 60s; /* Safari and Chrome */
+    animation-iteration-count: infinite;
+    -webkit-animation-iteration-count: infinite; /* Safari and Chrome */
 }
+
+
 
 /*--------------------
 -------CONTENT--------
