@@ -97,10 +97,15 @@ h4 {
     display:inline-block;
 }
 
-#top_row .post {
+
+#top_row .post {    
+    -webkit-transform: perspective(300px) rotateX(45deg);
+    -moz-transform: perspective(300px) rotateX(45deg);
 }
 
 #bottom_row .post {
+    -webkit-transform: perspective(300px) rotateX(-45deg);
+    -moz-transform: perspective(300px) rotateX(-45deg);
 }
 
 #bottom_row .post, #top_row .post {

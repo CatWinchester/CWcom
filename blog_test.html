@@ -6,6 +6,10 @@
     <link rel="stylesheet" type="text/css" href="style.css" />
     <link rel="stylesheet" type="text/css" href="mainMenu.css" />
     <link rel="stylesheet" type="text/css" href="css/grid.css" />
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
     <script src="js/knockout-2.3.0.js" ></script>
     <title>Blog Test</title>
 </head>
@@ -83,6 +87,8 @@
             this.image = image;
         }
 
+        
+
         function BlogViewModel() {
             var self = this;
 
@@ -117,6 +123,41 @@
             self.bottomRowPosts = ko.computed(function () {
                 return self.getRowPosts(self.selectedRow() + 1);
             });
+
+            self.moveUp = function () {
+                if (self.selectedRow() == self.getNumberOfRows() - 1) 
+                    self.selectedRow(0);
+                else 
+                    self.selectedRow(self.selectedRow() + 1);                        
+            };
+
+            self.moveDown = function () {
+                if (self.selectedRow() == 0)
+                    self.selectedRow(self.getNumberOfRows() - 1);
+                else
+                    self.selectedRow(self.selectedRow() - 1);
+
+                $("#top_row").switchClass("#top_row", "#main_row", 1000);
+                $("#main_row").switchClass("#main_row", "#bottom_row", 1000);
+            };
+
+            self.getNumberOfRows = function () {
+                var mod = self.posts().length % numberOfItemsInRow;
+
+                if (mod != 0)
+                    return (self.posts().length - mod) / numberOfItemsInRow + 1;
+                else return self.posts().length / numberOfItemsInRow;
+            };
+
+            $('#content').bind('mousewheel',
+                       function (e) {
+                           if (e.originalEvent.wheelDelta > 0) {
+                               self.moveDown();
+                           }
+                           else {
+                               self.moveUp();
+                           };
+                       });
         }
 
         var vm = new BlogViewModel();
@@ -128,7 +169,7 @@
                                      "content/images/1.jpg"));
         }
 		
-        vm.selectedRow(0);
+        vm.selectedRow(1);
 
         ko.applyBindings(vm);        
     </script>

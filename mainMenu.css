@@ -4,6 +4,7 @@
   border: 0; 
   float:left;
   width:10%;
+  position:fixed;
 }
 
 #main_menu ul, #main_menu li {
