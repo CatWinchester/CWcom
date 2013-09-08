@@ -42,6 +42,22 @@
 
 /*  GO FULL WIDTH AT LESS THAN 480 PIXELS */
 
+
+@media only screen and (max-width: 1000px) {	
+	.span_4_of_4 {
+		width: 100%; 
+	}
+	.span_3_of_4 {
+		width: 100%; 
+	}
+	.span_2_of_4 {
+		width: 100%; 
+	}
+	.span_1_of_4 {
+		width: 32.26%;
+	}
+}
+
 @media only screen and (max-width: 500px) {
 	.col { 
 		margin: 1% 0 1% 0%;

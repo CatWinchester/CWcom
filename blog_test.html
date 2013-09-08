@@ -3,13 +3,11 @@
 <html lang="en" >
 <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="style.css" />
     <link rel="stylesheet" type="text/css" href="mainMenu.css" />
     <link rel="stylesheet" type="text/css" href="css/grid.css" />
-    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-    <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="http://code.jquery.com/jquery-2.0.3.js"></script>
     <script src="js/knockout-2.3.0.js" ></script>
     <title>Blog Test</title>
 </head>
@@ -31,48 +29,46 @@
     </header>
 
     <div id="content">
+        <div class="section group" id="top_row" data-bind="foreach:topRowPosts">
+		    <div class="col span_1_of_4">			    
+	            <div class="post">
+                    <div class="post_content">
+		                <h3 data-bind="text: day"></h3>
+                        <h4 data-bind="text: header"></h4>
+                        <img data-bind="attr:{src: image}"/>                    
+                    </div>
+	            </div>
+		    </div>
+        </div>
 
-    <div class="section group" id="top_row" data-bind="foreach:topRowPosts">
-		<div class="col span_1_of_4">			    
-	        <div class="post">
-                <div class="post_content">
-		            <h3 data-bind="text: day"></h3>
-                    <h4 data-bind="text: header"></h4>
-                    <img data-bind="attr:{src: image}"/>                    
-                </div>
-	        </div>
-		</div>
-    </div>
+        <div class="section group" id="main_row" data-bind="foreach: mainRowPosts">
+            <div class="col span_1_of_4" >
+	            <div class="post">
+                    <div class="post_content" >
+		                <h2 data-bind="text: day"></h2>
+                        <img data-bind="attr:{src: image}" />
 
-    <div class="section group" id="main_row" data-bind="foreach: mainRowPosts">
-        <div class="col span_1_of_4" >
-	        <div class="post">
-                <div class="post_content" >
-		            <h2 data-bind="text: day"></h2>
-                    <img data-bind="attr:{src: image}" />
+                        <p data-bind="text: description"></p>
 
-                    <p data-bind="text: description"></p>
-
-                    <div class="read_more_link">
-                        <a href="#">Read more </a>
+                        <div class="read_more_link">
+                            <a href="#">Read more </a>
+                        </div>
+                    </div>
+	            </div>
+            </div>
+        </div> 
+        
+        <div class="section group" id="bottom_row" data-bind="foreach: bottomRowPosts">
+            <div class="col span_1_of_4">
+	            <div class="post">
+                    <div class="post_content">
+		                <h3 data-bind="text: day"></h3>
+                        <h4 data-bind="text: header"></h4>
+                        <img data-bind="attr:{src: image}"/>                    
                     </div>
                 </div>
-	        </div>
-        </div>
-    </div> 
-        
-    <div class="section group" id="bottom_row" data-bind="foreach: bottomRowPosts">
-        <div class="col span_1_of_4">
-	        <div class="post">
-                <div class="post_content">
-		            <h3 data-bind="text: day"></h3>
-                    <h4 data-bind="text: header"></h4>
-                    <img data-bind="attr:{src: image}"/>                    
-                </div>
-            </div>
-	    </div> 
-    </div>   
-    
+	        </div> 
+        </div>       
     </div>
 
     <div id="background"></div>
@@ -162,13 +158,13 @@
 
         var vm = new BlogViewModel();
 
-        vm.posts().push(new Post(1,
+        vm.posts().push(new Post("Day " + 1,
                                  "First version",
                                  "This is the first version of my site. Each day I will create a new version.",
                                  "content/images/2.jpg"));
 
         for (var i = 2; i <= 100; i++) {
-            vm.posts().push(new Post(i,
+            vm.posts().push(new Post("Day "+ i,
                                      "Node.js or something new..",
                                      "Architecture is the art and science of designing buildings and structures. The word architecture comes from the Greek arkhitekton, \"master builder, director of works\"",
                                      "content/images/1.jpg"));
