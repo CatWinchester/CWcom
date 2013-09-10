@@ -87,20 +87,10 @@
 
             var numberOfItemsInRow = 4;
 
-            self.selectedRow = ko.observable();
-			
-
             self.posts = ko.observableArray();
 
-            self.getNumberOfRows = function () {
-                var mod = self.posts().length % numberOfItemsInRow;
-
-                if (mod != 0)
-                    return (self.posts().length - mod) / numberOfItemsInRow + 1;
-                else return self.posts().length / numberOfItemsInRow;
-            };
-
             self.getRowPosts = function (rowIndex) {
+                
                 var foundPosts = [];
 
                 for (var i = numberOfItemsInRow * rowIndex;
@@ -114,18 +104,40 @@
                 return foundPosts;
             }
 
+            self.getNumberOfRows = function () {
+                var mod = self.posts().length % numberOfItemsInRow;
+
+                if (mod != 0)
+                    return (self.posts().length - mod) / numberOfItemsInRow + 1;
+                else return self.posts().length / numberOfItemsInRow;
+            };
+
+            self.selectedRow = ko.observable();
+
+            self.rowBeforeSelected = ko.computed(function () {                                                    
+                return self.selectedRow() == 0 ? self.getNumberOfRows() == 1 ? null
+                                                                             : self.getNumberOfRows() - 1
+                                               : self.selectedRow() - 1;
+            });
+            
+            self.rowAfterSelected = ko.computed(function () {
+                return self.selectedRow() == self.getNumberOfRows() - 1 ? self.getNumberOfRows() == 1 ? null
+                                                                                                      : 0
+                                                                        : self.selectedRow() + 1;
+            });
+            
             self.mainRowPosts = ko.computed(function () {
                 return self.getRowPosts(self.selectedRow());
             });
 
             self.topRowPosts = ko.computed(function () {
-                return self.getRowPosts(self.selectedRow() == 0 ? self.getNumberOfRows() - 1
-                                                                : self.selectedRow() - 1);
+                return self.rowBeforeSelected() == null ? []
+                                                        : self.getRowPosts(self.rowBeforeSelected());
             });
 
             self.bottomRowPosts = ko.computed(function () {
-                return self.getRowPosts(self.selectedRow() == self.getNumberOfRows() - 1 ? 0
-                                                                                         : self.selectedRow() + 1);
+                return self.rowAfterSelected() == null ? []
+                                                       : self.getRowPosts(self.rowAfterSelected());
             });
 
             self.moveUp = function () {
@@ -142,8 +154,6 @@
                     self.selectedRow(self.selectedRow() - 1);
             };
 			
-			self.
-
             $('#content').bind('mousewheel',
                        function (e) {
                            if (e.originalEvent.wheelDelta > 0) {
@@ -157,10 +167,12 @@
 
         var vm = new BlogViewModel();
 
-        vm.posts().push(new Post("Day " + 1,
-                                 "First version",
-                                 "This is the first version of my site. Each day I will create a new version.",
-                                 "content/images/2.jpg"));
+        for (var i = 0; i < 324; i++) {
+            vm.posts().push(new Post("Day " + i,
+                         "First version",
+                         "This is the first version of my site. Each day I will create a new version.",
+                         "content/images/2.jpg"));
+        }
         	
         vm.selectedRow(0);
 
