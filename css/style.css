@@ -26,7 +26,7 @@
 }
 
 #background {/* the smallest stars on black background*/
-	background: url(content/images/background.png) repeat 5% 5%;
+	background: url(../content/images/background.png) repeat 5% 5%;
 	position: absolute;
 	top: 0; left: 0; right: 0; bottom: 0;
     z-index: -200;
@@ -37,7 +37,7 @@
 }
 
 #midground {
-	background: url(content/images/midground.png) repeat 20% 20%;
+	background: url(../content/images/midground.png) repeat 20% 20%;
 	position: absolute;
 	top: 0; left: 0; right: 0; bottom: 0;
 	z-index: -100;
@@ -48,7 +48,7 @@
 }
 
 #foreground { /* Big stars */
-	background: url(content/images/foreground.png) repeat 90% 110%;
+	background: url(../content/images/foreground.png) repeat 90% 110%;
     position: absolute;
 	top: 0; left: 0; right: 0; bottom: 0;
 	z-index: -100;
@@ -98,10 +98,6 @@ h4 {
 	width:100%;
     float:right;
     display:block;
-}
-
-#skills{
-	border: 1px solid #1a1a1a;
 }
 
 #images {
@@ -256,24 +252,6 @@ div#bottom_row .post + .post {
         .post {
             width: 90%;
         }
-    }
-
-/*----------------------
-------LessCss-----------
-------------------------*/
-
-    @lightRed:#fdd;
-    @lightGreen:#dfd;
-    @lightBlue:#ddf;
-
-    @defaultThemeColor:@lightGreen;
-
-    .shape {
-        display: inline-block;
-        width: 200px;
-        height: 200px;
-        background: @defaultThemeColor;
-        margin: 20px;
     }
 
     /*----------------------

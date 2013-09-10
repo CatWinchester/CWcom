@@ -1,52 +1,170 @@
 ﻿<!DOCTYPE html>
 
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" >
 <head>
     <meta charset="utf-8" />
-    <title>MySite</title>
-    <link rel="stylesheet" type="text/css" href="style.css" />
-    <link rel="stylesheet" type="text/css" href="mainMenu.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/grid.css" />
     <script src="http://code.jquery.com/jquery-2.0.3.js"></script>
-    <script src="js/less.js" type="text/javascript"></script>
-
+    <script src="http://knockoutjs.com/downloads/knockout-2.3.0.js" ></script>
+    <title>Blog Test</title>
 </head>
 <body>
-    <div id="background" style="position:absolute;"></div>
-    <div id="midground" style="position:absolute;"></div>
-    <div id="foreground" style="position:absolute;"></div>
-<!--    <header>
+    <header>
         <div id="main_menu">
             <ul>
-                <li class="active">
-                    <a href="index.html" >Home</a>
+                <li>
+                    <a href="index.html">Home</a>
                 </li>
                 <li>
                     <a href="portfolio.html">Portfolio</a>
                 </li>
-                <li>
-                    <a href="blog_test.html">Blog</a>
+                <li class="active">
+                    <a href="blog.html">Blog</a>
                 </li>
             </ul>
         </div>
-    </header>-->
+    </header>
+
     <div id="content">
-        <h1>Home Page</h1>
-		<div id="skills">
-			<h2>My skills</h2>
-			<ul>
-				<li>Fun skill 1</li>
-				<li>Fun skill 2</li>
-				<li>Fun skill 3</li>
-				<li>Fun skill 4</li>
-				<li>Fun skill 5</li>
-				<li>Fun skill 6</li>
-				<li>Fun skill 7</li>
-			</ul>
-		</div>
+        <div class="section group" id="top_row" data-bind="foreach:topRowPosts">
+		    <div class="col span_1_of_4">			    
+	            <div class="post">
+                    <div class="post_content">
+		                <h3 data-bind="text: day"></h3>
+                        <h4 data-bind="text: header"></h4>
+                        <img data-bind="attr:{src: image}"/>                    
+                    </div>
+	            </div>
+		    </div>
+        </div>
+
+        <div class="section group" id="main_row" data-bind="foreach: mainRowPosts">
+            <div class="col span_1_of_4" >
+	            <div class="post">
+                    <div class="post_content" >
+		                <h2 data-bind="text: day"></h2>
+                        <img data-bind="attr:{src: image}" />
+
+                        <p data-bind="text: description"></p>
+
+                        <div class="read_more_link">
+                            <a href="#">Read more </a>
+                        </div>
+                    </div>
+	            </div>
+            </div>
+        </div> 
         
-       <div class="shape" id="shape1"></div>
-       <div class="shape" id="shape2"></div>
-       <div class="shape" id="shape3"></div>
-   </div>
+        <div class="section group" id="bottom_row" data-bind="foreach: bottomRowPosts">
+            <div class="col span_1_of_4">
+	            <div class="post">
+                    <div class="post_content">
+		                <h3 data-bind="text: day"></h3>
+                        <h4 data-bind="text: header"></h4>
+                        <img data-bind="attr:{src: image}"/>                    
+                    </div>
+                </div>
+	        </div> 
+        </div>       
+    </div>
+
+    <div id="background"></div>
+    <div id="midground"></div>
+    <div id="foreground"></div>
+
+    <script>
+        function Post(day, header, description, image) {
+            this.day = day;
+            this.header = header;
+            this.description = description;
+            this.image = image;
+        }        
+
+        function BlogViewModel() {
+            var self = this;
+
+            var numberOfItemsInRow = 4;
+
+            self.selectedRow = ko.observable();
+			
+
+            self.posts = ko.observableArray();
+
+            self.getNumberOfRows = function () {
+                var mod = self.posts().length % numberOfItemsInRow;
+
+                if (mod != 0)
+                    return (self.posts().length - mod) / numberOfItemsInRow + 1;
+                else return self.posts().length / numberOfItemsInRow;
+            };
+
+            self.getRowPosts = function (rowIndex) {
+                var foundPosts = [];
+
+                for (var i = numberOfItemsInRow * rowIndex;
+                         i >= 0 &&
+                         i < numberOfItemsInRow * rowIndex + numberOfItemsInRow &&
+                         i < self.posts().length;
+                         i++) {
+                    foundPosts.push(self.posts()[i]);
+                }
+
+                return foundPosts;
+            }
+
+            self.mainRowPosts = ko.computed(function () {
+                return self.getRowPosts(self.selectedRow());
+            });
+
+            self.topRowPosts = ko.computed(function () {
+                return self.getRowPosts(self.selectedRow() == 0 ? self.getNumberOfRows() - 1
+                                                                : self.selectedRow() - 1);
+            });
+
+            self.bottomRowPosts = ko.computed(function () {
+                return self.getRowPosts(self.selectedRow() == self.getNumberOfRows() - 1 ? 0
+                                                                                         : self.selectedRow() + 1);
+            });
+
+            self.moveUp = function () {
+                if (self.selectedRow() == self.getNumberOfRows() - 1) 
+                    self.selectedRow(0);
+                else 
+                    self.selectedRow(self.selectedRow() + 1);                        
+            };
+
+            self.moveDown = function () {
+                if (self.selectedRow() == 0)
+                    self.selectedRow(self.getNumberOfRows() - 1);
+                else
+                    self.selectedRow(self.selectedRow() - 1);
+            };
+			
+			self.
+
+            $('#content').bind('mousewheel',
+                       function (e) {
+                           if (e.originalEvent.wheelDelta > 0) {
+                               self.moveDown();
+                           }
+                           else {
+                               self.moveUp();
+                           };
+                       });
+        }
+
+        var vm = new BlogViewModel();
+
+        vm.posts().push(new Post("Day " + 1,
+                                 "First version",
+                                 "This is the first version of my site. Each day I will create a new version.",
+                                 "content/images/2.jpg"));
+        	
+        vm.selectedRow(0);
+
+        ko.applyBindings(vm);        
+    </script>
 </body>
 </html>
