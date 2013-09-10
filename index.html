@@ -141,38 +141,32 @@
             });
 
             self.moveUp = function () {
-                if (self.selectedRow() == self.getNumberOfRows() - 1) 
-                    self.selectedRow(0);
-                else 
-                    self.selectedRow(self.selectedRow() + 1);                        
+                if(self.rowAfterSelected() != null)
+                    self.selectedRow(self.rowAfterSelected());
             };
 
             self.moveDown = function () {
-                if (self.selectedRow() == 0)
-                    self.selectedRow(self.getNumberOfRows() - 1);
-                else
-                    self.selectedRow(self.selectedRow() - 1);
+                if (self.rowBeforeSelected() != null)
+                    self.selectedRow(self.rowBeforeSelected());
             };
-			
-            $('#content').bind('mousewheel',
-                       function (e) {
-                           if (e.originalEvent.wheelDelta > 0) {
-                               self.moveDown();
-                           }
-                           else {
-                               self.moveUp();
-                           };
-                       });
         }
 
         var vm = new BlogViewModel();
 
-        for (var i = 0; i < 324; i++) {
-            vm.posts().push(new Post("Day " + i,
-                         "First version",
-                         "This is the first version of my site. Each day I will create a new version.",
-                         "content/images/2.jpg"));
-        }
+        vm.posts().push(new Post("Day 1",
+                                 "First version",
+                                 "This is the first version of my site. It will be updated as often as new version is ready (hope every day:)).",
+                                 "content/images/2.jpg"));
+
+        $('#content').bind('mousewheel',
+                   function (e) {
+                       if (e.originalEvent.wheelDelta > 0) {
+                           vm.moveDown();
+                       }
+                       else {
+                           vm.moveUp();
+                       };
+                   });
         	
         vm.selectedRow(0);
 
