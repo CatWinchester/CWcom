@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+
+<html >
+<head>
+    <meta charset="utf-8" />
+    <title>webGl Training</title>
+</head>
+
+<body onload="webGLStart();">
+  <canvas id="lesson01-canvas" style="border: none;" width="500" height="500"></canvas>
+
+   <script>
+       var gl;
+
+       var triangleVertexPositionBuffer;
+       var squareVertexPositionBuffer;
+
+       function initBuffers() {
+           triangleVertexPositionBuffer = gl.createBuffer();
+
+           //наступні операції мають використовувати саме цей буффер
+           gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexPositionBuffer);
+
+           //define triangle vertexes in JS array on (0,0,0) 
+           var vertices = [
+                 0.0,  1.0, 0.0,
+                -1.0, -1.0, 0.0,
+                 1.0, -1.0, 0.0
+           ];
+
+           //створюємо WebGLFloatArray об'єкт і говоримо вебДЖЛ використовувати його для заповнення
+           //обраного буфера - triangleVertexPositionBuffer
+           gl.bufferData(gl.ARRAY_BUFFER, new WebGLFloatArray(vertices), gl.STATIC_DRAW);
+
+           //встановлюємо 2 нових властивості для буфера: 2. кі-сть вершин 1. кі-сть складових вершин
+           triangleVertexPositionBuffer.itemSize = 3;
+           triangleVertexPositionBuffer.numItems = 3;
+
+           //аналогічно створюємо буфер для квадрату
+           squareVertexPositionBuffer = gl.createBuffer();
+
+           gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexPositionBuffer);
+
+           vertices = [
+                 1.0,  1.0, 0.0,
+                -1.0,  1.0, 0.0,
+                 1.0, -1.0, 0.0,
+                -1.0, -1.0, 0.0
+           ];
+
+           gl.bufferData(gl.ARRAY_BUFFER, new WebGLFloatArray(vertices), gl.STATIC_DRAW);
+           squareVertexPositionBuffer.itemSize = 3;
+           squareVertexPositionBuffer.numItems = 4;       
+       }
+
+       function drawScene() {
+           //
+           gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
+       }
+   </script>
+</body>    
+</html>
