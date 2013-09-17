@@ -20,7 +20,7 @@
 <body>
     <div class="section group">
         <div class="col span_4_of_4" >
-            <canvas id="myScreen" width="500" height="500"></canvas>
+            <canvas id="myScreen" width="1000" height="500"></canvas>
         </div>
     </div>
 
@@ -28,21 +28,93 @@
     <script>
         var canvas = document.getElementById('myScreen');
         var ctx = canvas.getContext('2d');
+        var interval = 20; //как часто обновлять экран(милисекунды)
+
+        var isDrag = false;
+        var mx, my; //координаты мышки
+
+        var bezierVertexes = [];
+        var linesBetweenVertexes = [];
+
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF'.split('');
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.round(Math.random() * 15)];
+            }
+            return color;
+        }
+
+        function BezierVertex(x, y, width, height, fillColor) {
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+            this.fillColor = fillColor;
+
+            this.draw = function (context) {
+                context.beginPath();
+                context.fillStyle = this.fillColor;
+                context.rect(this.x, this.y, this.width, this.height);
+                context.closePath();
+                context.fill();
+            }
+        }
+
+        function LineBetweenVertexes(x, y, xTo, yTo, color) {
+            this.x = x;
+            this.y = y;
+            this.xTo = xTo;
+            this.yTo = yTo;
+            this.color = color;
+
+            this.draw = function (context) {
+                context.beginPath();
+                context.moveTo(this.x, this.y);
+                context.lineTo(this.xTo, this.yTo);
+                context.strokeStyle = color;
+                context.stroke();
+                context.closePath();
+            }
+        }
 
         //опорные точки
-        var vertexX0 = 0, vertexY0 = 0, //P0
-            vertexX1 = 20, vertexY1 = 30, //P1
-            vertexX2 = 50, vertexY2 = 60, //P2
-            vertexX3 = 90, vertexY3 = 50, //P3
-            vertexX4 = 120, vertexY4 = 90; //P4
+        var vertexX0 = 80,  vertexY0 = 130, //P0
+            vertexX1 = 150, vertexY1 = 30, //P1
+            vertexX2 = 260, vertexY2 = 120,  //P2
+            vertexX3 = 320, vertexY3 = 100, //P3
+            vertexX4 = 380, vertexY4 = 60;  //P4
+            vertexX5 = 480, vertexY5 = 160;  //P5
 
+        bezierVertexes.push(new BezierVertex(vertexX0, vertexY0, 10, 10, getRandomColor()),
+                            new BezierVertex(vertexX1, vertexY1, 10, 10, getRandomColor()),
+                            new BezierVertex(vertexX2, vertexY2, 10, 10, getRandomColor()),
+                            new BezierVertex(vertexX3, vertexY3, 10, 10, getRandomColor()),
+                            new BezierVertex(vertexX4, vertexY4, 10, 10, getRandomColor()),
+                            new BezierVertex(vertexX5, vertexY5, 10, 10, getRandomColor()));
+
+        linesBetweenVertexes.push(new LineBetweenVertexes(vertexX0, vertexY0, vertexX1, vertexY1, getRandomColor()),
+                                  new LineBetweenVertexes(vertexX1, vertexY1, vertexX2, vertexY2, getRandomColor()),
+                                  new LineBetweenVertexes(vertexX2, vertexY2, vertexX3, vertexY3, getRandomColor()),
+                                  new LineBetweenVertexes(vertexX3, vertexY3, vertexX4, vertexY4, getRandomColor()),
+                                  new LineBetweenVertexes(vertexX4, vertexY4, vertexX5, vertexY5, getRandomColor()));
+
+        for (var i = 0; i < bezierVertexes.length; i++) {
+            bezierVertexes[i].draw(ctx);
+        }
+
+        for (var i = 0; i < linesBetweenVertexes.length; i++) {
+            linesBetweenVertexes[i].draw(ctx);
+        }
+         
         //считаем х и у
         function bezier_x(t) {
             return Math.pow(1 - t, 5) * vertexX0 +
                    5 * t * Math.pow(1 - t, 4) * vertexX1 +
                    10 * t * t * Math.pow(1 - t, 3) * vertexX2 +
                    10 * t * t * Math.pow(1 - t, 2) * vertexX3 +
-                   Math.pow(t, 5) * vertexX4;
+                   5* Math.pow(t, 4) * (1 - t) * vertexX4 +
+                   Math.pow(t, 5) * vertexX5;
         }
 
         function bezier_y(t) {
@@ -50,18 +122,22 @@
                    5 * t * Math.pow(1 - t, 4) * vertexY1 +
                    10 * t * t * Math.pow(1 - t, 3) * vertexY2 +
                    10 * t * t * Math.pow(1 - t, 2) * vertexY3 +
-                   Math.pow(t, 5) * vertexX4;
+                   5 * Math.pow(t, 4) * (1 - t) * vertexY4 +
+                   Math.pow(t, 5) * vertexY5;
         }
 
         function BezierSpline(context) {
+            context.beginPath();
             context.moveTo(vertexX0, vertexY0);
-            for (i = 0; i <= 5; i += 0.1) {
+            for (i = 0; i <= 1; i += 0.01) {
                 ctx.lineTo(bezier_x(i), bezier_y(i));
                 ctx.stroke();
             }
+            context.closePath();
         }
 
         BezierSpline(ctx);
+
     </script>
 </body>
 </html>
