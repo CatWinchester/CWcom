@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/grid.css" />
+    <script src="http://code.jquery.com/jquery-2.0.3.js"></script>
+    <script src="http://knockoutjs.com/downloads/knockout-2.3.0.js" ></script>
+    <title>Bezier</title>
+    <style>
+        #myScreen {
+            border:2px solid #ff0000;
+            display:block;
+            margin:0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="section group">
+        <div class="col span_4_of_4" >
+            <canvas id="myScreen" width="500" height="500"></canvas>
+        </div>
+    </div>
+
+
+    <script>
+        var canvas = document.getElementById('myScreen');
+        var ctx = canvas.getContext('2d');
+
+        //опорные точки
+        var vertexX0 = 0, vertexY0 = 0, //P0
+            vertexX1 = 20, vertexY1 = 30, //P1
+            vertexX2 = 50, vertexY2 = 60, //P2
+            vertexX3 = 90, vertexY3 = 50, //P3
+            vertexX4 = 120, vertexY4 = 90; //P4
+
+        //считаем х и у
+        function bezier_x(t) {
+            return Math.pow(1 - t, 5) * vertexX0 +
+                   5 * t * Math.pow(1 - t, 4) * vertexX1 +
+                   10 * t * t * Math.pow(1 - t, 3) * vertexX2 +
+                   10 * t * t * Math.pow(1 - t, 2) * vertexX3 +
+                   Math.pow(t, 5) * vertexX4;
+        }
+
+        function bezier_y(t) {
+            return Math.pow(1 - t, 5) * vertexY0 +
+                   5 * t * Math.pow(1 - t, 4) * vertexY1 +
+                   10 * t * t * Math.pow(1 - t, 3) * vertexY2 +
+                   10 * t * t * Math.pow(1 - t, 2) * vertexY3 +
+                   Math.pow(t, 5) * vertexX4;
+        }
+
+        function BezierSpline(context) {
+            context.moveTo(vertexX0, vertexY0);
+            for (i = 0; i <= 5; i += 0.1) {
+                ctx.lineTo(bezier_x(i), bezier_y(i));
+                ctx.stroke();
+            }
+        }
+
+        BezierSpline(ctx);
+    </script>
+</body>
+</html>
