@@ -24,16 +24,11 @@
         </div>
     </div>
 
-
     <script>
         var canvas = document.getElementById('myScreen');
         var ctx = canvas.getContext('2d');
         var sizeX = 1000;
         var sizeY = 500;
-        var interval = 20; //как часто обновлять экран(милисекунды)
-
-        var isDrag = false;
-        var mx, my; //координаты мышки
 
         var bezierVertexes = [];
         var linesBetweenVertexes = [];
@@ -49,7 +44,7 @@
 
         function fact(n) {
             return n < 2 ? 1
-                         : n * fact(n - 1);
+                         : n * fact(n - 1);//умова ? значення1 : значення2 -тернарний оператор 
         }
 
         function BezierVertex(x, y, width, height, fillColor) {
@@ -58,6 +53,13 @@
             this.width = width;
             this.height = height;
             this.fillColor = fillColor;
+
+            this.contains = function (pointX, pointY) {
+                return pointX > this.x &&
+                       pointX < this.x + this.width &&
+                       pointY > this.y &&
+                       pointY < this.y + this.height;
+            }
 
             this.draw = function (context) { 
                 context.beginPath();
@@ -101,9 +103,7 @@
         bezierVertexes.push(new BezierVertex(vertexX0, vertexY0, 10, 10, getRandomColor()),
                             new BezierVertex(vertexX1, vertexY1, 10, 10, getRandomColor()),
                             new BezierVertex(vertexX2, vertexY2, 10, 10, getRandomColor()),
-                            new BezierVertex(vertexX3, vertexY3, 10, 10, getRandomColor()),
-                            new BezierVertex(vertexX4, vertexY4, 10, 10, getRandomColor()),
-                            new BezierVertex(vertexX5, vertexY5, 10, 10, getRandomColor()));
+                            new BezierVertex(vertexX3, vertexY3, 10, 10, getRandomColor()));
 
         linesBetweenVertexes.push(new LineBetweenVertexes(vertexX0, vertexY0, vertexX1, vertexY1, getRandomColor()),
                                   new LineBetweenVertexes(vertexX1, vertexY1, vertexX2, vertexY2, getRandomColor()),
@@ -129,7 +129,7 @@
 
         function BezierSpline(context) {
             context.beginPath();
-            context.moveTo(vertexX0, vertexY0);
+            context.moveTo(bezierVertexes[0].x, bezierVertexes[0].y);
             for (t = 0; t <= 1; t += 0.01) {
                 var point = CalculateBezierPoint(bezierVertexes, t);
                 ctx.lineTo(point.x, point.y);
@@ -137,73 +137,33 @@
             }
             context.closePath();
         }
+        
 
-        var dragging = false;
-        var dragHoldX;
-        var dragHoldY;
-        var dragindex;
+        //---------------------//
+        //---Move points code--//
+        //---------------------//
+        var dragedVertex = null;
 
-        canvas.addEventListener("mousedown", mouseDownListener, false);
+        canvas.addEventListener('mousemove', function (e) {
+            if (dragedVertex != null) {
+                dragedVertex.x = e.pageX - this.offsetLeft;
+                dragedVertex.y = e.pageY - this.offsetTop;
+                bigDrawing(ctx);
+            }
+        }, false);
 
-        function mouseDownListener(evt) {
-            //для того что бы тянуть только верхний элемент
-            var highestIndex = -1;
-            var rect = canvas.getBoundingClientRect();
-            var mouseX = (evt.clientX - rect.left) * (canvas.width / rect.width);
-            var mouseY = (evt.clientY - rect.top) * (canvas.height / rect.height);
-
-            //ищем элемент на который кликнули
+        canvas.addEventListener('mousedown', function (e) {
             for (var i = 0; i < bezierVertexes.length; i++) {
-                if (mouseX > bezierVertexes[i].x &&
-                    mouseX < bezierVertexes[i].width &&
-                    mouseY > bezierVertexes[i].y &&
-                    mouseY < bezierVertexes[i].height) {
-                    dragging = true;
-                    
-                    if (i > highestIndex) {
-                        //обратим внимание на точку за которую мы дерижим обьект
-                        dragHoldX = mouseX - bezierVertexes[i].x;
-                        dragHoldY = mouseY - bezierVertexes[i].y;
-                        highestIndex = i;
-                        dragIndex = i;
-                    }
-                    console.log("mouse down");
+                if (bezierVertexes[i].contains(e.pageX - this.offsetLeft, e.pageY - this.offsetTop)) {
+                    dragedVertex = bezierVertexes[i];
+                    break;
                 }
             }
-            if (dragging) {
-                window.addEventListener("mousemove", mouseMoveListener, false);
-            }
+        }, false);
 
-            canvas.removeEventListener("mousedown", mouseDownListener, false);
-            window.addEventListener("mouseup", mouseUpListener, false);
-        }
-
-        function mouseUpListener(evt) {
-            canvas.addEventListener("mousedown", mouseDownListener, false);
-            window.removeEventListener("mouseup", mouseUpListener, false);
-            if (dragging) {
-                dragging = false;
-                window.removeEventListener("mousemove", mouseMoveListener, false);
-            }
-        }
-
-        function mouseMoveListener(evt) {
-            var posX;
-            var posY;
-
-            var rect = canvas.getBoundingClientRect();
-            var mouseX = (evt.clientX - rect.left) * (canvas.width / rect.width);
-            var mouseY = (evt.clientY - rect.top) * (canvas.height / rect.height);
-
-            posX = mouseX - dragHoldX;
-            posY = mouseY - dragHoldY;
-
-
-            bezierVertexes[dragIndex].x = posX;
-            bezierVertexes[dragIndex].y = posY;
-
-            bigDrawing(ctx);
-        }
+        canvas.addEventListener('mouseup', function (e) {
+            dragedVertex = null;
+        }, false);
 
         function bigDrawing(context) {
             context.clearRect(0, 0, sizeX, sizeY);
@@ -215,11 +175,11 @@
             for (var i = 0; i < linesBetweenVertexes.length; i++) {
                 linesBetweenVertexes[i].draw(context);
             }
+
             BezierSpline(context);
         }
 
         bigDrawing(ctx);
-     
     </script>
 </body>
 </html>
