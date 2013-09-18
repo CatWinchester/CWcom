@@ -74,42 +74,13 @@
             this.x = x;
             this.y = y;
         }
-
-        function LineBetweenVertexes(x, y, xTo, yTo, color) {
-            this.x = x;
-            this.y = y;
-            this.xTo = xTo;
-            this.yTo = yTo;
-            this.color = color;
-
-            this.draw = function (context) {
-                context.beginPath();
-                context.moveTo(this.x, this.y);
-                context.lineTo(this.xTo, this.yTo);
-                context.strokeStyle = color;
-                context.stroke();
-                context.closePath();
-            }
-        }
-
-        //опорные точки
-        var vertexX0 = 80,  vertexY0 = 130, //P0
-            vertexX1 = 150, vertexY1 = 30,  //P1
-            vertexX2 = 260, vertexY2 = 120, //P2
-            vertexX3 = 320, vertexY3 = 60, //P3
-            vertexX4 = 380, vertexY4 = 120;  //P4
-            vertexX5 = 480, vertexY5 = 20; //P5
-
-        bezierVertexes.push(new BezierVertex(vertexX0, vertexY0, 10, 10, getRandomColor()),
-                            new BezierVertex(vertexX1, vertexY1, 10, 10, getRandomColor()),
-                            new BezierVertex(vertexX2, vertexY2, 10, 10, getRandomColor()),
-                            new BezierVertex(vertexX3, vertexY3, 10, 10, getRandomColor()));
-
-        linesBetweenVertexes.push(new LineBetweenVertexes(vertexX0, vertexY0, vertexX1, vertexY1, getRandomColor()),
-                                  new LineBetweenVertexes(vertexX1, vertexY1, vertexX2, vertexY2, getRandomColor()),
-                                  new LineBetweenVertexes(vertexX2, vertexY2, vertexX3, vertexY3, getRandomColor()),
-                                  new LineBetweenVertexes(vertexX3, vertexY3, vertexX4, vertexY4, getRandomColor()),
-                                  new LineBetweenVertexes(vertexX4, vertexY4, vertexX5, vertexY5, getRandomColor()));
+        
+        bezierVertexes.push(new BezierVertex(80,  130, 10, 10, getRandomColor()),
+                            new BezierVertex(150, 30,  10, 10, getRandomColor()),
+                            new BezierVertex(260, 120, 10, 10, getRandomColor()),
+                            new BezierVertex(320, 60,  10, 10, getRandomColor()),
+                            new BezierVertex(380, 120, 10, 10, getRandomColor()),
+                            new BezierVertex(480, 20,  10, 10, getRandomColor()));
 
         function CalculateBezierPoint(vertices, t) {
             var x = 0;
@@ -127,7 +98,7 @@
             return new Point(x, y);
         }
 
-        function BezierSpline(context) {
+        function DrawSpline(context) {
             context.beginPath();
             context.moveTo(bezierVertexes[0].x, bezierVertexes[0].y);
             for (t = 0; t <= 1; t += 0.01) {
@@ -156,9 +127,10 @@
             for (var i = 0; i < bezierVertexes.length; i++) {
                 if (bezierVertexes[i].contains(e.pageX - this.offsetLeft, e.pageY - this.offsetTop)) {
                     dragedVertex = bezierVertexes[i];
-                    break;
+                    return;
                 }
             }
+
         }, false);
 
         canvas.addEventListener('mouseup', function (e) {
@@ -170,13 +142,18 @@
 
             for (var i = 0; i < bezierVertexes.length; i++) {
                 bezierVertexes[i].draw(context);
+
+                if (i > 0) {
+                    context.beginPath();
+                    context.moveTo(bezierVertexes[i].x, bezierVertexes[i].y);
+                    context.lineTo(bezierVertexes[i - 1].x, bezierVertexes[i - 1].y);
+                    context.strokeStyle = getRandomColor();
+                    context.stroke();
+                    context.closePath();
+                }
             }
 
-            for (var i = 0; i < linesBetweenVertexes.length; i++) {
-                linesBetweenVertexes[i].draw(context);
-            }
-
-            BezierSpline(context);
+            DrawSpline(context);
         }
 
         bigDrawing(ctx);
