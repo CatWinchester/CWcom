@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/grid.css" />
+    <script src="http://code.jquery.com/jquery-2.0.3.js"></script>
+    <script src="http://knockoutjs.com/downloads/knockout-2.3.0.js" ></script>
+    <title>Helicoid</title>
+    <style>
+        #myScreen {
+            border:2px solid #4800ff;
+            display:block;
+            margin:0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="section group">
+        <div class="col span_4_of_4" >
+            <canvas id="myScreen" width="1000" height="500"></canvas>
+        </div>
+    </div>
+
+    <script>
+        var canvas = document.getElementById('myScreen');
+        var ctx = canvas.getContext('2d');
+        var sizeX = 1000;
+        var sizeY = 500;
+
+        //======= constructors ========//
+
+        function Line(x, y, xTo, yTo, color) {
+            this.x = x;
+            this.y = y;
+            this.xTo = xTo;
+            this.yTo = yTo;
+            this.color = color;
+        }
+
+        Line.prototype = {
+            constructor: Line,
+            drawLine: function () {
+                          ctx.beginPath();
+                          ctx.moveTo(this.x, this.y);
+                          ctx.lineTo(this.xTo, this.yTo);
+                          ctx.strokeStyle = this.color;
+                          ctx.stroke();
+                          ctx.closePath();
+                      }
+        }
+        
+        var oX = new Line(100, 100, 300, 100, '#ff0000');
+        var oY = new Line(100, 100, 300, 100, '#00ff00');
+        var oZ = new Line(100, 100, 300, 100, '#0000ff');
+
+        function hugeDrawing(context) {
+            context.clearRect(0, 0, sizeX, sizeY);
+
+            oX.drawLine();
+        }
+
+        hugeDrawing(ctx);
+    </script>
+</body>
+</html>
