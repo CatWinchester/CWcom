@@ -42,24 +42,27 @@
 
         Line.prototype = {
             constructor: Line,
-            drawLine: function () {
-                          ctx.beginPath();
-                          ctx.moveTo(this.x, this.y);
-                          ctx.lineTo(this.xTo, this.yTo);
-                          ctx.strokeStyle = this.color;
-                          ctx.stroke();
-                          ctx.closePath();
+            draw: function (context) {
+                          context.beginPath();
+                          context.moveTo(this.x, this.y);
+                          context.lineTo(this.xTo, this.yTo);
+                          context.strokeStyle = this.color;
+                          context.stroke();
+                          context.closePath();
                       }
         }
         
-        var oX = new Line(100, 100, 300, 100, '#ff0000');
-        var oY = new Line(100, 100, 300, 100, '#00ff00');
-        var oZ = new Line(100, 100, 300, 100, '#0000ff');
+        
+        var axeX = new Line(300, 300, 500, 300, '#0000ff');
+        var axeY = new Line(300, 300, 100, 300, '#00ff00');
+        var axeZ = new Line(300, 300, 300, 100, '#ff0000');
 
         function hugeDrawing(context) {
             context.clearRect(0, 0, sizeX, sizeY);
 
-            oX.drawLine();
+            axeX.draw(ctx);
+            axeY.draw(ctx);
+            axeZ.draw(ctx);
         }
 
         hugeDrawing(ctx);
