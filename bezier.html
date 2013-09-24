@@ -25,7 +25,7 @@
     </div>
 
     <script>
-        (function () {
+        var bezierModule = (function () {
 
             //========= private variables =========//
             var sizeX = 1000;
@@ -81,7 +81,7 @@
                 this.x = x;
                 this.y = y;
             }
-            
+
             function CalculateBezierPoint(vertices, t) {
                 var x = 0;
                 var y = 0;
@@ -103,8 +103,8 @@
                 context.moveTo(bezierVertexes[0].x, bezierVertexes[0].y);
                 for (t = 0; t <= 1; t += 0.01) {
                     var point = CalculateBezierPoint(bezierVertexes, t);
-                    ctx.lineTo(point.x, point.y);
-                    ctx.stroke();
+                    context.lineTo(point.x, point.y);
+                    context.stroke();
                 }
                 context.closePath();
             }
@@ -135,7 +135,7 @@
 
                     var dragedVertex = null;
 
-                    canvas.addEventListener('mousemove', function (e) {
+                    canvas.canvas.addEventListener('mousemove', function (e) {
                         if (dragedVertex != null) {
                             dragedVertex.x = e.pageX - this.offsetLeft;
                             dragedVertex.y = e.pageY - this.offsetTop;
@@ -143,7 +143,7 @@
                         }
                     }, false);
 
-                    canvas.addEventListener('mousedown', function (e) {
+                    canvas.canvas.addEventListener('mousedown', function (e) {
                         for (var i = 0; i < bezierVertexes.length; i++) {
                             if (bezierVertexes[i].contains(e.pageX - this.offsetLeft, e.pageY - this.offsetTop)) {
                                 dragedVertex = bezierVertexes[i];
@@ -152,11 +152,11 @@
                         }
                     }, false);
 
-                    canvas.addEventListener('mouseup', function (e) {
+                    canvas.canvas.addEventListener('mouseup', function (e) {
                         dragedVertex = null;
                     }, false);
 
-                    canvas.addEventListener('dblclick', function (e) {
+                    canvas.canvas.addEventListener('dblclick', function (e) {
                         bezierVertexes.push(new BezierVertex(e.pageX - this.offsetLeft,
                                                              e.pageY - this.offsetTop,
                                                              10,
@@ -169,6 +169,8 @@
                 }
             }
         }());
+
+        bezierModule.init('bezierCanvas');
     </script>
 </body>
 </html>
