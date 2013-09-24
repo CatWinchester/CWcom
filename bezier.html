@@ -109,48 +109,13 @@
                 context.closePath();
             }
 
-            //---------------------//
-            //---Move points code--//
-            //---------------------//
-            var dragedVertex = null;
-
-            canvas.addEventListener('mousemove', function (e) {
-                if (dragedVertex != null) {
-                    dragedVertex.x = e.pageX - this.offsetLeft;
-                    dragedVertex.y = e.pageY - this.offsetTop;
-                    bigDrawing();
-                }
-            }, false);
-
-            canvas.addEventListener('mousedown', function (e) {
-                for (var i = 0; i < bezierVertexes.length; i++) {
-                    if (bezierVertexes[i].contains(e.pageX - this.offsetLeft, e.pageY - this.offsetTop)) {
-                        dragedVertex = bezierVertexes[i];
-                        return;
-                    }
-                }
-            }, false);
-
-            canvas.addEventListener('mouseup', function (e) {
-                dragedVertex = null;
-            }, false);
-
-            canvas.addEventListener('dblclick', function (e) {
-                bezierVertexes.push(new BezierVertex(e.pageX - this.offsetLeft,
-                                                     e.pageY - this.offsetTop,
-                                                     10,
-                                                     10,
-                                                     getRandomColor()));
-                bigDrawing();
-            }, false);
-
             function bigDrawing() {
                 var canvas = new Canvas('bezierCanvas');
 
                 canvas.ctx.clearRect(0, 0, sizeX, sizeY);
 
                 for (var i = 0; i < bezierVertexes.length; i++) {
-                    bezierVertexes[i].draw(context);
+                    bezierVertexes[i].draw(canvas.ctx);
 
                     if (i > 0) {
                         canvas.ctx.beginPath();
@@ -164,7 +129,45 @@
                 DrawSpline(canvas.ctx);
             }
 
-            return bigDrawing();
+            return {
+                init: function (canvasId) {
+                    var canvas = new Canvas(canvasId);
+
+                    var dragedVertex = null;
+
+                    canvas.addEventListener('mousemove', function (e) {
+                        if (dragedVertex != null) {
+                            dragedVertex.x = e.pageX - this.offsetLeft;
+                            dragedVertex.y = e.pageY - this.offsetTop;
+                            bigDrawing();
+                        }
+                    }, false);
+
+                    canvas.addEventListener('mousedown', function (e) {
+                        for (var i = 0; i < bezierVertexes.length; i++) {
+                            if (bezierVertexes[i].contains(e.pageX - this.offsetLeft, e.pageY - this.offsetTop)) {
+                                dragedVertex = bezierVertexes[i];
+                                return;
+                            }
+                        }
+                    }, false);
+
+                    canvas.addEventListener('mouseup', function (e) {
+                        dragedVertex = null;
+                    }, false);
+
+                    canvas.addEventListener('dblclick', function (e) {
+                        bezierVertexes.push(new BezierVertex(e.pageX - this.offsetLeft,
+                                                             e.pageY - this.offsetTop,
+                                                             10,
+                                                             10,
+                                                             getRandomColor()));
+                        bigDrawing();
+                    }, false);
+
+                    bigDrawing();
+                }
+            }
         }());
     </script>
 </body>
