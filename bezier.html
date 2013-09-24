@@ -10,7 +10,7 @@
     <script src="http://knockoutjs.com/downloads/knockout-2.3.0.js" ></script>
     <title>Bezier</title>
     <style>
-        #myScreen {
+        #bezierCanvas {
             border:2px solid #ff0000;
             display:block;
             margin:0 auto;
@@ -20,141 +20,152 @@
 <body>
     <div class="section group">
         <div class="col span_4_of_4" >
-            <canvas id="myScreen" width="1000" height="500"></canvas>
+            <canvas id="bezierCanvas" width="1000" height="500"></canvas>
         </div>
     </div>
 
     <script>
-        var canvas = document.getElementById('myScreen');
-        var ctx = canvas.getContext('2d');
-        var sizeX = 1000;
-        var sizeY = 500;
+        (function () {
 
-        var bezierVertexes = [];
+            //========= private variables =========//
+            var sizeX = 1000;
+            var sizeY = 500;
 
-        function getRandomColor() {
-            var letters = '0123456789ABCDEF'.split('');
-            var color = '#';
-            for (var i = 0; i < 6; i++) {
-                color += letters[Math.round(Math.random() * 15)];
-            }
-            return color;
-        }
+            var bezierVertexes = [];
 
-        function fact(n) {
-            return n < 2 ? 1
-                         : n * fact(n - 1);//умова ? значення1 : значення2 -тернарний оператор 
-        }
-
-        function BezierVertex(x, y, width, height, fillColor) {
-            this.x = x;
-            this.y = y;
-            this.width = width;
-            this.height = height;
-            this.fillColor = fillColor;
-
-            this.contains = function (pointX, pointY) {
-                return pointX > this.x &&
-                       pointX < this.x + this.width &&
-                       pointY > this.y &&
-                       pointY < this.y + this.height;
-            }
-
-            this.draw = function (context) { 
-                context.beginPath();
-                context.fillStyle = this.fillColor;
-                context.rect(this.x, this.y, this.width, this.height);
-                context.closePath();
-                context.fill();
-            }
-        }
-
-        function Point(x, y) {
-            this.x = x;
-            this.y = y;
-        }
-        
-        bezierVertexes.push(new BezierVertex(80,  130, 10, 10, getRandomColor()),
-                            new BezierVertex(150, 30,  10, 10, getRandomColor()),
-                            new BezierVertex(260, 120, 10, 10, getRandomColor()),
-                            new BezierVertex(320, 60,  10, 10, getRandomColor()),
-                            new BezierVertex(380, 120, 10, 10, getRandomColor()),
-                            new BezierVertex(480, 20,  10, 10, getRandomColor()));
-
-        function CalculateBezierPoint(vertices, t) {
-            var x = 0;
-            var y = 0;
-
-            for (var i = 0; i < vertices.length; i++) {
-                var bazis = fact(vertices.length - 1) / (fact(i) * fact(vertices.length - 1 - i)) *
-                           Math.pow(t, i) * Math.pow(1 - t, vertices.length - 1 - i);
-
-                x += vertices[i].x * bazis;
-
-                y += vertices[i].y * bazis;
-            }
-
-            return new Point(x, y);
-        }
-
-        function DrawSpline(context) {
-            context.beginPath();
-            context.moveTo(bezierVertexes[0].x, bezierVertexes[0].y);
-            for (t = 0; t <= 1; t += 0.01) {
-                var point = CalculateBezierPoint(bezierVertexes, t);
-                ctx.lineTo(point.x, point.y);
-                ctx.stroke();
-            }
-            context.closePath();
-        }        
-
-        //---------------------//
-        //---Move points code--//
-        //---------------------//
-        var dragedVertex = null;
-
-        canvas.addEventListener('mousemove', function (e) {
-            if (dragedVertex != null) {
-                dragedVertex.x = e.pageX - this.offsetLeft;
-                dragedVertex.y = e.pageY - this.offsetTop;
-                bigDrawing(ctx);
-            }
-        }, false);
-
-        canvas.addEventListener('mousedown', function (e) {
-            for (var i = 0; i < bezierVertexes.length; i++) {
-                if (bezierVertexes[i].contains(e.pageX - this.offsetLeft, e.pageY - this.offsetTop)) {
-                    dragedVertex = bezierVertexes[i];
-                    return;
+            function getRandomColor() {
+                var letters = '0123456789ABCDEF'.split('');
+                var color = '#';
+                for (var i = 0; i < 6; i++) {
+                    color += letters[Math.round(Math.random() * 15)];
                 }
+                return color;
             }
 
-        }, false);
+            function fact(n) {
+                return n < 2 ? 1
+                             : n * fact(n - 1);//умова ? значення1 : значення2 -тернарний оператор 
+            }
 
-        canvas.addEventListener('mouseup', function (e) {
-            dragedVertex = null;
-        }, false);
+            //========= Constructors ==========//
 
-        function bigDrawing(context) {
-            context.clearRect(0, 0, sizeX, sizeY);
+            function Canvas(id) {
+                this.canvas = document.getElementById(id);
+                this.ctx = this.canvas.getContext('2d');
+            }
 
-            for (var i = 0; i < bezierVertexes.length; i++) {
-                bezierVertexes[i].draw(context);
+            function BezierVertex(x, y, width, height, fillColor) {
+                this.x = x;
+                this.y = y;
+                this.width = width;
+                this.height = height;
+                this.fillColor = fillColor;
 
-                if (i > 0) {
+                this.contains = function (pointX, pointY) {
+                    return pointX > this.x &&
+                           pointX < this.x + this.width &&
+                           pointY > this.y &&
+                           pointY < this.y + this.height;
+                }
+
+                this.draw = function (context) {
                     context.beginPath();
-                    context.moveTo(bezierVertexes[i].x, bezierVertexes[i].y);
-                    context.lineTo(bezierVertexes[i - 1].x, bezierVertexes[i - 1].y);
-                    context.strokeStyle = getRandomColor();
-                    context.stroke();
+                    context.fillStyle = this.fillColor;
+                    context.rect(this.x, this.y, this.width, this.height);
                     context.closePath();
+                    context.fill();
                 }
             }
 
-            DrawSpline(context);
-        }
+            function Point(x, y) {
+                this.x = x;
+                this.y = y;
+            }
+            
+            function CalculateBezierPoint(vertices, t) {
+                var x = 0;
+                var y = 0;
 
-        bigDrawing(ctx);
+                for (var i = 0; i < vertices.length; i++) {
+                    var bazis = fact(vertices.length - 1) / (fact(i) * fact(vertices.length - 1 - i)) *
+                               Math.pow(t, i) * Math.pow(1 - t, vertices.length - 1 - i);
+
+                    x += vertices[i].x * bazis;
+
+                    y += vertices[i].y * bazis;
+                }
+
+                return new Point(x, y);
+            }
+
+            function DrawSpline(context) {
+                context.beginPath();
+                context.moveTo(bezierVertexes[0].x, bezierVertexes[0].y);
+                for (t = 0; t <= 1; t += 0.01) {
+                    var point = CalculateBezierPoint(bezierVertexes, t);
+                    ctx.lineTo(point.x, point.y);
+                    ctx.stroke();
+                }
+                context.closePath();
+            }
+
+            //---------------------//
+            //---Move points code--//
+            //---------------------//
+            var dragedVertex = null;
+
+            canvas.addEventListener('mousemove', function (e) {
+                if (dragedVertex != null) {
+                    dragedVertex.x = e.pageX - this.offsetLeft;
+                    dragedVertex.y = e.pageY - this.offsetTop;
+                    bigDrawing();
+                }
+            }, false);
+
+            canvas.addEventListener('mousedown', function (e) {
+                for (var i = 0; i < bezierVertexes.length; i++) {
+                    if (bezierVertexes[i].contains(e.pageX - this.offsetLeft, e.pageY - this.offsetTop)) {
+                        dragedVertex = bezierVertexes[i];
+                        return;
+                    }
+                }
+            }, false);
+
+            canvas.addEventListener('mouseup', function (e) {
+                dragedVertex = null;
+            }, false);
+
+            canvas.addEventListener('dblclick', function (e) {
+                bezierVertexes.push(new BezierVertex(e.pageX - this.offsetLeft,
+                                                     e.pageY - this.offsetTop,
+                                                     10,
+                                                     10,
+                                                     getRandomColor()));
+                bigDrawing();
+            }, false);
+
+            function bigDrawing() {
+                var canvas = new Canvas('bezierCanvas');
+
+                canvas.ctx.clearRect(0, 0, sizeX, sizeY);
+
+                for (var i = 0; i < bezierVertexes.length; i++) {
+                    bezierVertexes[i].draw(context);
+
+                    if (i > 0) {
+                        canvas.ctx.beginPath();
+                        canvas.ctx.moveTo(bezierVertexes[i].x, bezierVertexes[i].y);
+                        canvas.ctx.lineTo(bezierVertexes[i - 1].x, bezierVertexes[i - 1].y);
+                        canvas.ctx.strokeStyle = getRandomColor();
+                        canvas.ctx.stroke();
+                        canvas.ctx.closePath();
+                    }
+                }
+                DrawSpline(canvas.ctx);
+            }
+
+            return bigDrawing();
+        }());
     </script>
 </body>
 </html>

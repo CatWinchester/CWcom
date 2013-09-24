@@ -10,7 +10,7 @@
     <script src="http://knockoutjs.com/downloads/knockout-2.3.0.js" ></script>
     <title>Helicoid</title>
     <style>
-        #myScreen {
+        #helicoidCanvas {
             border:2px solid #4800ff;
             display:block;
             margin:0 auto;
@@ -20,52 +20,64 @@
 <body>
     <div class="section group">
         <div class="col span_4_of_4" >
-            <canvas id="myScreen" width="1000" height="500"></canvas>
+            <canvas id="helicoidCanvas" width="1000" height="500"></canvas>
         </div>
     </div>
 
     <script>
-        var canvas = document.getElementById('myScreen');
-        var ctx = canvas.getContext('2d');
-        var sizeX = 1000;
-        var sizeY = 500;
+        (function () {
 
-        //======= constructors ========//
+            //======= private variables =======//
 
-        function Line(x, y, xTo, yTo, color) {
-            this.x = x;
-            this.y = y;
-            this.xTo = xTo;
-            this.yTo = yTo;
-            this.color = color;
-        }
+            var canvas;
 
-        Line.prototype = {
-            constructor: Line,
-            draw: function (context) {
-                          context.beginPath();
-                          context.moveTo(this.x, this.y);
-                          context.lineTo(this.xTo, this.yTo);
-                          context.strokeStyle = this.color;
-                          context.stroke();
-                          context.closePath();
-                      }
-        }
-        
-        
-        var axeX = new Line(300, 300, 500, 300, '#0000ff');
-        var axeY = new Line(300, 300, 100, 300, '#00ff00');
-        var axeZ = new Line(300, 300, 300, 100, '#ff0000');
+            var sizeX = 1000;
+            var sizeY = 500;
 
-        function hugeDrawing(context) {
-            context.clearRect(0, 0, sizeX, sizeY);
+            //======= Conctructors =======//
 
-            axeX.draw(ctx);
-            axeY.draw(ctx);
-            axeZ.draw(ctx);
-        }
+            function Canvas(id) {
+                this.canvas = document.getElementById(id);
+                this.ctx = this.canvas.getContext('2d');
+            }
 
-        hugeDrawing(ctx);
+            function Line(x, y, xTo, yTo, color) {
+                this.x = x;
+                this.y = y;
+                this.xTo = xTo;
+                this.yTo = yTo;
+                this.color = color;
+            }
+
+            Line.prototype = {
+                constructor: Line,
+                draw: function (context) {
+                    context.beginPath();
+                    context.moveTo(this.x, this.y);
+                    context.lineTo(this.xTo, this.yTo);
+                    context.strokeStyle = this.color;
+                    context.stroke();
+                    context.closePath();
+                }
+            }
+            
+            function hugeDrawing() {
+                var canvas = new Canvas('helicoidCanvas');
+
+                canvas.ctx.clearRect(0, 0, sizeX, sizeY);
+
+                var axeX = new Line(300, 300, 500, 300, '#0000ff');
+                var axeY = new Line(300, 300, 100, 300, '#00ff00');
+                var axeZ = new Line(300, 300, 300, 100, '#ff0000');
+
+                axeX.draw(canvas.ctx);
+                axeY.draw(canvas.ctx);
+                axeZ.draw(canvas.ctx);
+            }
+
+            return hugeDrawing();
+
+        }());
     </script>
 </body>
 </html>
