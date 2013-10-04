@@ -20,7 +20,7 @@
 <body>
     <div class="section group">
         <div class="col span_4_of_4" >
-            <canvas id="bezierCanvas" width="1000" height="500"></canvas>
+            <canvas id="bezierCanvas" tabindex='1' width="1000" height="500"></canvas>
         </div>
     </div>
 
@@ -29,6 +29,7 @@
 
             //========= private variables =========//
             var spline;
+            var splines = [];
 
             function getRandomColor() {
                 var letters = '0123456789ABCDEF'.split('');
@@ -49,6 +50,11 @@
             function Canvas(id) {
                 this.object = document.getElementById(id);
                 this.ctx = this.object.getContext('2d');
+            }
+
+            function Point(x, y) {
+                this.x = x;
+                this.y = y;
             }
 
             function BezierVertex(x, y, fillColor) {
@@ -73,12 +79,7 @@
                     context.fill();
                 }
             }
-
-            function Point(x, y) {
-                this.x = x;
-                this.y = y;
-            }
-
+            
             function BezierSpline(vertices) {
                 if (vertices.length < 3) {
                     throw new RangeError();
@@ -123,6 +124,15 @@
                         return this.vertices[i];
                     }
                 }
+                return null;
+            }
+
+            BezierSpline.prototype.contains = function (pointX, pointY) {
+                for (var i = 0; i < this.vertices.length; i++) {
+                    if (this.vertices[i].contains(pointX, pointY))
+                        return true;
+                }
+                return false;
             }
 
             BezierSpline.prototype.draw = function (context) {
@@ -131,6 +141,8 @@
                 for (t = 0; t <= 1; t += 0.01) {
                     var point = this.calculateBezierPoint(t);
                     context.lineTo(point.x, point.y);
+                    context.strokeStyle = getRandomColor();
+                    context.lineWidth = 3;
                     context.stroke();
                 }
                 context.closePath();
@@ -143,7 +155,8 @@
                         context.beginPath();
                         context.moveTo(this.vertices[i].x, this.vertices[i].y);
                         context.lineTo(this.vertices[i - 1].x, this.vertices[i - 1].y);
-                        context.strokeStyle = getRandomColor();
+                        context.strokeStyle = '#ff0000';
+                        context.lineWidth = 1;
                         context.stroke();
                         context.closePath();
                     }
@@ -155,7 +168,9 @@
             function bigDrawing(canvas) {
                 canvas.ctx.clearRect(0, 0, canvas.object.width, canvas.object.height);
 
-                spline.draw(canvas.ctx);
+                for (var i = 0; i < splines.length; i++) {
+                    splines[i].draw(canvas.ctx);
+                }
             }
 
             return {
@@ -163,10 +178,8 @@
                     var canvas = new Canvas(canvasId);
 
                     var dragedVertex = null;
-
-                    spline = new BezierSpline([new BezierVertex(100, 200, getRandomColor()),
-                                               new BezierVertex(200, 150, getRandomColor()),
-                                               new BezierVertex(300, 300, getRandomColor())]);
+                    var chosenSpline = null;
+                    var isCtrlPressed = false;
 
                     canvas.object.addEventListener('mousemove', function (e) {
                         if (dragedVertex != null) {
@@ -174,38 +187,57 @@
                             dragedVertex.y = e.pageY - this.offsetTop;
                             bigDrawing(canvas);
                         }
+
+                        if (chosenSpline != null) {
+                            for (var i = 0; chosenSpline.vertices.length; i++) {
+                                chosenSpline.vertices[i].x = e.pageX - this.offsetLeft;
+                                chosenSpline.vertices[i].y = e.pageY - this.offsetTop;
+
+                                bigDrawing(canvas);
+                            }
+                        }
                     }, false);
 
                     canvas.object.addEventListener('mousedown', function (e) {
-                        dragedVertex = spline.findVertex(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
+                        for (var i = 0; i < splines.length; i++) {
+                            dragedVertex = splines[i].findVertex(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
+                        }
+
+                        for (var i = 0; i < splines.length; i++) {
+                            if (isCtrlPressed && splines[i].contains(e.pageX - this.offsetLeft, e.pageY - this.offsetTop))
+                                chosenSpline = splines[i];
+                        }
                     }, false);
 
                     canvas.object.addEventListener('mouseup', function (e) {
                         dragedVertex = null;
+                        isCtrlPressed = false;
                     }, false);
 
                     canvas.object.addEventListener('dblclick', function (e) {
-                        spline.vertices.push(new BezierVertex(e.pageX - this.offsetLeft,
-                                                              e.pageY - this.offsetTop,
-                                                              10,
-                                                              10,
-                                                              getRandomColor()));
-                        bigDrawing(canvas);
+                        for (var i = 0; i < splines.length; i++) {
+                            splines[i].vertices.push(new BezierVertex(e.pageX - this.offsetLeft,
+                                                                  e.pageY - this.offsetTop,
+                                                                  10,
+                                                                  10,
+                                                                  getRandomColor()));
+                            bigDrawing(canvas);
+                        }
                     }, false);
 
                     canvas.object.addEventListener('keydown', function (e) {
-                        if (e.keyCode);
+                        if (e.keyCode == 187) splines.push(new BezierSpline([new BezierVertex(100, 200, getRandomColor()),
+                                                                             new BezierVertex(200, 150, getRandomColor()),
+                                                                             new BezierVertex(300, 300, getRandomColor())]));
+
+                        if (e.keyCode == 17) isCtrlPressed = true;
+
+                        bigDrawing(canvas);
                     }, false);
 
-                    canvas.object.onkeydown = function (event) {
-                        evt = evt ? evt
-                                  : window.event;
-                    }
-
-                    canvas.object.onkeyup = function (event) {
-                        evt = evt ? evt
-                                  : window.event;
-                    }
+                    canvas.object.addEventListener('keyup', function (e) {
+                        if (e.keyCode == 17) isCtrlPressed = false; 
+                    }, false);
 
                     bigDrawing(canvas);
                 }
