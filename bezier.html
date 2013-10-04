@@ -118,6 +118,18 @@
                 return new Point(x, y);
             }
 
+            BezierSpline.prototype.calculateOrigin = function () {
+                var avX = 0;
+                var avY = 0;
+
+                for (var i = 0; i < this.vertices.length; i++) {
+                    avX += this.vertices.x;
+                    avY += this.vertices.y;
+                }
+
+                return new Point(avX / this.vertices.length, avY / this.vertices.length);
+            }
+
             BezierSpline.prototype.findVertex = function (x, y) {
                 for (var i = 0; i < this.vertices.length; i++) {
                     if (this.vertices[i].contains(x, y)) {
