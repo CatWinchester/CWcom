@@ -250,13 +250,21 @@
                     }, false);
 
                     canvas.object.addEventListener('keydown', function (e) {
-                        if (e.keyCode == 187) splines.push(new BezierSpline([new BezierVertex(100, 200, getRandomColor()),
-                                                                             new BezierVertex(200, 150, getRandomColor()),
-                                                                             new BezierVertex(300, 300, getRandomColor())]));
 
-                        if (e.keyCode == 17) isCtrlPressed = true;
+                        //---------" + "----------//
+                        if (e.keyCode == 187) {
+                            splines.push(new BezierSpline([new BezierVertex(100, 200, getRandomColor()),
+                                                          new BezierVertex(200, 150, getRandomColor()),
+                                                          new BezierVertex(300, 300, getRandomColor())]));
 
-                        bigDrawing(canvas);
+                            bigDrawing(canvas);
+                        }
+
+                        //---------" ctrl "----------//
+                        if (e.keyCode == 17) {
+                            isCtrlPressed = true;
+                            bigDrawing(canvas);
+                        }
                     }, false);
 
                     canvas.object.addEventListener('keyup', function (e) {
