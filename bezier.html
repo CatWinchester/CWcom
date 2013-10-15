@@ -63,18 +63,27 @@
                 this.width = 10;
                 this.height = 10;
                 this.fillColor = fillColor;
+                this.origin = new Point(0, 0);
 
                 this.contains = function (pointX, pointY) {
-                    return pointX > this.x &&
-                           pointX < this.x + this.width &&
-                           pointY > this.y &&
-                           pointY < this.y + this.height;
+                    return pointX > this.x + this.origin.x &&
+                           pointX < this.x + this.origin.x + this.width &&
+                           pointY > this.y + this.origin.y &&
+                           pointY < this.y + this.origin.y + this.height;
+                }
+
+                this.move = function (offSetX, offSetY) {
+                    this.origin.x += offsetX;
+                    this.origin.y += offsetY;
                 }
 
                 this.draw = function (context) {
                     context.beginPath();
                     context.fillStyle = this.fillColor;
-                    context.rect(this.x, this.y, this.width, this.height);
+                    context.rect(this.x + this.origin.x,
+                                 this.y + this.origin.y,
+                                 this.width + this.origin.x,
+                                 this.height + this.origin.y);
                     context.closePath();
                     context.fill();
                 }
@@ -85,6 +94,7 @@
                     throw new RangeError();
                 }
                 this.vertices = vertices;
+                this.origin = new Point(0, 0);
             }
 
             BezierSpline.prototype.addVertex = function (vertex) {
@@ -118,21 +128,14 @@
                 return new Point(x, y);
             }
 
-            BezierSpline.prototype.calculateOrigin = function () {
-                var avX = 0;
-                var avY = 0;
-
-                for (var i = 0; i < this.vertices.length; i++) {
-                    avX += this.vertices.x;
-                    avY += this.vertices.y;
-                }
-
-                return new Point(avX / this.vertices.length, avY / this.vertices.length);
+            BezierSpline.prototype.move = function (offsetX, offsetY) {
+                this.origin.x += offsetX;
+                this.origin.y += offsetY;
             }
 
             BezierSpline.prototype.findVertex = function (x, y) {
                 for (var i = 0; i < this.vertices.length; i++) {
-                    if (this.vertices[i].contains(x, y)) {
+                    if (this.vertices[i].contains(x + this.origin.x, y + this.origin.y)) {
                         return this.vertices[i];
                     }
                 }
@@ -149,10 +152,10 @@
 
             BezierSpline.prototype.draw = function (context) {
                 context.beginPath();
-                context.moveTo(this.vertices[0].x, this.vertices[0].y);
+                context.moveTo(this.vertices[0].x + this.origin.x, this.vertices[0].y + this.origin.y);
                 for (t = 0; t <= 1; t += 0.01) {
                     var point = this.calculateBezierPoint(t);
-                    context.lineTo(point.x, point.y);
+                    context.lineTo(point.x + this.origin.x, point.y + this.origin.y);
                     context.strokeStyle = getRandomColor();
                     context.lineWidth = 3;
                     context.stroke();
@@ -165,8 +168,8 @@
                     //draw lines between bezier vertices
                     if (i > 0) {
                         context.beginPath();
-                        context.moveTo(this.vertices[i].x, this.vertices[i].y);
-                        context.lineTo(this.vertices[i - 1].x, this.vertices[i - 1].y);
+                        context.moveTo(this.vertices[i].x + this.origin.x, this.vertices[i].y + this.origin.y);
+                        context.lineTo(this.vertices[i - 1].x + this.origin.x, this.vertices[i - 1].y + this.origin.y);
                         context.strokeStyle = '#ff0000';
                         context.lineWidth = 1;
                         context.stroke();
@@ -201,12 +204,14 @@
                         }
 
                         if (chosenSpline != null) {
-                            for (var i = 0; chosenSpline.vertices.length; i++) {
-                                chosenSpline.vertices[i].x = e.pageX - this.offsetLeft;
-                                chosenSpline.vertices[i].y = e.pageY - this.offsetTop;
+                            chosenSpline.move(e.pageX - this.offsetLeft - chosenSpline.origin.x,
+                                              e.pageY - this.offsetTop - chosenSpline.origin.y);
 
-                                bigDrawing(canvas);
+                            for (var i = 0; i < chosenSpline.vertices.length; i++) {
+                                chosenSpline.vertices[i].move(e.pageX - this.offsetLeft - chosenSpline.origin.x,
+                                                              e.pageY - this.offsetTop - chosenSpline.origin.y);
                             }
+                            bigDrawing(canvas);
                         }
                     }, false);
 
@@ -223,16 +228,17 @@
 
                     canvas.object.addEventListener('mouseup', function (e) {
                         dragedVertex = null;
+                        chosenSpline = null;
                         isCtrlPressed = false;
                     }, false);
 
                     canvas.object.addEventListener('dblclick', function (e) {
                         for (var i = 0; i < splines.length; i++) {
                             splines[i].vertices.push(new BezierVertex(e.pageX - this.offsetLeft,
-                                                                  e.pageY - this.offsetTop,
-                                                                  10,
-                                                                  10,
-                                                                  getRandomColor()));
+                                                                      e.pageY - this.offsetTop,
+                                                                      10,
+                                                                      10,
+                                                                      getRandomColor()));
                             bigDrawing(canvas);
                         }
                     }, false);
