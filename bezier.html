@@ -73,8 +73,8 @@
                 }
 
                 this.move = function (offSetX, offSetY) {
-                    this.origin.x += offsetX;
-                    this.origin.y += offsetY;
+                    this.x += offsetX;
+                    this.y += offsetY;
                 }
 
                 this.draw = function (context) {
@@ -95,9 +95,15 @@
                 }
                 this.vertices = vertices;
                 this.origin = new Point(0, 0);
+
+                for (var i = 0; i < this.vertices.length; i++) {
+                    this.vertices[i].origin = this.origin;
+                }
             }
 
             BezierSpline.prototype.addVertex = function (vertex) {
+                vertex.origin = this.origin;
+
                 this.vertices.push(vertex);
             }
 
