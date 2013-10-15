@@ -66,15 +66,10 @@
                 this.origin = new Point(0, 0);
 
                 this.contains = function (pointX, pointY) {
-                    return pointX > this.x + this.origin.x &&
-                           pointX < this.x + this.origin.x + this.width &&
-                           pointY > this.y + this.origin.y &&
-                           pointY < this.y + this.origin.y + this.height;
-                }
-
-                this.move = function (offSetX, offSetY) {
-                    this.x += offsetX;
-                    this.y += offsetY;
+                    return pointX >= this.x + this.origin.x &&
+                           pointX <= this.x + this.origin.x + this.width &&
+                           pointY >= this.y + this.origin.y &&
+                           pointY <= this.y + this.origin.y + this.height;
                 }
 
                 this.draw = function (context) {
@@ -82,12 +77,17 @@
                     context.fillStyle = this.fillColor;
                     context.rect(this.x + this.origin.x,
                                  this.y + this.origin.y,
-                                 this.width + this.origin.x,
-                                 this.height + this.origin.y);
+                                 this.width,
+                                 this.height);
                     context.closePath();
                     context.fill();
                 }
             }
+
+            BezierVertex.prototype.move = function (offsetX, offsetY) {
+                this.x += offsetX;
+                this.y += offsetY;
+            };
             
             function BezierSpline(vertices) {
                 if (vertices.length < 3) {
@@ -141,7 +141,7 @@
 
             BezierSpline.prototype.findVertex = function (x, y) {
                 for (var i = 0; i < this.vertices.length; i++) {
-                    if (this.vertices[i].contains(x + this.origin.x, y + this.origin.y)) {
+                    if (this.vertices[i].contains(x, y)) {
                         return this.vertices[i];
                     }
                 }
@@ -202,40 +202,50 @@
                     var chosenSpline = null;
                     var isCtrlPressed = false;
 
+                    var prevMouseX = 0;
+                    var prevMouseY = 0;
+
                     canvas.object.addEventListener('mousemove', function (e) {
                         if (dragedVertex != null) {
-                            dragedVertex.x = e.pageX - this.offsetLeft;
-                            dragedVertex.y = e.pageY - this.offsetTop;
+                            dragedVertex.move(e.pageX - this.offsetLeft - prevMouseX,
+                                              e.pageY - this.offsetTop - prevMouseY);
                             bigDrawing(canvas);
                         }
 
                         if (chosenSpline != null) {
-                            chosenSpline.move(e.pageX - this.offsetLeft - chosenSpline.origin.x,
-                                              e.pageY - this.offsetTop - chosenSpline.origin.y);
+                            chosenSpline.move(e.pageX - this.offsetLeft - prevMouseX,
+                                              e.pageY - this.offsetTop - prevMouseY);
 
-                            for (var i = 0; i < chosenSpline.vertices.length; i++) {
-                                chosenSpline.vertices[i].move(e.pageX - this.offsetLeft - chosenSpline.origin.x,
-                                                              e.pageY - this.offsetTop - chosenSpline.origin.y);
-                            }
                             bigDrawing(canvas);
                         }
+
+                        prevMouseX = e.pageX - this.offsetLeft;
+                        prevMouseY = e.pageY - this.offsetTop;
                     }, false);
 
                     canvas.object.addEventListener('mousedown', function (e) {
-                        for (var i = 0; i < splines.length; i++) {
-                            dragedVertex = splines[i].findVertex(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
-                        }
+                        prevMouseX = e.pageX - this.offsetLeft;
+                        prevMouseY = e.pageY - this.offsetTop;
 
-                        for (var i = 0; i < splines.length; i++) {
-                            if (isCtrlPressed && splines[i].contains(e.pageX - this.offsetLeft, e.pageY - this.offsetTop))
-                                chosenSpline = splines[i];
+                        if (isCtrlPressed) {
+                            for (var i = 0; i < splines.length; i++) {
+                                if (splines[i].contains(e.pageX - this.offsetLeft, e.pageY - this.offsetTop)) {
+                                    chosenSpline = splines[i];
+                                    return;
+                                }
+                            }
+                        } else {
+                            for (var i = 0; i < splines.length; i++) {
+                                dragedVertex = splines[i].findVertex(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
+                                if (dragedVertex != null) return;
+
+                            }
                         }
                     }, false);
 
                     canvas.object.addEventListener('mouseup', function (e) {
                         dragedVertex = null;
                         chosenSpline = null;
-                        isCtrlPressed = false;
                     }, false);
 
                     canvas.object.addEventListener('dblclick', function (e) {
@@ -254,8 +264,8 @@
                         //---------" + "----------//
                         if (e.keyCode == 187) {
                             splines.push(new BezierSpline([new BezierVertex(100, 200, getRandomColor()),
-                                                          new BezierVertex(200, 150, getRandomColor()),
-                                                          new BezierVertex(300, 300, getRandomColor())]));
+                                                           new BezierVertex(200, 150, getRandomColor()),
+                                                           new BezierVertex(300, 300, getRandomColor())]));
 
                             bigDrawing(canvas);
                         }
@@ -263,11 +273,12 @@
                         //---------" ctrl "----------//
                         if (e.keyCode == 17) {
                             isCtrlPressed = true;
-                            bigDrawing(canvas);
                         }
                     }, false);
 
                     canvas.object.addEventListener('keyup', function (e) {
+
+                        //---------" ctrl "----------//
                         if (e.keyCode == 17) isCtrlPressed = false; 
                     }, false);
 
