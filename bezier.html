@@ -199,6 +199,7 @@
                     var canvas = new Canvas(canvasId);
 
                     var dragedVertex = null;
+                    var dragedSpline = null;
                     var chosenSpline = null;
                     var isCtrlPressed = false;
 
@@ -212,8 +213,8 @@
                             bigDrawing(canvas);
                         }
 
-                        if (chosenSpline != null) {
-                            chosenSpline.move(e.pageX - this.offsetLeft - prevMouseX,
+                        if (dragedSpline != null) {
+                            dragedSpline.move(e.pageX - this.offsetLeft - prevMouseX,
                                               e.pageY - this.offsetTop - prevMouseY);
 
                             bigDrawing(canvas);
@@ -231,6 +232,7 @@
                             for (var i = 0; i < splines.length; i++) {
                                 if (splines[i].contains(e.pageX - this.offsetLeft, e.pageY - this.offsetTop)) {
                                     chosenSpline = splines[i];
+                                    dragedSpline = splines[i];
                                     return;
                                 }
                             }
@@ -245,16 +247,14 @@
 
                     canvas.object.addEventListener('mouseup', function (e) {
                         dragedVertex = null;
-                        chosenSpline = null;
+                        dragedSpline = null;
                     }, false);
 
                     canvas.object.addEventListener('dblclick', function (e) {
-                        for (var i = 0; i < splines.length; i++) {
-                            splines[i].vertices.push(new BezierVertex(e.pageX - this.offsetLeft,
-                                                                      e.pageY - this.offsetTop,
-                                                                      10,
-                                                                      10,
-                                                                      getRandomColor()));
+                        if (chosenSpline != null) {
+                            chosenSpline.vertices.push(new BezierVertex(e.pageX - this.offsetLeft - chosenSpline.origin.x,
+                                                                        e.pageY - this.offsetTop - chosenSpline.origin.y,
+                                                                        getRandomColor()));
                             bigDrawing(canvas);
                         }
                     }, false);
