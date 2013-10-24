@@ -1,5 +1,4 @@
-﻿body
-{
+﻿body{
     margin:0;
     padding:0;
     border:0;
@@ -7,65 +6,6 @@
     font-family:'Segoe UI';
     color:#fff;
     
-}
-
-/*--------------------
--------BACKGROUND-----
-----------------------*/
-
-@keyframes background
-{
-    from {left: 0; top: 0;}
-    to {left: -10000px; top: -2000px;}
-}
-
-@-webkit-keyframes background /* Safari and Chrome */
-{
-    from {left: 0; top: 0;}
-    to {left: -10000px; top: -2000px;}
-}
-
-#background {/* the smallest stars on black background*/
-	background: url(../content/images/background.png) repeat 5% 5%;
-	position: absolute;
-	top: 0; left: 0; right: 0; bottom: 0;
-    z-index: -200;
-    animation: background 240s;
-    -webkit-animation: background 240s; /* Safari and Chrome */
-    animation-iteration-count: infinite;
-    -webkit-animation-iteration-count: infinite; /* Safari and Chrome */
-}
-
-#midground {
-	background: url(../content/images/midground.png) repeat 20% 20%;
-	position: absolute;
-	top: 0; left: 0; right: 0; bottom: 0;
-	z-index: -100;
-    animation: background 120s;
-    -webkit-animation: background 120s; /* Safari and Chrome */
-    animation-iteration-count: infinite;
-    -webkit-animation-iteration-count: infinite; /* Safari and Chrome */
-}
-
-#foreground { /* Big stars */
-	background: url(../content/images/foreground.png) repeat 90% 110%;
-    position: absolute;
-	top: 0; left: 0; right: 0; bottom: 0;
-	z-index: -100;
-    animation: background 120s;
-    -webkit-animation: background 120s; /* Safari and Chrome */
-    animation-iteration-count: infinite;
-    -webkit-animation-iteration-count: infinite; /* Safari and Chrome */
-}
-
-
-
-/*--------------------
--------HEADER---------
-----------------------*/
-
-header {
-    display:none;
 }
 
 /*--------------------
@@ -254,7 +194,7 @@ div#bottom_row .post + .post {
         }
     }
 
-    /*----------------------
+/*----------------------
 ----Big Post Content----
 ------------------------*/
 
