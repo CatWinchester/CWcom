@@ -1,13 +1,15 @@
-﻿var backgroundModule = (function (document) {
+﻿var backgroundModule = (function (document, window) {
 
     var circles = [];
+    var width = window.innerWidth;
+    var height = window.innerHeight;
 
     function Canvas(id) {
         this.object = document.getElementById(id);
         this.ctx = this.object.getContext('2d');
 
-        this.object.width = window.innerWidth;
-        this.object.height = window.innerHeight;
+        this.object.width = width;
+        this.object.height = height;
     }
 
     function Circle(x, y, radius, color, dx, dy) {
@@ -17,6 +19,19 @@
         this.color = color;
         this.dx = dx;
         this.dy = dy;
+
+        this.left = function () {
+            return this.x - this.radius;
+        }
+        this.right = function () {
+            return this.x + this.radius;
+        }
+        this.top = function () {
+            return this.y - this.radius;
+        }
+        this.bottom = function () {
+            return this.y + this.radius;
+        }
     }
 
     Circle.prototype.draw = function (context) {
@@ -27,13 +42,26 @@
         context.fill();
     }
 
-    Circle.prototype.move = function () {
+    Circle.prototype.update = function () {
         this.x += this.dx;
         this.y += this.dy;
+
+        if (this.left() < 0 || this.right() > width) {
+            this.dx = -this.dx;
+        }
+
+        if (this.top() < 0 || this.bottom() > height) {
+            this.dy = -this.dy;
+        }
     }
 
-    Circle.prototype.increaseRadius = function () {
-        this.radius = x;
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF'.split('');
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.round(Math.random() * 15)];
+        }
+        return color;
     }
 
     function bigDrawing(canvas) {
@@ -47,16 +75,30 @@
     return {
         init: function (canvasId) {
             var canvas = new Canvas(canvasId);
+            var FPS = 60;
+            var time = 10;
             
             for (var i = 0; i < 100; i++) {
                 circles.push(new Circle(canvas.object.width / 2,
                                         canvas.object.height / 2,
                                         Math.random() * 10,
-                                        '#fff',
-                                        5));
+                                        getRandomColor(),
+                                        Math.random()*5,
+                                        Math.random()*5));
             }
 
+            
             bigDrawing(canvas);
+            
+            setInterval(function () {                            
+                            for (var i = 0; i < circles.length; i++) {
+                                circles[i].update();
+                                bigDrawing(canvas);
+                            }
+
+                            bigDrawing(canvas);
+                        }, 
+                        1 / FPS);
         }
     }
-}(document));
+}(document, window));
