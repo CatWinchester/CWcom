@@ -83,8 +83,8 @@
                                         canvas.object.height / 2,
                                         Math.random() * 10,
                                         getRandomColor(),
-                                        Math.random()*5,
-                                        Math.random()*5));
+                                        Math.random()*3,
+                                        Math.random()*3));
             }
 
             

@@ -11,7 +11,6 @@
     <script src="http://code.jquery.com/jquery-2.0.3.js"></script>
     <script src="http://knockoutjs.com/downloads/knockout-2.3.0.js" ></script>
     <script src="js/backgroundModule.js" ></script>
-    <script src="js/backgroundModule.js" ></script>
     <title>Cat Winchester</title>
 </head>
 <body>
@@ -31,15 +30,7 @@
         <div class="section group" id="main_row" data-bind="foreach: mainRowPosts">
             <div class="col span_1_of_4" >
 	            <div class="post">
-                    <div class="post_content" >
-		                <h2 data-bind="text: day"></h2>
-                        <img data-bind="attr:{src: image}" />
-
-                        <p data-bind="text: description"></p>
-
-                        <div class="read_more_link">
-                            <a href="#">Read more </a>
-                        </div>
+                    <div class="post_content" data-bind="template: { name: 'imagePost' }" >
                     </div>
 	            </div>
             </div>
@@ -59,14 +50,51 @@
     </div>
     
     <canvas id="background"></canvas>
+    
+    <div style="clear:both;"></div>
 
-    <script>
-        function Post(day, header, description, image) {
+    <script type="text/html" id="imagePost">
+        <h2 data-bind="text: day"></h2>
+        <img data-bind="attr: { src: imageSRC }" />
+        <p data-bind="text: description"></p>
+
+        <div class="read_more_link">
+            <a href="#">Read more </a>
+        </div>
+    </script>
+
+    <script type="text/html" id="canvasPost">
+        <h2 data-bind="text: day"></h2>
+        <canvas data-bind="attr: { 'id': canvasId }" width=150></canvas>
+        <p data-bind="text: description"></p>
+
+        <div class="read_more_link">
+            <a href="#">Read more </a>
+        </div>
+    </script>
+
+    <script type="text/javascript">
+        function Post(day, header, description) {
             this.day = day;
             this.header = header;
             this.description = description;
-            this.image = image;
         }        
+
+        function ImagePost(imageSRC) {
+            Post.call(this);
+
+            this.imageSRC = imageSRC;
+        }
+
+        ImagePost.prototype = Object.create(new Post());
+
+        function CanvasPost(canvasId) {
+            Post.call(this);
+
+            this.canvasId = canvasId;
+        }
+
+        CanvasPost.prototype = Object.create(new Post());
 
         function BlogViewModel() {
             var self = this;
@@ -138,14 +166,14 @@
 
         var vm = new BlogViewModel();
 
-        vm.posts().push(new Post("Day 1",
-                                 "First version",
-                                 "This is the first version of my site. It will be updated as often as new version is ready (hope every day:)).",
-                                 "content/images/day1.jpg"),
-                        new Post("Day 2",
-                                 "Many days after...",
-                                 "Bezier training",
-                                 "content/images/day1.jpg"));
+        vm.posts().push(new ImagePost("Day 1",
+                                      "First version",
+                                      "This is the first version of my site. It will be updated as often as new version is ready (hope every day:)).",
+                                      "content/images/day1.jpg"),
+                        new CanvasPost("Day 2",
+                                       "Many days after...",
+                                       "Bezier training",
+                                       "bezier"));
 
         $('#content').bind('mousewheel',
                    function (e) {

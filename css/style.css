@@ -37,7 +37,8 @@ h4 {
 #content{
 	width:100%;
     float:right;
-    display:block;
+    display:inline-block;
+    position:relative;
 }
 
 #images {
