@@ -15,38 +15,11 @@
 </head>
 <body>
     <div id="content">
-        <div class="section group" id="top_row" data-bind="foreach:topRowPosts">
-		    <div class="col span_1_of_4">			    
-	            <div class="post">
-                    <div class="post_content">
-		                <h3 data-bind="text: day"></h3>
-                        <h4 data-bind="text: header"></h4>
-                        <img data-bind="attr:{src: image}"/>                    
-                    </div>
-	            </div>
-		    </div>
-        </div>
+        <div class="section group" id="top_row" data-bind="template: { name: getTemplate, foreach:topRowPosts }" ></div>
 
-        <div class="section group" id="main_row" data-bind="foreach: mainRowPosts">
-            <div class="col span_1_of_4" >
-	            <div class="post">
-                    <div class="post_content" data-bind="template: { name: 'imagePost' }" >
-                    </div>
-	            </div>
-            </div>
-        </div> 
+        <div class="section group" id="main_row" data-bind="template: { name: getTemplate, foreach: mainRowPosts }"></div>
         
-        <div class="section group" id="bottom_row" data-bind="foreach: bottomRowPosts">
-            <div class="col span_1_of_4">
-	            <div class="post">
-                    <div class="post_content">
-		                <h3 data-bind="text: day"></h3>
-                        <h4 data-bind="text: header"></h4>
-                        <img data-bind="attr:{src: image}"/>                    
-                    </div>
-                </div>
-	        </div> 
-        </div>       
+        <div class="section group" id="bottom_row" data-bind="template: { name: getTemplate, foreach: bottomRowPosts }"></div>
     </div>
     
     <canvas id="background"></canvas>
@@ -54,42 +27,55 @@
     <div style="clear:both;"></div>
 
     <script type="text/html" id="imagePost">
-        <h2 data-bind="text: day"></h2>
-        <img data-bind="attr: { src: imageSRC }" />
-        <p data-bind="text: description"></p>
+        <div class="col span_1_of_4">
+            <div class="post">
+                <div class="post_content">
+                    <h2 data-bind="text: day"></h2>
+                    <img data-bind="attr: { src: image }" />
+                    <p data-bind="text: description"></p>
 
-        <div class="read_more_link">
-            <a href="#">Read more </a>
+                    <div class="read_more_link">
+                        <a href="#">Read more </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </script>
 
     <script type="text/html" id="canvasPost">
-        <h2 data-bind="text: day"></h2>
-        <canvas data-bind="attr: { 'id': canvasId }" width=150></canvas>
-        <p data-bind="text: description"></p>
+        <div class="col span_1_of_4">
+            <div class="post">
+                <div class="post_content">
+                    <h2 data-bind="text: day"></h2>
+                    <canvas data-bind="attr: { 'id': canvasId }" width=150></canvas>
+                    <p data-bind="text: description"></p>
 
-        <div class="read_more_link">
-            <a href="#">Read more </a>
+                    <div class="read_more_link">
+                        <a href="#">Read more </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </script>
 
     <script type="text/javascript">
-        function Post(day, header, description) {
+        function Post(day, header, description, template) {
             this.day = day;
             this.header = header;
             this.description = description;
+            this.template = template;
         }        
 
-        function ImagePost(imageSRC) {
-            Post.call(this);
+        function ImagePost(day, header, description, image) {
+            Post.call(this, day, header, description, 'imagePost');
 
-            this.imageSRC = imageSRC;
+            this.image = image;
         }
 
         ImagePost.prototype = Object.create(new Post());
 
-        function CanvasPost(canvasId) {
-            Post.call(this);
+        function CanvasPost(day, header, description, canvasId) {
+            Post.call(this, day, header, description, 'canvasPost');
 
             this.canvasId = canvasId;
         }
@@ -102,6 +88,10 @@
             var numberOfItemsInRow = 4;
 
             self.posts = ko.observableArray();
+
+            self.getTemplate = function (post) {
+                return post.template;
+            }
 
             self.getRowPosts = function (rowIndex) {                
                 var foundPosts = [];
