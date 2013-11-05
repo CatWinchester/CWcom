@@ -11,7 +11,7 @@
     <script src="js/bezierModule.js" ></script>
     <title>Bezier</title>
     <style>
-        #bezierCanvas {
+        #bezierCanvas, #bezierCanvasNew {
             border:2px solid #ff0000;
             display:block;
             margin:0 auto;
@@ -20,13 +20,17 @@
 </head>
 <body>
     <div class="section group">
-        <div class="col span_4_of_4" >
-            <canvas id="bezierCanvas" tabindex='1' width="1000" height="500"></canvas>
+        <div class="col span_2_of_2" >
+            <canvas id="bezierCanvas" tabindex='1' width="1000" height="500"></canvas>            
         </div>
+        <div class="col span_2_of_2">
+            <canvas id="bezierCanvasNew" tabindex="2" width="300" height="300"></canvas>
+        </div> 
     </div>
 
     <script>        
         bezierModule.init('bezierCanvas');
+        bezierModule.init('bezierCanvasNew');
     </script>
 </body>
 </html>

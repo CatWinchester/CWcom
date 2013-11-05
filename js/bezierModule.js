@@ -1,9 +1,6 @@
 ﻿var bezierModule = (function (document) {
 
     //========= private variables =========//
-    var spline;
-    var splines = [];
-
     function getRandomColor() {
         var letters = '0123456789ABCDEF'.split('');
         var color = '#';
@@ -18,8 +15,7 @@
                      : n * fact(n - 1);//умова ? значення1 : значення2 -тернарний оператор 
     }
 
-    //========= Constructors ==========//
-
+    //========= Constructors ==========//	
     function Canvas(id) {
         this.object = document.getElementById(id);
         this.ctx = this.object.getContext('2d');
@@ -159,7 +155,7 @@
 
     //========= Functions ==========//
 
-    function bigDrawing(canvas) {
+    function bigDrawing(canvas, splines) {
         canvas.ctx.clearRect(0, 0, canvas.object.width, canvas.object.height);
 
         for (var i = 0; i < splines.length; i++) {
@@ -169,7 +165,8 @@
 
     return {
         init: function (canvasId) {
-            var canvas = new Canvas(canvasId);
+            var canvas = new Canvas(canvasId);			
+			var splines = [];
 
             var dragedVertex = null;
             var dragedSpline = null;
@@ -183,14 +180,14 @@
                 if (dragedVertex != null) {
                     dragedVertex.move(e.pageX - this.offsetLeft - prevMouseX,
                                       e.pageY - this.offsetTop - prevMouseY);
-                    bigDrawing(canvas);
+                    bigDrawing(canvas, splines);
                 }
 
                 if (dragedSpline != null) {
                     dragedSpline.move(e.pageX - this.offsetLeft - prevMouseX,
                                       e.pageY - this.offsetTop - prevMouseY);
 
-                    bigDrawing(canvas);
+                    bigDrawing(canvas, splines);
                 }
 
                 prevMouseX = e.pageX - this.offsetLeft;
@@ -228,7 +225,7 @@
                     chosenSpline.addVertex(new BezierVertex(e.pageX - this.offsetLeft - chosenSpline.origin.x,
                                                             e.pageY - this.offsetTop - chosenSpline.origin.y,
                                                             getRandomColor()));
-                    bigDrawing(canvas);
+                    bigDrawing(canvas, splines);
                 }
             }, false);
 
@@ -240,7 +237,7 @@
                                                    new BezierVertex(200, 150, getRandomColor()),
                                                    new BezierVertex(300, 300, getRandomColor())]));
 
-                    bigDrawing(canvas);
+                    bigDrawing(canvas, splines);
                 }
 
                 //---------" ctrl "----------//
@@ -255,7 +252,7 @@
                 if (e.keyCode == 17) isCtrlPressed = false;
             }, false);
 
-            bigDrawing(canvas);
+            bigDrawing(canvas, splines);
         }
     }
 }(document));
