@@ -10,7 +10,7 @@
     <script type="text/javascript" src="js/less-1.5.0.min.js"></script>
     <script src="http://code.jquery.com/jquery-2.0.3.js"></script>
     <script src="http://knockoutjs.com/downloads/knockout-2.3.0.js" ></script>
-    <script src="js/backgroundModule.js" ></script>
+    <script data-main="js/main" src="js/require.js"></script>
     <title>Cat Winchester</title>
 </head>
 <body>
@@ -178,8 +178,6 @@
         vm.selectedRow(0);
 
         ko.applyBindings(vm);
-
-        backgroundModule.init('background');
     </script>
 </body>
 </html>
