@@ -1,4 +1,4 @@
-requirejs(['bezierModule', 'backgroundModule'],
-          function (bezierModule, backgroundModule) {
+requirejs(['koModule','bezierModule', 'backgroundModule'],
+          function (koModule, bezierModule, backgroundModule) {
               backgroundModule.init("background");
           });

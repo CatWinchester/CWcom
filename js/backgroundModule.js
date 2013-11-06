@@ -1,6 +1,6 @@
-﻿define(
+﻿define(['helper'],
     'backgroundModule',
-    function () {
+    function (helper) {
         var circles = [];
         var width = window.innerWidth;
         var height = window.innerHeight;
@@ -56,15 +56,6 @@
             }
         }
 
-        function getRandomColor() {
-            var letters = '0123456789ABCDEF'.split('');
-            var color = '#';
-            for (var i = 0; i < 6; i++) {
-                color += letters[Math.round(Math.random() * 15)];
-            }
-            return color;
-        }
-
         function bigDrawing(canvas) {
             canvas.ctx.clearRect(0, 0, canvas.object.width, canvas.object.height);
 
@@ -83,7 +74,7 @@
                     circles.push(new Circle(canvas.object.width / 2,
                                             canvas.object.height / 2,
                                             Math.random() * 10,
-                                            getRandomColor(),
+                                            helper.getRandomColor(),
                                             Math.random() * 3,
                                             Math.random() * 3));
                 }
