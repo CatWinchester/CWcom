@@ -1,6 +1,6 @@
-define(
+define(['bezierModule'],
     'koModule',
-    function () {
+    function (bezierModule) {
         function Post(day, header, description, template) {
             this.day = day;
             this.header = header;
@@ -116,6 +116,8 @@ define(
                            vm.moveUp();
                        };
                    });
+
+        bezierModule.init('bezier');
 
         vm.selectedRow(0);
 

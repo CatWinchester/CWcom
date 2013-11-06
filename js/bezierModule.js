@@ -1,5 +1,4 @@
-﻿define(
-    ['helper'],
+﻿define(['helper'],
     'bezierModule',
     function (helper) {
         
