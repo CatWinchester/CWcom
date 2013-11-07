@@ -210,16 +210,7 @@ div#bottom_row .post + .post {
 /*----------------------
 ----Big Post Content----
 ------------------------*/
-
-    #sidebar {
-        padding: 0;
-        margin: 20px 10px 0 10px;
-        border: 0;
-        float: left;
-        position: relative;
-        top: 50px;
-        width: 10%;
-    }
+ 
 
     #big_post p {
         width: 700px;
