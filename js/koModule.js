@@ -1,6 +1,5 @@
-define(['bezierModule'],
-    'koModule',
-    function (bezierModule) {
+define(['jquery', 'knockout', './bezierModule'],
+    function ($, ko, bezierModule) {
         function Post(day, header, description, template) {
             this.day = day;
             this.header = header;
@@ -37,7 +36,7 @@ define(['bezierModule'],
 
             self.getRowPosts = function (rowIndex) {
                 var foundPosts = [];
-
+                
                 for (var i = numberOfItemsInRow * rowIndex;
                          i >= 0 &&
                          i < numberOfItemsInRow * rowIndex + numberOfItemsInRow &&
@@ -94,33 +93,47 @@ define(['bezierModule'],
                 if (self.rowBeforeSelected() != null)
                     self.selectedRow(self.rowBeforeSelected());
             };
+
+            self.postRendered = function (posts) {
+                for (var i = 0; i < posts.length; i++) {
+                    if (posts[i].tagName) {
+                        var canvases = posts[i].getElementsByClassName("bezierCanvas");
+                        for (var j = 0; j < canvases.length; j++) {
+                            bezierModule.init(canvases[j].id, "addCurveButton");
+                        }
+                    }
+                }
+            }
         }
 
-        var vm = new BlogViewModel();
+        return {
+            init: function () {
+                var vm = new BlogViewModel();
 
-        vm.posts().push(new ImagePost("Day 1",
-                                      "First version",
-                                      "This is the first version of my site. It will be updated as often as new version is ready (hope every day:)).",
-                                      "content/images/day1.jpg"),
-                        new CanvasPost("Day 2",
-                                       "Many days after...",
-                                       "Bezier training",
-                                       "bezier"));
+                vm.posts().push(new ImagePost("Day 1",
+                                              "First version",
+                                              "This is the first version of my site. It will be updated as often as new version is ready (hope every day:)).",
+                                              "content/images/day1.jpg"),
+                                new CanvasPost("Day 2",
+                                               "Many days after...",
+                                               "Bezier training",
+                                               "day2Bezier"));
 
-        $('#content').bind('mousewheel',
-                   function (e) {
-                       if (e.originalEvent.wheelDelta > 0) {
-                           vm.moveDown();
-                       }
-                       else {
-                           vm.moveUp();
-                       };
-                   });
+                $('#content').bind('mousewheel',
+                           function (e) {
+                               if (e.originalEvent.wheelDelta > 0) {
+                                   vm.moveDown();
+                               }
+                               else {
+                                   vm.moveUp();
+                               };
+                           });
 
-        bezierModule.init('bezier');
+                vm.selectedRow(0);
 
-        vm.selectedRow(0);
+                ko.applyBindings(vm);
 
-        ko.applyBindings(vm);
+            }
+        }
     }
 );

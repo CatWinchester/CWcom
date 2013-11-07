@@ -156,6 +156,11 @@ div#bottom_row .post + .post {
     color:#1a1a1a;
 }
 
+.bezierCanvas{
+    border:1px solid #ff6a00;
+    background:rgba(255, 106, 0, 0.60);
+}
+
 .read_more_link {
 
 }
@@ -163,6 +168,13 @@ div#bottom_row .post + .post {
         clear:both;
         display:block;
     }
+
+.canvasButton{
+    line-height:15px;
+    width:40px;
+    height:30px;
+    font-size:22px;
+}
 
 @media only screen and (max-width: 1200px) {
     .post {

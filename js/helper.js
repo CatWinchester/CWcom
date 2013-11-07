@@ -1,6 +1,11 @@
 define(
     'helper',
     function () {
+        function fact(n) {
+            return n < 2 ? 1
+                         : n * fact(n - 1);
+        }
+
         return {
             getRandomColor: function () {
                 var letters = '0123456789ABCDEF'.split('');
@@ -10,10 +15,7 @@ define(
                 }
                 return color;
             },
-            fact: function (n) {
-                return n < 2 ? 1
-                         : n * fact(n - 1);//умова ? значення1 : значення2 -тернарний оператор 
-            }
+            fact: fact
         }
     }
 );

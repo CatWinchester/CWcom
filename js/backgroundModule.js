@@ -1,5 +1,4 @@
-﻿define(['helper'],
-    'backgroundModule',
+﻿define(["./helper"],
     function (helper) {
         var circles = [];
         var width = window.innerWidth;
@@ -75,8 +74,8 @@
                                             canvas.object.height / 2,
                                             Math.random() * 10,
                                             helper.getRandomColor(),
-                                            Math.random() * 3,
-                                            Math.random() * 3));
+                                            Math.random() * 2,
+                                            Math.random() * 2));
                 }
 
 
@@ -85,7 +84,6 @@
                 setInterval(function () {
                     for (var i = 0; i < circles.length; i++) {
                         circles[i].update();
-                        bigDrawing(canvas);
                     }
 
                     bigDrawing(canvas);

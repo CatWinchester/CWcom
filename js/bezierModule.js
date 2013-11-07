@@ -1,7 +1,5 @@
-﻿define(['helper'],
-    'bezierModule',
-    function (helper) {
-        
+﻿define(['./helper'],
+    function (helper) {        
         //========= Constructors ==========//	
         function Canvas(id) {
             this.object = document.getElementById(id);
@@ -118,7 +116,7 @@
             for (t = 0; t <= 1; t += 0.01) {
                 var point = this.calculateBezierPoint(t);
                 context.lineTo(point.x + this.origin.x, point.y + this.origin.y);
-                context.strokeStyle = helper.helper.getRandomColor();
+                context.strokeStyle = helper.getRandomColor();
                 context.lineWidth = 3;
                 context.stroke();
             }
@@ -151,7 +149,7 @@
         }
 
         return {
-            init: function (canvasId) {
+            init: function (canvasId, addSplineDivId) {
                 var canvas = new Canvas(canvasId);
                 var splines = [];
 
@@ -163,6 +161,16 @@
                 var prevMouseX = 0;
                 var prevMouseY = 0;
 
+                document.getElementById(addSplineDivId).addEventListener("click", function () {
+                    
+                    splines.push(new BezierSpline([new BezierVertex(20, 20, helper.getRandomColor()),
+                                                   new BezierVertex(200, 150, helper.getRandomColor()),
+                                                   new BezierVertex(300, 300, helper.getRandomColor())]));
+
+                    bigDrawing(canvas, splines);
+                
+                },false)
+                                
                 canvas.object.addEventListener('mousemove', function (e) {
                     if (dragedVertex != null) {
                         dragedVertex.move(e.pageX - this.offsetLeft - prevMouseX,
@@ -220,7 +228,7 @@
 
                     //---------" + "----------//
                     if (e.keyCode == 187) {
-                        splines.push(new BezierSpline([new BezierVertex(100, 200, helper.getRandomColor()),
+                        splines.push(new BezierSpline([new BezierVertex(20, 20, helper.getRandomColor()),
                                                        new BezierVertex(200, 150, helper.getRandomColor()),
                                                        new BezierVertex(300, 300, helper.getRandomColor())]));
 
