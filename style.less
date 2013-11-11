@@ -1,12 +1,6 @@
-/*--------------------
--------MAIN MENU------
-----------------------*/
-
-@color: rgba(255, 0, 195, 0.60);
-
-/*--------------------
--------BACKGROUND-----
-----------------------*/
+//------------------//
+//-----BACKGROUND---//
+//------------------//
 
 #background {
     position:absolute;
@@ -16,3 +10,96 @@
     display:block;
     z-index:-100;
 }
+
+//------------------//
+//-------BLOG-------//
+//------------------//
+
+@mainRowPostColor: rgba(255, 106, 0, 0.60);
+@mainRowPostBorder: 2px solid #ff6a00;
+
+@topBottomRowPostColor: rgba(178, 0, 255, 0.30);
+@topBottomRowPostBorder: 2px solid rgba(178, 0, 255, 0.60);
+@tBRPost_HoverColor: rgba(178, 0, 255, 0.60);
+
+@mainRowWidth:360px;
+@mainRowHeight:360px;
+
+@topBottomRowWidth:(@mainRowWidth) * 0.72222222222222223;
+@topBottomRowHeight:(@mainRowHeight) * 0.72222222222222223;
+
+@topRowPerspective:300px;
+@topRowRotateXDeg:45deg;
+@bottomRowPerspective:300px;
+@bottomRowRotateXDeg:-45deg;
+
+.PostParams(@width, @height, @background, @border) {
+    width: @width;
+    height: @height;
+    background: @background;
+    border: @border;
+    display: block;
+}
+
+.centeredElement (@width){
+    margin:0 auto;
+    width: @width;
+}
+
+.transform (@perspectivePixels, @degrees){  
+    -webkit-transform: perspective(@perspectivePixels) 
+                       rotateX(@degrees);
+    -moz-transform: perspective(@perspectivePixels) 
+                    rotateX(@degrees);
+}
+
+.roundBordered(){    
+    -webkit-border-radius: 999px;
+    -moz-border-radius: 999px;
+    border-radius: 999px;
+}
+
+//------------------//
+
+.post {    
+    text-align:center;
+    .centeredElement(@mainRowWidth);
+    .roundBordered();
+}
+#main_row { 
+    .post{        
+        .PostParams(@mainRowWidth,
+                    @mainRowHeight,
+                    @mainRowPostColor,
+                    @mainRowPostBorder);
+    }
+}
+#top_row, #bottom_row {
+    .post {        
+        .PostParams(@topBottomRowWidth,
+                    @topBottomRowHeight,
+                    @topBottomRowPostColor,
+                    @topBottomRowPostBorder);
+        img{            
+            width:100px;
+        }
+        &:hover{
+            background:@tBRPost_HoverColor;            
+        }
+    }
+}    
+
+#top_row{
+    .post{
+        .transform(@topRowPerspective,
+                   @topRowRotateXDeg)
+    }
+}    
+
+#bottom_row{
+    .post{
+        .transform(@bottomRowPerspective,
+                   @bottomRowRotateXDeg)
+    }
+}
+

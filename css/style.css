@@ -20,7 +20,6 @@ h1{
 h2, h3, h4 {
     margin-top:0;
     margin-bottom:30px;
-    
     text-shadow: 0 -1px #00468C,
                 1px 0 #00468C,
                 0 1px #00468C,
@@ -41,12 +40,6 @@ h4 {
     position:relative;
 }
 
-#images {
-    display:block;
-    margin:0 auto;
-    text-align:center;
-}
-
     #images img {
         width:200px;
         height:200px;
@@ -62,83 +55,18 @@ h4 {
 /*--------------------
 ---------BLOG---------
 ----------------------*/
-
-.row {
-    position:relative;
-    top:200px;
-    display:inline-block;
-}
-
-
-#top_row .post {  
-    -webkit-transform: perspective(300px) rotateX(45deg);
-    -moz-transform: perspective(300px) rotateX(45deg);    
-}
-
-#top_row .post:hover {    
-}
-
-#bottom_row .post {
-    -webkit-transform: perspective(300px) rotateX(-45deg);
-    -moz-transform: perspective(300px) rotateX(-45deg);
-}
-
-#bottom_row .post, #top_row .post {
-    background-color: rgba(178, 0, 255, 0.30);
-    border: 2px solid rgba(178, 0, 255, 0.60);
-    width: 260px;
-    height: 260px;
-    display:block;
-} 
-
-        #bottom_row .post:hover {
-            background-color:rgba(178, 0, 255, 0.60);
-        }
-
-div#bottom_row .post + .post {
-    background-color:rgba(255, 0, 0, 0.30);
-    border: 2px solid rgba(255, 0, 0, 0.60);
-}
-#bottom_row .post:nth-child(3) {
-    background-color:rgba(255, 242, 0, 0.30);
-    border: 2px solid rgba(255, 242, 0, 0.60);
-}
-#bottom_row .post:nth-child(4) {
-    background-color:rgba(18, 255, 0, 0.30);
-    border: 2px solid rgba(18, 255, 0, 0.60);
-}
-
-        #bottom_row .post img, #top_row .post img {
-            width:100px;
-        }
-
-.post {
-    -webkit-border-radius: 999px;
-    -moz-border-radius: 999px;
-    border-radius: 999px;
-    behavior: url(PIE.htc);
-    display:block;
-    margin:0 auto;
-	border: 2px solid #ff6a00;
-    width:360px;
-    height:360px;
-    text-align:center;
-    background-color:rgba(255, 106, 0, 0.60);
-}
-
 .post_content {
     margin:20px 0;
 }
 
 .post p {
     width:300px;
-    margin-left:auto;
-    margin-right:auto;
+    margin:1em auto;
     font-size:0.875em;
 }
     .post img  {
-        -moz-box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Для Firefox */
-        -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Для Safari и Chrome */
+        -moz-box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.5);
         box-shadow: 0 0 10px rgba(0,0,0,0.5); 
         width:200px;
         max-width: 100%;
@@ -154,20 +82,13 @@ div#bottom_row .post + .post {
     display:inline-block;
     margin:0 auto;
     color:#1a1a1a;
+    clear:both;
 }
 
 .bezierCanvas{
     border:1px solid #ff6a00;
     background:rgba(255, 106, 0, 0.60);
 }
-
-.read_more_link {
-
-}
-    .post a {
-        clear:both;
-        display:block;
-    }
 
 .canvasButton{
     line-height:15px;
@@ -193,7 +114,6 @@ div#bottom_row .post + .post {
     }
 
 }
-
    
     @media only screen and (max-width: 479px) {
         .post {
@@ -206,86 +126,3 @@ div#bottom_row .post + .post {
             width: 90%;
         }
     }
-
-/*----------------------
-----Big Post Content----
-------------------------*/
- 
-
-    #big_post p {
-        width: 700px;
-        position: relative;
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .side_post, #big_post {
-        position: relative;
-        -webkit-border-radius: 999px;
-        -moz-border-radius: 999px;
-        border-radius: 999px;
-        behavior: url(PIE.htc);
-        display: block;
-        margin-bottom: 10px;
-        margin-right: 10px;
-        text-align: center;
-        float: left;
-    }
-
-    #one_post {
-        background-color: rgba(255, 106, 0, 0.60);
-        border: 2px solid #ff6a00;
-        width: 100px;
-        height: 100px;
-    }
-
-    #two_post {
-        background-color: rgba(0, 255, 154, 0.60);
-        border: 2px solid rgba(0, 255, 154, 0.60);
-        width: 150px;
-        height: 150px;
-    }
-
-    #three_post {
-        background-color: rgba(255, 0, 195, 0.60);
-        border: 2px solid rgba(255, 0, 195, 0.60);
-        width: 200px;
-        height: 200px;
-    }
-
-    #four_post {
-        background-color: rgba(0, 52, 255, 0.60);
-        border: 2px solid rgba(0, 52, 255, 0.60);
-        width: 150px;
-        height: 150px;
-    }
-
-    #five_post {
-        background-color: rgba(178, 0, 255, 0.60);
-        border: 2px solid rgba(178, 0, 255, 0.60);
-        width: 100px;
-        height: 100px;
-    }
-
-    #sidebar img {
-        width: 100px;
-    }
-
-    #main {
-        width: 80%;
-        float: right;
-        display: block;
-    }
-
-    #big_post {
-        background-color: rgba(255, 0, 195, 0.60);
-        border: 2px solid rgba(255, 0, 195, 0.60);
-        width: 850px;
-        height: 850px;
-        top: 50px;
-    }
-
-        #big_post img {
-            width: 400px;
-        }
