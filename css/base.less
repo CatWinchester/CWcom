@@ -1,0 +1,49 @@
+﻿body{
+    margin:0;
+    padding:0;
+    border:0;
+    font-size:100%;
+    font-family:'Segoe UI';
+    color:#fff;
+    
+}
+#content{
+    display:inline-block;
+    position:relative;
+	width:100%;
+    float:right;
+}
+#background {
+    display:block;
+    left:0;
+    top:0;
+    position:absolute;
+    background:#000;
+    z-index:-100;
+}
+//------------------//
+//------HEADERS-----//
+//-------h1-h4------//
+@h2MarginBottom:30px;
+@h3MarginBottom:10px;
+@h4MarginBottom:14px;
+
+@htextShadowColor:#00468C;
+@htextShadow:0    -1px @htextShadowColor,
+             1px  0    @htextShadowColor,
+             0    1px  @htextShadowColor,
+             -1px 0    @htextShadowColor;
+
+//-------------------//
+h2, h3, h4 {
+    margin-top:0;
+    margin-bottom:@h2MarginBottom;
+    text-shadow: @htextShadow;
+}
+h3{    
+    margin-bottom:@h3MarginBottom;
+}
+h4{    
+    margin-bottom:@h4MarginBottom;
+}
+

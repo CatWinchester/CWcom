@@ -110,11 +110,11 @@ define(['jquery', 'knockout', './bezierModule'],
             init: function () {
                 var vm = new BlogViewModel();
 
-                vm.posts().push(new ImagePost("Day 1",
+                vm.posts().push(new ImagePost("Week 1",
                                               "First version",
                                               "This is the first version of my site. It will be updated as often as new version is ready (hope every day:)).",
                                               "content/images/day1.jpg"),
-                                new CanvasPost("Day 2",
+                                new CanvasPost("Week 2",
                                                "Many days after...",
                                                "Bezier training",
                                                "day2Bezier"));
