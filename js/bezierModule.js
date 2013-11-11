@@ -163,9 +163,9 @@
 
                 document.getElementById(addSplineDivId).addEventListener("click", function () {
                     
-                    splines.push(new BezierSpline([new BezierVertex(20, 20, helper.getRandomColor()),
-                                                   new BezierVertex(200, 150, helper.getRandomColor()),
-                                                   new BezierVertex(300, 300, helper.getRandomColor())]));
+                    splines.push(new BezierSpline([new BezierVertex(20, 30, helper.getRandomColor()),
+                                                   new BezierVertex(130, 40, helper.getRandomColor()),
+                                                   new BezierVertex(40, 120, helper.getRandomColor())]));
 
                     bigDrawing(canvas, splines);
                 
