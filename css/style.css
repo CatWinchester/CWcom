@@ -40,22 +40,6 @@ h4 {
     position:relative;
 }
 
-/*--------------------
----------BLOG---------
-----------------------*/
-
-.bezierCanvas{
-    border:1px solid #ff6a00;
-    background:rgba(255, 106, 0, 0.60);
-}
-
-.canvasButtonAdd{
-    line-height:15px;
-    width:40px;
-    height:30px;
-    font-size:22px;
-}
-
 @media only screen and (max-width: 1200px) {
     .post {
         width: 90%;

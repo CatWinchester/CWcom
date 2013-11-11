@@ -1,4 +1,8 @@
-﻿#background {
+﻿.bezierCanvas {
+  background: rgba(255, 106, 0, 0.6);
+  border: 1px solid #ff6a00;
+}
+#background {
   position: absolute;
   left: 0;
   top: 0;
