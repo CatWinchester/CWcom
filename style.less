@@ -19,6 +19,7 @@
 //------------------//
 //-------BLOG-------//
 //------------------//
+@postContentMargin:20px 0;
 
 @mainRowPostColor: rgba(255, 106, 0, 0.60);
 @mainRowPostBorder: 2px solid #ff6a00;
@@ -39,6 +40,11 @@
 @bottomRowRotateXDeg:-45deg;
 
 @imgPostShadow:0 0 10px rgba(0,0,0,0.5);
+
+@aColor:#1a1a1a;
+@aPostBgColor:rgba(255, 255, 255, 0.50);
+@aPostBorder:1px dashed @aColor;
+@aPostWidth:100px;
 
 .PostParams(@width, @height, @background, @border) {
     width: @width;
@@ -88,7 +94,22 @@
         margin:1em auto;
         font-size:0.875em;
     }
+    a{
+        .centeredElement(@aPostWidth);
+        background:@aPostBgColor;
+        border:@aPostBorder;
+        display:inline-block;
+        padding:2px 5px;
+        text-decoration:none;
+        color:@aColor;
+        clear:both;
+    }
 }
+
+.post_content {
+    margin:@postContentMargin;
+}
+
 #main_row { 
     .post{        
         .PostParams(@mainRowWidth,
@@ -97,6 +118,7 @@
                     @mainRowPostBorder);
     }
 }
+
 #top_row, #bottom_row {
     .post {        
         .PostParams(@topBottomRowWidth,

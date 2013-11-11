@@ -43,20 +43,6 @@ h4 {
 /*--------------------
 ---------BLOG---------
 ----------------------*/
-.post_content {
-    margin:20px 0;
-}
-.post a {
-    text-decoration:none;
-    padding:2px 5px;
-    border:1px dashed #1a1a1a;
-    background-color:rgba(255, 255, 255, 0.50);
-    width:100px;
-    display:inline-block;
-    margin:0 auto;
-    color:#1a1a1a;
-    clear:both;
-}
 
 .bezierCanvas{
     border:1px solid #ff6a00;
