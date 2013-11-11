@@ -40,39 +40,12 @@ h4 {
     position:relative;
 }
 
-    #images img {
-        width:200px;
-        height:200px;
-    }
-    
-    #images a {
-        border: 2px solid rgba(157, 128, 255, 0.70);
-        border-radius:5px;
-        display:inline-block;
-        margin:5px 10px 5px 0;
-    }
-
 /*--------------------
 ---------BLOG---------
 ----------------------*/
 .post_content {
     margin:20px 0;
 }
-
-.post p {
-    width:300px;
-    margin:1em auto;
-    font-size:0.875em;
-}
-    .post img  {
-        -moz-box-shadow: 0 0 10px rgba(0,0,0,0.5);
-        -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.5);
-        box-shadow: 0 0 10px rgba(0,0,0,0.5); 
-        width:200px;
-        max-width: 100%;
-	    height: auto;
-    }
-
 .post a {
     text-decoration:none;
     padding:2px 5px;
@@ -90,7 +63,7 @@ h4 {
     background:rgba(255, 106, 0, 0.60);
 }
 
-.canvasButton{
+.canvasButtonAdd{
     line-height:15px;
     width:40px;
     height:30px;

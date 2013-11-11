@@ -12,6 +12,11 @@
 }
 
 //------------------//
+//------CONTENT-----//
+//------------------//
+ 
+
+//------------------//
 //-------BLOG-------//
 //------------------//
 
@@ -33,6 +38,8 @@
 @bottomRowPerspective:300px;
 @bottomRowRotateXDeg:-45deg;
 
+@imgPostShadow:0 0 10px rgba(0,0,0,0.5);
+
 .PostParams(@width, @height, @background, @border) {
     width: @width;
     height: @height;
@@ -53,6 +60,12 @@
                     rotateX(@degrees);
 }
 
+.boxShadow(@shadowParams){
+    -moz-box-shadow: @shadowParams;
+    -webkit-box-shadow: @shadowParams;
+    box-shadow:  @shadowParams; 
+}
+
 .roundBordered(){    
     -webkit-border-radius: 999px;
     -moz-border-radius: 999px;
@@ -65,6 +78,16 @@
     text-align:center;
     .centeredElement(@mainRowWidth);
     .roundBordered();
+    img{
+        .boxShadow(@imgPostShadow);        
+        width:200px;
+	    height: auto;
+    }
+    p{
+        width:300px;
+        margin:1em auto;
+        font-size:0.875em;
+    }
 }
 #main_row { 
     .post{        
