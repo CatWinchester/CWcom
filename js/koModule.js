@@ -125,7 +125,7 @@ define(['jquery', 'knockout', './bezierModule'],
                                               "content/images/day1.jpg"),
                                 new CanvasPost("Week 2",
                                                "Many days after...",
-                                               "Bezier training",
+                                               "Bezier training.",
                                                "day2Bezier"));
                 vm.changePostSize();
 
