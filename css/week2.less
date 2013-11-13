@@ -1,13 +1,63 @@
 ﻿@canvasBg:rgba(255, 255, 255, 0.8);
 @canvasBorder:1px solid #ff6a00;
 
-.bezierCanvas{
-    background:@canvasBg;
-    border:@canvasBorder;
+@buttonBg:#fff;
+@buttonBorderColor:#ff6a00;
+@buttonBorder:1px solid @buttonBorderColor;
+@buttonColor:#000;
+@buttonBg_Hover:lighten(@buttonBorderColor, 40%);
+@buttonBorder_Hover:1px solid @buttonBorderColor_Hover;
+@buttonBorderColor_Hover:darken(@buttonBorderColor,20%);
+@buttonColor_Hover:fadeout(@buttonColor,40%);
+
+@btColor1:#feccb1;
+@btColor2:#f17432;
+@btColor3:#ea5507;
+@btColor4:#fb955e;
+
+@btColor1_H:darken(@btColor1, 40%);
+
+.gradientBackground(@color1, @color2, @color3, @color4){
+    background: @color1;
+    background: -moz-linear-gradient(top, @color1 0%, @color2 50%, @color3 51%, @color4 100%); 
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, @color1), color-stop(50%,@color2), color-stop(51%,@color3), color-stop(100%,@color4));
+    background: -webkit-linear-gradient(top, @color1 0%, @color2 50%, @color3 51%, @color4 100%);
+    background: -o-linear-gradient(top, @color1 0%, @color2 50%, @color3 51%, @color4 100%);
+    background: -ms-linear-gradient(top, @color1 0%, @color2 50%, @color3 51%, @color4 100%);
+    background: linear-gradient(to bottom, @color1 0%,@color2 50%, @color3 51%, @color4 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='@color1', endColorstr='@color4',GradientType=0 );
+    
 }
-.canvasButtonAdd{    
-    line-height:15px;
+
+.mainColorProperties(@background, @border){
+    background:@background;
+    border:@border;
+}
+
+.contentPicture{
+    display:inline-block;
+}
+.bezierCanvas{
+    .mainColorProperties(@canvasBg, @canvasBorder);
+    position:relative;
+    margin:0px;
+    float:left
+}
+.canvasButtonAdd{
+    .mainColorProperties(@buttonBg, @buttonBorder);
+    .gradientBackground(@btColor1,@btColor2,@btColor3,@btColor4);
+    color:@buttonColor;    
+    position:relative;
+    float:left;
+    clear:right;
     width:40px;
     height:30px;
+    line-height:15px;
     font-size:22px;
+    &:hover{
+        .mainColorProperties(@buttonBg_Hover, @buttonBorder_Hover);
+        .gradientBackground(@btColor1_H,@btColor2,@btColor3,@btColor4);
+        color:@buttonColor_Hover;
+        cursor:pointer;
+    }    
 }

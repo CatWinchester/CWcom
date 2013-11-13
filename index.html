@@ -11,15 +11,15 @@
 </head>
 <body>
     <div id="content">
-        <div class="section group" id="top_row" data-bind="template: { name: getTemplate, foreach:topRowPosts, afterRender: postRendered }" ></div>
+        <div class="section group" id="top_row" data-bind="template: { name: getTemplate, foreach:topRowPosts, afterRender: postRendered }"></div>
 
         <div class="section group" id="main_row" data-bind="template: { name: getTemplate, foreach: mainRowPosts, afterRender: postRendered }"></div>
-        
+
         <div class="section group" id="bottom_row" data-bind="template: { name: getTemplate, foreach: bottomRowPosts, afterRender: postRendered }"></div>
     </div>
-    
+
     <canvas id="background"></canvas>
-    
+
     <div style="clear:both;"></div>
 
     <script type="text/html" id="imagePost">
@@ -39,16 +39,18 @@
             <div class="post">
                 <div class="post_content">
                     <h2 data-bind="text: day"></h2>
-                    <canvas data-bind="attr: { 'id': canvasId }" width=150 class="bezierCanvas" tabindex="1"></canvas>
-                    <button id="addCurveButton" class="canvasButtonAdd">+</button>
-                    <p data-bind="text: description"></p>
+                    <div class="contentPicture">
+                        <canvas data-bind="attr: { 'id': canvasId }" width=150 class="bezierCanvas" tabindex="1"></canvas>
+                        <button id="addCurveButton" class="canvasButtonAdd">+</button>
+                    </div>
+                        <p data-bind="text: description"></p>
 
-                    <div class="read_more_link">
-                        <a href="#">Read more </a>
+                        <div class="read_more_link">
+                            <a href="#">Read more </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
     </script>
 </body>
 </html>
