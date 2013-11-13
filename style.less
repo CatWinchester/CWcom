@@ -16,11 +16,11 @@
 @topBottomRowPostBorder: 2px solid rgba(178, 0, 255, 0.60);
 @tBRPost_HoverColor: rgba(178, 0, 255, 0.60);
 
-@mainRowWidth:360px;
-@mainRowHeight:360px;
+@mainRowPostWidth:360px;
+@mainRowPostHeight:360px;
 
-@topBottomRowWidth:(@mainRowWidth) * 0.72222222222222223;
-@topBottomRowHeight:(@mainRowHeight) * 0.72222222222222223;
+@topBottomPostWidth:(@mainRowPostWidth) * 0.72222222222222223;
+@topBottomPosHeight:(@mainRowPostHeight) * 0.72222222222222223;
 
 @topRowPerspective:300px;
 @topRowRotateXDeg:45deg;
@@ -70,7 +70,7 @@
 
 .post {    
     text-align:center;
-    .centeredElement(@mainRowWidth);
+    .centeredElement(@mainRowPostWidth);
     .roundBordered();
     img{
         .boxShadow(@imgPostShadow);        
@@ -100,8 +100,8 @@
 
 #main_row { 
     .post{        
-        .PostParams(@mainRowWidth,
-                    @mainRowHeight,
+        .PostParams(@mainRowPostWidth,
+                    @mainRowPostHeight,
                     @mainRowPostColor,
                     @mainRowPostBorder);
     }
@@ -109,8 +109,8 @@
 
 #top_row, #bottom_row {
     .post {        
-        .PostParams(@topBottomRowWidth,
-                    @topBottomRowHeight,
+        .PostParams(@topBottomPostWidth,
+                    @topBottomPosHeight,
                     @topBottomRowPostColor,
                     @topBottomRowPostBorder);
         img{            
