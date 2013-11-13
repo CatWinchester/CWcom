@@ -1,4 +1,6 @@
 ﻿@import "css/media.css";
+
+@import "css/grid.css";
 body {
   margin: 0;
   padding: 0;
@@ -35,7 +37,7 @@ h4 {
   margin-bottom: 14px;
 }
 .bezierCanvas {
-  background: rgba(255, 106, 0, 0.6);
+  background: rgba(255, 255, 255, 0.8);
   border: 1px solid #ff6a00;
 }
 .canvasButtonAdd {
