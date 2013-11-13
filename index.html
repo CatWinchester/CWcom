@@ -11,46 +11,57 @@
 </head>
 <body>
     <div id="content">
-        <div class="section group" id="top_row" data-bind="template: { name: getTemplate, foreach:topRowPosts, afterRender: postRendered }"></div>
+        <div class="section group" id="top_row" data-bind="template: { name: getPostTemplate, foreach:topRowPosts, afterRender: postRendered }"></div>
 
-        <div class="section group" id="main_row" data-bind="template: { name: getTemplate, foreach: mainRowPosts, afterRender: postRendered }"></div>
+        <div class="section group" id="main_row" data-bind="template: { name: getPostTemplate, foreach: mainRowPosts, afterRender: postRendered }"></div>
 
-        <div class="section group" id="bottom_row" data-bind="template: { name: getTemplate, foreach: bottomRowPosts, afterRender: postRendered }"></div>
+        <div class="section group" id="bottom_row" data-bind="template: { name: getPostTemplate, foreach: bottomRowPosts, afterRender: postRendered }"></div>
     </div>
 
     <canvas id="background"></canvas>
 
     <div style="clear:both;"></div>
 
-    <script type="text/html" id="imagePost">
+    <script type="text/html" id="smallPost">
         <div class="col span_1_of_4">
             <div class="post">
                 <div class="post_content">
                     <h2 data-bind="text: day"></h2>
-                    <img data-bind="attr: { src: image }" />
+                    <div data-bind="template: { name: $data.contentTemplate, data: $data }"></div>
                     <p data-bind="text: description"></p>
+                    <div class="read_more_link" data-bind="if: isExpandable">
+                        <a href="#" data-bind="click: $root.changePostSize.bind($data)">Read more </a>
+                    </div>
                 </div>
             </div>
         </div>
     </script>
 
-    <script type="text/html" id="canvasPost">
-        <div class="col span_1_of_4">
+    <script type="text/html" id="bigPost">
+        <div class="col span_3_of_4">
             <div class="post">
                 <div class="post_content">
                     <h2 data-bind="text: day"></h2>
-                    <div class="contentPicture">
-                        <canvas data-bind="attr: { 'id': canvasId }" width=150 class="bezierCanvas" tabindex="1"></canvas>
-                        <button id="addCurveButton" class="canvasButtonAdd">+</button>
-                    </div>
+                    <div data-bind="template: { name: $data.contentTemplate, data: $data }"></div>
                     <p data-bind="text: description"></p>
-
-                    <div class="read_more_link">
+                    <div class="read_more_link" data-bind="if: isExpandable">
                         <a href="#" data-bind="click: $root.changePostSize.bind($data)">Read more </a>
-                    </div>
                     </div>
                 </div>
             </div>
+        </div>
     </script>
+
+    <script type="text/html" id="canvasPostContent">
+        <div class="contentPicture">
+            <canvas data-bind="attr: { 'id': canvasId }" width=150 class="bezierCanvas" tabindex="1"></canvas>
+            <button id="addCurveButton" class="canvasButtonAdd">+</button>
+        </div>
+    </script>
+
+    <script type="text/html" id="imagePostContent">
+        <img data-bind="attr: { src: image }" />
+    </script>
+
 </body>
 </html>

@@ -1,23 +1,24 @@
 define(['jquery', 'knockout', './bezierModule'],
     function ($, ko, bezierModule) {
-        function Post(day, header, description, template) {
+        function Post(day, header, description, contentTemplate, isExpandable) {
+            var post = this;
             this.day = day;
             this.header = header;
             this.description = description;
-            this.template = template;
+            this.contentTemplate = contentTemplate;
+            this.isExpandable = isExpandable;
+            this.isExpanded = ko.observable(false);
         }
 
         function ImagePost(day, header, description, image) {
-            Post.call(this, day, header, description, 'imagePost');
-
+            Post.call(this, day, header, description, 'imagePostContent', false);
             this.image = image;
         }
 
         ImagePost.prototype = Object.create(new Post());
 
         function CanvasPost(day, header, description, canvasId) {
-            Post.call(this, day, header, description, 'canvasPost');
-
+            Post.call(this, day, header, description, 'canvasPostContent', true);
             this.canvasId = canvasId;
         }
 
@@ -32,10 +33,11 @@ define(['jquery', 'knockout', './bezierModule'],
 
             self.posts = ko.observableArray();
 
-            self.getTemplate = function (post) {
-                return post.template;
+            self.getPostTemplate = function (post) {
+                return post.isExpanded() ? "bigPost"
+                                         : "smallPost";
             }
-
+            
             self.getRowPosts = function (rowIndex) {
                 var foundPosts = [];
                 
@@ -108,6 +110,8 @@ define(['jquery', 'knockout', './bezierModule'],
             }
             
             self.changePostSize = function (post) {
+                if(post)
+                    post.isExpanded(!post.isExpanded());
             }
         }
 
