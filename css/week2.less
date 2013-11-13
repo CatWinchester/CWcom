@@ -5,17 +5,15 @@
 @buttonBorderColor:#ff6a00;
 @buttonBorder:1px solid @buttonBorderColor;
 @buttonColor:#000;
-@buttonBg_Hover:lighten(@buttonBorderColor, 40%);
+@buttonBg_Hover:darken(@buttonBorderColor, 40%);
 @buttonBorder_Hover:1px solid @buttonBorderColor_Hover;
 @buttonBorderColor_Hover:darken(@buttonBorderColor,20%);
-@buttonColor_Hover:fadeout(@buttonColor,40%);
+@buttonColor_Hover:darken(@btColor1,20%);
 
 @btColor1:#feccb1;
 @btColor2:#f17432;
 @btColor3:#ea5507;
 @btColor4:#fb955e;
-
-@btColor1_H:darken(@btColor1, 40%);
 
 .gradientBackground(@color1, @color2, @color3, @color4){
     background: @color1;
@@ -50,13 +48,14 @@
     position:relative;
     float:left;
     clear:right;
+    margin:15px;
     width:40px;
     height:30px;
     line-height:15px;
     font-size:22px;
     &:hover{
         .mainColorProperties(@buttonBg_Hover, @buttonBorder_Hover);
-        .gradientBackground(@btColor1_H,@btColor2,@btColor3,@btColor4);
+        .gradientBackground(darken(@btColor1, 20%), darken(@btColor2, 20%), darken(@btColor3, 20%), darken(@btColor4, 20%));
         color:@buttonColor_Hover;
         cursor:pointer;
     }    
