@@ -1,0 +1,29 @@
+﻿@media only screen and (max-width: 1200px) {
+    .post {
+        width: 90%;
+        height: 90%;
+    }
+
+        .post img {
+            width: 90%;
+        }
+
+    #bottom_row .post, #top_row .post {
+        width: 90%;
+        height: 220px;
+        display: block;
+    }
+
+}
+   
+@media only screen and (max-width: 479px) {
+    .post {
+        width: 90%;
+    }
+}
+
+@media only screen and (max-width: 479px) {
+    .post {
+        width: 90%;
+    }
+}

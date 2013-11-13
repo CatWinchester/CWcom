@@ -1,0 +1,35 @@
+﻿body {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font-family: 'Segoe UI';
+  color: #fff;
+}
+#content {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  float: right;
+}
+#background {
+  display: block;
+  left: 0;
+  top: 0;
+  position: absolute;
+  background: #000;
+  z-index: -100;
+}
+h2,
+h3,
+h4 {
+  margin-top: 0;
+  margin-bottom: 30px;
+  text-shadow: 0 -1px #00468c, 1px 0 #00468c, 0 1px #00468c, -1px 0 #00468c;
+}
+h3 {
+  margin-bottom: 10px;
+}
+h4 {
+  margin-bottom: 14px;
+}

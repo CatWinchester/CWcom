@@ -1,18 +1,138 @@
-/*--------------------
--------MAIN MENU------
-----------------------*/
+//------IMPORT------//
+@import "css/base.less";
+@import "css/week2.less";
+@import "css/media.css";
+@import "css/grid.css";
 
-@color: rgba(255, 0, 195, 0.60);
+//------------------//
+//-------BLOG-------//
+//------------------//
+@postContentMargin:20px 0;
 
-/*--------------------
--------BACKGROUND-----
-----------------------*/
+@mainRowPostColor: rgba(255, 106, 0, 0.60);
+@mainRowPostBorder: 2px solid #ff6a00;
 
-#background {
-    position:absolute;
-    left:0;
-    top:0;
-    background:#000;
-    display:block;
-    z-index:-100;
+@topBottomRowPostColor: rgba(178, 0, 255, 0.30);
+@topBottomRowPostBorder: 2px solid rgba(178, 0, 255, 0.60);
+@tBRPost_HoverColor: rgba(178, 0, 255, 0.60);
+
+@mainRowWidth:360px;
+@mainRowHeight:360px;
+
+@topBottomRowWidth:(@mainRowWidth) * 0.72222222222222223;
+@topBottomRowHeight:(@mainRowHeight) * 0.72222222222222223;
+
+@topRowPerspective:300px;
+@topRowRotateXDeg:45deg;
+@bottomRowPerspective:300px;
+@bottomRowRotateXDeg:-45deg;
+
+@imgPostShadow:0 0 10px rgba(0,0,0,0.5);
+
+@aColor:#1a1a1a;
+@aPostBgColor:rgba(255, 255, 255, 0.50);
+@aPostBorder:1px dashed @aColor;
+@aPostWidth:100px;
+
+.PostParams(@width, @height, @background, @border) {
+    width: @width;
+    height: @height;
+    background: @background;
+    border: @border;
+    display: block;
 }
+
+.centeredElement (@width){
+    margin:0 auto;
+    width: @width;
+}
+
+.transform (@perspectivePixels, @degrees){  
+    -webkit-transform: perspective(@perspectivePixels) 
+                       rotateX(@degrees);
+    -moz-transform: perspective(@perspectivePixels) 
+                    rotateX(@degrees);
+}
+
+.boxShadow(@shadowParams){
+    -moz-box-shadow: @shadowParams;
+    -webkit-box-shadow: @shadowParams;
+    box-shadow:  @shadowParams; 
+}
+
+.roundBordered(){    
+    -webkit-border-radius: 999px;
+    -moz-border-radius: 999px;
+    border-radius: 999px;
+}
+
+//------------------//
+
+.post {    
+    text-align:center;
+    .centeredElement(@mainRowWidth);
+    .roundBordered();
+    img{
+        .boxShadow(@imgPostShadow);        
+        width:200px;
+	    height: auto;
+    }
+    p{
+        width:300px;
+        margin:1em auto;
+        font-size:0.875em;
+    }
+    a{
+        .centeredElement(@aPostWidth);
+        background:@aPostBgColor;
+        border:@aPostBorder;
+        display:inline-block;
+        padding:2px 5px;
+        text-decoration:none;
+        color:@aColor;
+        clear:both;
+    }
+}
+
+.post_content {
+    margin:@postContentMargin;
+}
+
+#main_row { 
+    .post{        
+        .PostParams(@mainRowWidth,
+                    @mainRowHeight,
+                    @mainRowPostColor,
+                    @mainRowPostBorder);
+    }
+}
+
+#top_row, #bottom_row {
+    .post {        
+        .PostParams(@topBottomRowWidth,
+                    @topBottomRowHeight,
+                    @topBottomRowPostColor,
+                    @topBottomRowPostBorder);
+        img{            
+            width:100px;
+        }
+        &:hover{
+            background:@tBRPost_HoverColor;            
+        }
+    }
+}    
+
+#top_row{
+    .post{
+        .transform(@topRowPerspective,
+                   @topRowRotateXDeg)
+    }
+}    
+
+#bottom_row{
+    .post{
+        .transform(@bottomRowPerspective,
+                   @bottomRowRotateXDeg)
+    }
+}
+
