@@ -43,11 +43,11 @@
                         <canvas data-bind="attr: { 'id': canvasId }" width=150 class="bezierCanvas" tabindex="1"></canvas>
                         <button id="addCurveButton" class="canvasButtonAdd">+</button>
                     </div>
-                        <p data-bind="text: description"></p>
+                    <p data-bind="text: description"></p>
 
-                        <div class="read_more_link">
-                            <a href="#">Read more </a>
-                        </div>
+                    <div class="read_more_link">
+                        <a href="#" data-bind="click: $root.changePostSize.bind($data)">Read more </a>
+                    </div>
                     </div>
                 </div>
             </div>

@@ -28,6 +28,8 @@ define(['jquery', 'knockout', './bezierModule'],
 
             var numberOfItemsInRow = 4;
 
+            var isBigPost = false;
+
             self.posts = ko.observableArray();
 
             self.getTemplate = function (post) {
@@ -104,6 +106,9 @@ define(['jquery', 'knockout', './bezierModule'],
                     }
                 }
             }
+            
+            self.changePostSize = function (post) {
+            }
         }
 
         return {
@@ -118,6 +123,7 @@ define(['jquery', 'knockout', './bezierModule'],
                                                "Many days after...",
                                                "Bezier training",
                                                "day2Bezier"));
+                vm.changePostSize();
 
                 $('#content').bind('mousewheel',
                            function (e) {
