@@ -23,7 +23,7 @@
     <div style="clear:both;"></div>
 
     <script type="text/html" id="smallPost">
-        <div class="col span_1_of_4">
+        <div class="col span_1_of_4 smallPost">
             <div class="post">
                 <div class="post_content">
                     <h2 data-bind="text: day"></h2>
@@ -38,7 +38,7 @@
     </script>
 
     <script type="text/html" id="bigPost">
-        <div class="col span_3_of_4">
+        <div class="col span_3_of_4" id="bigPost">
             <div class="post">
                 <div class="post_content">
                     <h2 data-bind="text: day"></h2>
@@ -53,6 +53,13 @@
     </script>
 
     <script type="text/html" id="canvasPostContent">
+        <div class="contentPicture">
+            <canvas data-bind="attr: { 'id': canvasId }" width=150 class="bezierCanvas" tabindex="1"></canvas>
+            <button id="addCurveButton" class="canvasButtonAdd">+</button>
+        </div>
+    </script>
+
+    <script type="text/html" id="canvasBigPostContent">
         <div class="contentPicture">
             <canvas data-bind="attr: { 'id': canvasId }" width=150 class="bezierCanvas" tabindex="1"></canvas>
             <button id="addCurveButton" class="canvasButtonAdd">+</button>

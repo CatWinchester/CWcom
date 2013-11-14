@@ -67,6 +67,8 @@
 }
 
 //------------------//
+@bigPostWidth:900px;
+@bigPostHeight:900px;
 
 .post {    
     text-align:center;
@@ -97,7 +99,6 @@
 .post_content {
     margin:@postContentMargin;
 }
-
 #main_row { 
     .post{        
         .PostParams(@mainRowPostWidth,
@@ -135,4 +136,14 @@
                    @bottomRowRotateXDeg)
     }
 }
+
+#bigPost{
+    .post{
+        .PostParams(@bigPostWidth,
+                    @bigPostHeight,
+                    @mainRowPostColor,
+                    @mainRowPostBorder);
+    }
+}
+
 
