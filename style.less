@@ -104,15 +104,6 @@
 .post_content {
     margin:@postContentMargin;
 }
-#main_row { 
-    .post{
-        .centeredElement(@mainRowPostWidth);        
-        .PostParams(@mainRowPostWidth,
-                    @mainRowPostHeight,
-                    @mainRowPostColor,
-                    @mainRowPostBorder);
-    }
-}
 
 #top_row, #bottom_row {
     .post {        
@@ -143,7 +134,16 @@
     }
 }
 
-#bigPost{
+.smallPost{
+    .post{
+        .centeredElement(@mainRowPostWidth);        
+        .PostParams(@mainRowPostWidth,
+                    @mainRowPostHeight,
+                    @mainRowPostColor,
+                    @mainRowPostBorder);
+    }
+}
+.bigPost{
     .post{
         .centeredElement(@bigPostWidth);
         .PostParams(@bigPostWidth,

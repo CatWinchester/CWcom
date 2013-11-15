@@ -42,11 +42,11 @@
   color: #fd8a4c;
   cursor: pointer;
 }
-.smallPost .bezierCanvas {
+.smallPost canvas {
   background: rgba(255, 255, 255, 0.8);
   border: 1px solid #ff6a00;
 }
-#bigPost .bezierCanvas {
+.bigPost canvas {
   background: rgba(255, 255, 255, 0.8);
   border: 1px solid #ff6a00;
 }
