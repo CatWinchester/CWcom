@@ -18,8 +18,17 @@ define(['jquery', 'knockout', './bezierModule'],
         ImagePost.prototype = Object.create(new Post());
 
         function CanvasPost(day, header, description, canvasId) {
+            var self = this;
             Post.call(this, day, header, description, 'canvasPostContent', true);
             this.canvasId = canvasId;
+            this.canvasWidth = ko.computed(function () {
+                return self.isExpanded() ? "400"
+                                         : "150";
+            });
+            this.canvasHeight = ko.computed(function () {
+                return self.isExpanded() ? "400"
+                                         : "150";
+            });
         }
 
         CanvasPost.prototype = Object.create(new Post());

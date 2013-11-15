@@ -53,16 +53,11 @@
     </script>
 
     <script type="text/html" id="canvasPostContent">
-        <div class="contentPicture">
-            <canvas data-bind="attr: { 'id': canvasId }" width=150 class="bezierCanvas" tabindex="1"></canvas>
+        <div class="contentWrap">
+            <canvas data-bind="attr: { 'id': canvasId, 'width': canvasWidth , 'height' : canvasHeight}"  class="bezierCanvas" tabindex="1"></canvas>
             <button id="addCurveButton" class="canvasButtonAdd">+</button>
-        </div>
-    </script>
-
-    <script type="text/html" id="canvasBigPostContent">
-        <div class="contentPicture">
-            <canvas data-bind="attr: { 'id': canvasId }" width=150 class="bezierCanvas" tabindex="1"></canvas>
-            <button id="addCurveButton" class="canvasButtonAdd">+</button>
+            <p data-bind=" if: isExpanded">BlahBlahBlahBlahBlahBlahBlahBlahBlahBlahBlah</p>
+            <div class="clear"></div>
         </div>
     </script>
 

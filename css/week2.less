@@ -1,5 +1,10 @@
 ﻿@canvasBg:rgba(255, 255, 255, 0.8);
 @canvasBorder:1px solid #ff6a00;
+@canvasSmallWidth:150px;
+@canvasSmallHeight:150px;
+
+@canvasBigWidth:400px;
+@canvasBigHeight:300px;
 
 @buttonBg:#fff;
 @buttonBorderColor:#ff6a00;
@@ -32,18 +37,29 @@
     border:@border;
 }
 
-.contentPicture{
+.canvasParameters(@width, @heigth, @background, @border){
+    width:@width;
+    height:@heigth;
+    .mainColorProperties(@background,@border);
+}
+
+.contentWrap{
     display:inline-block;
 }
-.bezierCanvas{
-    .mainColorProperties(@canvasBg, @canvasBorder);
-    position:relative;
-    margin:0px;
-    float:left
+
+.bezierCanvas {
+        position: relative;
+        margin: 0px;
+        float: left;
+        clear: right;
 }
+
 .canvasButtonAdd{
     .mainColorProperties(@buttonBg, @buttonBorder);
-    .gradientBackground(@btColor1,@btColor2,@btColor3,@btColor4);
+    .gradientBackground(@btColor1,
+                        @btColor2,
+                        @btColor3,
+                        @btColor4);
     color:@buttonColor;    
     position:relative;
     float:left;
@@ -55,8 +71,25 @@
     font-size:22px;
     &:hover{
         .mainColorProperties(@buttonBg_Hover, @buttonBorder_Hover);
-        .gradientBackground(darken(@btColor1, 20%), darken(@btColor2, 20%), darken(@btColor3, 20%), darken(@btColor4, 20%));
+        .gradientBackground(darken(@btColor1, 20%), 
+                            darken(@btColor2, 20%), 
+                            darken(@btColor3, 20%), 
+                            darken(@btColor4, 20%));
         color:@buttonColor_Hover;
         cursor:pointer;
     }    
 }
+
+.smallPost {
+    .bezierCanvas {
+        .mainColorProperties(@canvasBg,
+                             @canvasBorder);
+    }   
+}
+#bigPost{
+    .bezierCanvas {        
+        .mainColorProperties(@canvasBg,
+                             @canvasBorder);
+    }
+}
+

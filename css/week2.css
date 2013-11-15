@@ -1,12 +1,11 @@
-﻿.contentPicture {
+﻿.contentWrap {
   display: inline-block;
 }
 .bezierCanvas {
-  background: rgba(255, 255, 255, 0.8);
-  border: 1px solid #ff6a00;
   position: relative;
   margin: 0px;
   float: left;
+  clear: right;
 }
 .canvasButtonAdd {
   background: #ffffff;
@@ -42,4 +41,12 @@
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='@color1', endColorstr='@color4', GradientType=0);
   color: #fd8a4c;
   cursor: pointer;
+}
+.smallPost .bezierCanvas {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid #ff6a00;
+}
+#bigPost .bezierCanvas {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid #ff6a00;
 }

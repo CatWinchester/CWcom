@@ -65,14 +65,19 @@
     -moz-border-radius: 999px;
     border-radius: 999px;
 }
+.clear{
+    clear:both;
+}
 
 //------------------//
 @bigPostWidth:900px;
 @bigPostHeight:900px;
 
+@bigPostCanvasWidth:400px;
+@bigPostCanvasHeight:300px;
+
 .post {    
     text-align:center;
-    .centeredElement(@mainRowPostWidth);
     .roundBordered();
     img{
         .boxShadow(@imgPostShadow);        
@@ -100,7 +105,8 @@
     margin:@postContentMargin;
 }
 #main_row { 
-    .post{        
+    .post{
+        .centeredElement(@mainRowPostWidth);        
         .PostParams(@mainRowPostWidth,
                     @mainRowPostHeight,
                     @mainRowPostColor,
@@ -139,6 +145,7 @@
 
 #bigPost{
     .post{
+        .centeredElement(@bigPostWidth);
         .PostParams(@bigPostWidth,
                     @bigPostHeight,
                     @mainRowPostColor,
