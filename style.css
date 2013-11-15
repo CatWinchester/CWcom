@@ -36,15 +36,14 @@ h3 {
 h4 {
   margin-bottom: 14px;
 }
-.contentPicture {
+.contentWrap {
   display: inline-block;
 }
 .bezierCanvas {
-  background: rgba(255, 255, 255, 0.8);
-  border: 1px solid #ff6a00;
   position: relative;
   margin: 0px;
   float: left;
+  clear: right;
 }
 .canvasButtonAdd {
   background: #ffffff;
@@ -81,10 +80,19 @@ h4 {
   color: #fd8a4c;
   cursor: pointer;
 }
+.smallPost canvas {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid #ff6a00;
+}
+.bigPost canvas {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid #ff6a00;
+}
+.clear {
+  clear: both;
+}
 .post {
   text-align: center;
-  margin: 0 auto;
-  width: 360px;
   -webkit-border-radius: 999px;
   -moz-border-radius: 999px;
   border-radius: 999px;
@@ -115,13 +123,6 @@ h4 {
 .post_content {
   margin: 20px 0;
 }
-#main_row .post {
-  width: 360px;
-  height: 360px;
-  background: rgba(255, 106, 0, 0.6);
-  border: 2px solid #ff6a00;
-  display: block;
-}
 #top_row .post,
 #bottom_row .post {
   width: 260px;
@@ -145,4 +146,20 @@ h4 {
 #bottom_row .post {
   -webkit-transform: perspective(300px) rotateX(-45deg);
   -moz-transform: perspective(300px) rotateX(-45deg);
+}
+.smallPost .post {
+  margin: 0 auto;
+  width: 360px;
+  height: 360px;
+  background: rgba(255, 106, 0, 0.6);
+  border: 2px solid #ff6a00;
+  display: block;
+}
+.bigPost .post {
+  margin: 0 auto;
+  width: 900px;
+  height: 900px;
+  background: rgba(255, 106, 0, 0.6);
+  border: 2px solid #ff6a00;
+  display: block;
 }
